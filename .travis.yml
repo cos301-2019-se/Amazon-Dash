@@ -13,7 +13,7 @@ jobs:
       name: "Lint"
       script: npm run lint
     - name: "Unit Tests"
-      script: npm run unit
+      script: npm run test:unit
     - name: "E2E Tests"
       script: npm run test:e2e:ci
     - stage: build
