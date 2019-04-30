@@ -1,0 +1,32 @@
+language: node_js
+node_js:
+  - "12"
+stages:
+  - test
+  - name: build
+    if: branch IN (develop, master)
+  - name: deploy
+    if: branch = master AND type = push
+jobs:
+  include:
+    - stage: test
+      name: "Lint"
+      script:
+        - cd frontend
+        - npm run lint
+    - name: "Unit Tests"
+      script:
+        - cd frontend
+        - npm run test:unit
+    - name: "E2E Tests"
+      script:
+        - cd frontend
+        - npm run test:e2e:ci
+    - stage: build
+      script:
+        - cd frontend
+        - echo Coming soon...
+    - stage: deploy
+      script:
+        - cd frontend
+        - echo Coming soon...
