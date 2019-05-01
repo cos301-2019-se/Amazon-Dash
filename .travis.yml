@@ -11,22 +11,26 @@ jobs:
   include:
     - stage: test
       name: "Lint"
-      script:
+      install:
         - cd frontend
+        - npm i
+      script:
         - npm run lint
     - name: "Unit Tests"
-      script:
+      install:
         - cd frontend
+        - npm i
+      script:
         - npm run test:unit
     - name: "E2E Tests"
-      script:
+      install:
         - cd frontend
+        - npm i
+      script:
         - npm run test:e2e:ci
     - stage: build
       script:
-        - cd frontend
         - echo Coming soon...
     - stage: deploy
       script:
-        - cd frontend
         - echo Coming soon...
