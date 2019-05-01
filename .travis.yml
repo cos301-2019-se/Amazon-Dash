@@ -14,13 +14,19 @@ stages:
 jobs:
   include:
     - stage: test
-      name: "Lint"
+      name: "Frontend Lint"
       install:
         - cd frontend
         - npm i
       script:
         - npm run lint
-    - name: "Unit Tests"
+    - name: "Backend Lint"
+      language: python
+      python:
+        - "3.6"
+      before_install: cd backend
+      script: make lint
+    - name: "Frontend Unit Tests"
       install:
         - cd frontend
         - npm i
