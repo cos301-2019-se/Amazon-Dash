@@ -15,9 +15,7 @@ jobs:
   include:
     - stage: test
       name: "Frontend Lint"
-      install:
-        - cd frontend
-        - npm i
+      before_install: cd frontend
       script:
         - npm run lint
     - name: "Backend Lint"
@@ -27,21 +25,25 @@ jobs:
       before_install: cd backend
       script: make lint
     - name: "Frontend Unit Tests"
-      install:
-        - cd frontend
-        - npm i
+      before_install: cd frontend
       script:
         - npm run test:unit
+    - name: "Backend Unit Tests"
+      language: python
+      python:
+        - "3.6"
+      before_install: cd backend
+      script:
+        - make unit
     - name: "E2E Tests"
-      install:
+      before_install:
         - sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
         - cd frontend
-        - npm i
       script:
         - npm run test:e2e:ci
-    - stage: build
-      script:
-        - echo Coming soon...
-    - stage: deploy
-      script:
-        - echo Coming soon...
+    # - stage: build
+    #   script:
+    #     - echo Coming soon...
+    # - stage: deploy
+    #   script:
+    #     - echo Coming soon...
