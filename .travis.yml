@@ -2,8 +2,7 @@ language: node_js
 cache:
   npm: true
   directories:
-    - ~/.cache
-install: apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+    - ~/.cache 
 node_js:
   - "12"
 stages:
@@ -29,6 +28,7 @@ jobs:
         - npm run test:unit
     - name: "E2E Tests"
       install:
+        - apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
         - cd frontend
         - npm i
       script:
