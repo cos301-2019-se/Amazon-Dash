@@ -1,4 +1,8 @@
 language: node_js
+cache:
+  npm: true
+  directories:
+    - ~/.cache 
 node_js:
   - "12"
 stages:
@@ -11,12 +15,27 @@ jobs:
   include:
     - stage: test
       name: "Lint"
-      script: npm run lint
+      install:
+        - cd frontend
+        - npm i
+      script:
+        - npm run lint
     - name: "Unit Tests"
-      script: npm run test:unit
+      install:
+        - cd frontend
+        - npm i
+      script:
+        - npm run test:unit
     - name: "E2E Tests"
-      script: npm run test:e2e:ci
+      install:
+        - sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+        - cd frontend
+        - npm i
+      script:
+        - npm run test:e2e:ci
     - stage: build
-      script: echo Coming soon...
+      script:
+        - echo Coming soon...
     - stage: deploy
-      script: echo Coming soon...
+      script:
+        - echo Coming soon...
