@@ -23,7 +23,7 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/apiverify', methods=['POST'])
+    @app.route('/api/verify', methods=['POST'])
     def verify():
         body = request.get_json()
         if body:
