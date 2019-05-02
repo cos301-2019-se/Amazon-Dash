@@ -32,4 +32,4 @@ class TestEc2Instances(TestCase):
         self.assertEqual(200, ret_value.status_code)
         self.assertEqual("application/json", ret_value.content_type)
         json_value = ret_value.get_json()
-        self.assertEqual(list, type(json_value))
+        self.assertIs(list, type(json_value))
