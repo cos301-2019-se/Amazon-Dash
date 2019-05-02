@@ -1,13 +1,14 @@
 import os
+import uuid
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    if test_config is None:
+    if not test_config:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
     else:
@@ -21,18 +22,17 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/verify', methods=['POST'])
+    @app.route('/apiverify', methods=['POST'])
     def verify():
         body = request.get_json()
-        id = body.get("id")
-        secret = body.get("secret")
+        if body:
+            body_id = body.get("id")
+            body_secret = body.get("secret")
 
-        if id and secret is not None:
-            print("gottem")
-        return 'ID or SECRET is missing'
+            if body_id and body_secret:
+                return jsonify({"success": True, "token": uuid.uuid4()})
+            return jsonify({"success": False})
+        else:
+            return "invalid request body missing"
 
     return app
-
-
-def run():
-    create_app().run()
