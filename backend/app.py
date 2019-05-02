@@ -1,13 +1,19 @@
 import os
 import uuid
 import json
+import bcrypt
 
+from datetime import datetime, timedelta
 from flask import Flask, request, Response
+from services.authentication import get_boto3_client
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_cors import CORS
 
 
-def create_app(test_config=None):
+def create_app(db, test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
 
     if not test_config:
         # load the instance config, if it exists, when not testing
@@ -20,27 +26,78 @@ def create_app(test_config=None):
     if not os.path.isdir(app.instance_path):
         os.makedirs(app.instance_path)
 
-    @app.route('/api/verify', methods=['POST'])
+    @app.route('/api/login', methods=['POST'])
     def verify():
         """
-        A method to verify a user and supply them with a token to access the service
+        A method to log a user in and supply them with a token to access the service
 
-        :return: if the request does not contain a body a response is returned with status 400 and text "Request body
-        missing". If the body is missing either the id or secret field a response is returned with status 401 and text
-        "Invalid id or secret". If the request is valid a response containing a json object containing a success flag
-        and token is returned with status 200.
+        Returns
+        -------
+        Response
+            an http response
         """
         body = request.get_json()
         # ensure the body exists
         if body:
-            body_id = body.get("id")
-            body_secret = body.get("secret")
+            email = body.get('email')
+            password = body.get('password')
 
             # ensure the id and secret exist
-            if body_id and body_secret:
-                json_val = json.dumps({"success": True, "token": str(uuid.uuid4())})
-                return Response(json_val, status=200, mimetype='application/json')
-            return Response("Invalid id or secret", status=401, mimetype='application/text')
+            if email and password:
+                users = list(db.find('users', {'email': email}))
+                user = users[0] if users else None
+                if user and check_password_hash(user['password'], user['salt'] + password + user['salt']):
+                    user_id = str(user['_id'])
+                    token = str(uuid.uuid4())
+                    ttl = 128000
+                    db.insert('access', {
+                        'user_id': user_id,
+                        'token': token,
+                        'expires': datetime.now() + timedelta(seconds=ttl),
+                        })
+                    res = {'token': token, 'ttl': ttl}
+                    return Response(json.dumps(res), status=200, mimetype='application/json')
+                else:
+                    return Response(json.dumps({'message': 'Login unsuccessful'}),
+                                    status=403, mimetype='application/json')
+            else:
+                return Response(json.dumps({'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"}),
+                                status=401, mimetype='application/json')
+        else:
+            return Response("Request body missing", status=400, mimetype='application/text')
+
+    @app.route('/api/register', methods=['POST'])
+    def register():
+        """
+        A method to register a user.
+
+        Returns
+        -------
+        Response
+            an http response
+        """
+        body = request.get_json()
+        if body:
+            email = body.get('email')
+            password = body.get('password')
+            access_key = body.get('access_key')
+            secret_key = body.get('secret_key')
+
+            if all((email, password, access_key, secret_key)):
+                salt = bcrypt.gensalt().decode('utf-8')
+                password_hash = generate_password_hash(salt + password + salt)
+                db.insert('users', {
+                    'email': email,
+                    'password': password_hash,
+                    'salt': salt,
+                    'access_key': access_key,
+                    'secret_key': secret_key,
+                    })
+                return Response("Registered successfully", status=201, mimetype='application/text')
+            else:
+                missing_fields = ', '.join([x for x in ['email', 'password', 'access_key', 'secret_key']
+                                            if not body.get(x)])
+                return Response(f"Missing fields: {missing_fields}", status=401, mimetype='application/text')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
