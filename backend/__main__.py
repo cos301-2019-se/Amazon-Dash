@@ -1,4 +1,5 @@
 import app
 
 if __name__ == "__main__":
-    app.create_app().run()
+    webapp = app.create_app()
+    webapp.run()
