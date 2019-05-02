@@ -1,5 +1,12 @@
 
 <template>
+    <v-app>
+    <v-toolbar>
+        <v-toolbar-title class="headline text-uppercase">
+        <span>Amazon Dash</span>
+        </v-toolbar-title>
+    </v-toolbar>
+    <v-content app>
     <div class="container">
         <div class="row">
             <div class="col-md-7">
@@ -12,6 +19,8 @@
             <div class="col-md-5"></div>
         </div>
     </div>
+    </v-content>
+    </v-app>
 </template>
 
 <script>
@@ -35,12 +44,5 @@ export default {
   }
 }
 </script>
-
-
-
-<style>
-  body{
-      background-color: #FBF8F3;
-  }
 
 </style>
