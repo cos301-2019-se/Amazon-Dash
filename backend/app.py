@@ -33,7 +33,7 @@ def create_app(test_config=None):
             if body_id and body_secret:
                 json_val = json.dumps({"success": True, "token": str(uuid.uuid4())})
                 return Response(json_val, status=200, mimetype='application/json')
-            return Response("invalid id or secret", status=401, mimetype='application/text')
+            return Response("Invalid id or secret", status=401, mimetype='application/text')
         else:
             return Response("invalid request body missing", status=400, mimetype='application/text')
 
