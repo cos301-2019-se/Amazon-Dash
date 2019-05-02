@@ -22,7 +22,8 @@ def create_app(test_config=None):
 
     @app.route('/api/verify', methods=['POST'])
     def verify():
-        """A method to verify a user and supply them with a token to access the service
+        """
+        A method to verify a user and supply them with a token to access the service
 
         :return: if the request does not contain a body a response is returned with status 400 and text "Request body
         missing". If the body is missing either the id or secret field a response is returned with status 401 and text
