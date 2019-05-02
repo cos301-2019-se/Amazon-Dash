@@ -1,7 +1,8 @@
 import os
 import uuid
+import json
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 
 
 def create_app(test_config=None):
@@ -30,9 +31,10 @@ def create_app(test_config=None):
             body_secret = body.get("secret")
 
             if body_id and body_secret:
-                return jsonify({"success": True, "token": uuid.uuid4()})
-            return jsonify({"success": False})
+                json_val = json.dumps({"success": True, "token": str(uuid.uuid4())})
+                return Response(json_val, status=200, mimetype='application/json')
+            return Response("invalid id or secret", status=401, mimetype='application/text')
         else:
-            return "invalid request body missing"
+            return Response("invalid request body missing", status=400, mimetype='application/text')
 
     return app
