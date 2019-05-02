@@ -1,5 +1,5 @@
 import json
-from unittest import TestCase, main
+from unittest import TestCase
 
 from flask import Response
 
@@ -49,7 +49,3 @@ class TestVerify(TestCase):
         json_value = ret_value.get_json()
         self.assertEqual(True, json_value.get("success"))
         self.assertIsNone(None, json_value.get("token"))
-
-
-if __name__ == '__main__':
-    main()

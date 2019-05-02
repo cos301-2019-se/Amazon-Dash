@@ -2,7 +2,7 @@ import os
 import uuid
 import json
 
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, Response
 
 
 def create_app(test_config=None):
