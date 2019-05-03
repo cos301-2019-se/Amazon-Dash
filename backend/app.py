@@ -83,7 +83,6 @@ def create_app(db, test_config=None):
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
-<<<<<<< HEAD
     @app.route('/api/register', methods=['POST'])
     def register():
         """
@@ -144,7 +143,6 @@ def create_app(db, test_config=None):
         else:
             return Response('Token missing', status=401, mimetype='application/text')
 
-=======
     @app.route('/api/ec2_instances', methods=['POST'])
     def ec2_instances() -> Response:
         """
@@ -161,5 +159,4 @@ def create_app(db, test_config=None):
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
->>>>>>> develop
     return app

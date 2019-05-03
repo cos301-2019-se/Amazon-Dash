@@ -1,9 +1,9 @@
 import json
 from unittest import TestCase
-
 from flask import Response
-
 from app import create_app
+from config import Config
+from db import MongoClient
 
 
 class TestEc2Instances(TestCase):
@@ -11,7 +11,9 @@ class TestEc2Instances(TestCase):
     endpoint = "/api/ec2_instances"
 
     def setUp(self) -> None:
-        temp_app = create_app()
+        config = Config()
+        db = MongoClient(host=config.get_dbhost(), port=config.get_dbport(), database='amazondashtest')
+        temp_app = create_app(db)
         temp_app.config['TESTING'] = True
         temp_app.config['WTF_CSRF_ENABLED'] = False
         temp_app.config['DEBUG'] = False
