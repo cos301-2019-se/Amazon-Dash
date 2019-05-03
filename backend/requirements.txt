@@ -4,3 +4,4 @@ boto3
 Werkzeug
 bcrypt
 pymongo
+flask_cors
