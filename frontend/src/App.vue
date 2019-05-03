@@ -1,32 +1,46 @@
-<template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>open_in_new</v-icon>
-      </v-btn>
-    </v-toolbar>
 
-    <v-content>
-      <router-view/>
-    </v-content>
-  </v-app>
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row">
+                    <div :key="service.id" class="col-md-6" v-for="service in services">
+                          <service :service="service"></service>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 
-@Component
-export default class App extends Vue {
 
+import services from '@/services.json'
+import Service from '@/components/Service.vue';
+
+
+export default {
+  name: 'app',
+
+  components:{
+    Service
+  },
+
+  data(){
+      return{
+          services
+      }
+  }
 }
 </script>
+
+
+
+<style>
+  body{
+      background-color: #FBF8F3;
+  }
+
+</style>

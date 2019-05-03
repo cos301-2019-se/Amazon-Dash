@@ -1,0 +1,38 @@
+[
+    {
+        "id":"1",
+        "title":"Analytics"
+    },
+
+    {
+        "id":"2",
+        "title":"Application integration"
+    },
+
+
+    {
+        "id":"3",
+        "title":"AR and VR"
+    },
+
+    {
+        "id":"4",
+        "title":"Blockchain"
+    },
+
+    {
+        "id":"5",
+        "title":"Database"
+    },
+
+    {
+        "id":"6",
+        "title":"Developer tools"
+    },
+
+
+    {
+        "id":"7",
+        "title":"Machine learning"
+    }
+]

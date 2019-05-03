@@ -4,10 +4,10 @@
       text-xs-center
       wrap
     >
-    
-        <h1> Amazon Dash <h1>
-        <p> EC2 instances <p>
-    
+
+        <h1> Amazon Dash </h1>
+        <p> EC2 instances </p>
+
     </v-layout>
   </v-container>
 </template>
