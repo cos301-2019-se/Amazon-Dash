@@ -1,7 +1,7 @@
 import boto3
 
 
-def get_boto3_client(access_key, secret_key, service='ec2'):
+def get_ec2_instances(access_key, secret_key):
     """
     A method to create a new boto3 client to communicate with AWS.
 
@@ -19,8 +19,13 @@ def get_boto3_client(access_key, secret_key, service='ec2'):
     boto3.Client
         the client to interact with AWS with.
     """
-    return boto3.client(
-            service,
-            aws_access_key=access_key,
-            aws_secret_access_key=secret_key,
-            )
+    regions = boto3.session.Session().get_available_regions('ec2')
+    clients = [boto3.client(
+        'ec2',
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key,
+        region_name=region,
+        ) for region in regions]
+    instances = [client.describe_instances() for client in clients]
+    instances = [j for i in clients for j in i]  # ...
+    return instances

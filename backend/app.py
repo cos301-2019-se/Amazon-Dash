@@ -5,9 +5,10 @@ import bcrypt
 
 from datetime import datetime, timedelta
 from flask import Flask, request, Response
-from services.authentication import get_boto3_client
+from services.aws import get_ec2_instances
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
+from bson.objectid import ObjectId
 
 
 def create_app(db, test_config=None):
@@ -100,5 +101,30 @@ def create_app(db, test_config=None):
                 return Response(f"Missing fields: {missing_fields}", status=401, mimetype='application/text')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
+
+    @app.route('/api/instances', methods=['GET'])
+    def instances():
+        """
+        A method to get the AWS instances.
+
+        Returns
+        -------
+        Response
+            an http response
+        """
+        token = request.args.get('token')
+        if token:
+            tokens = list(db.find('access', {'token': token}))
+            token = tokens[0] if tokens and tokens[0]['expires'] > datetime.now() else None
+            if token:
+                user = list(db.find('users', {'_id': ObjectId(token['user_id'])}))[0]
+                access_key = user['access_key']
+                secret_key = user['secret_key']
+                instances = json.dumps(get_ec2_instances(access_key, secret_key))
+                return Response(instances, status=200, mimetype='application/json')
+            else:
+                return Response('Invalid token', status=403, mimetype='application/text')
+        else:
+            return Response('Token missing', status=401, mimetype='application/text')
 
     return app
