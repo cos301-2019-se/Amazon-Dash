@@ -49,23 +49,24 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import config from '@/config'
 @Component
 export default class Login extends Vue {
-    private passwordShow: boolean = false
-    private valid: boolean = false
-    private username: string = ''
-    private password: string = ''
-    private login() {
-        const payload = { email: this.username, password: this.password }
-        fetch('http://192.168.43.226:5000/api/login', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        }).then(response => response.json()).then(res => this.$store.commit('setToken', res.token))
-        .then(() => this.$router.push('/'))
-    }
+  private passwordShow: boolean = false
+  private valid: boolean = false
+  private username: string = ''
+  private password: string = ''
+  private login() {
+    const payload = { email: this.username, password: this.password }
+    fetch(config.apiUrl + '/login', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then(response => response.json()).then(res => this.$store.commit('setToken', res.token))
+      .then(() => this.$router.push('/'))
+  }
 }
 </script>
