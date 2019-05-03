@@ -1,8 +1,8 @@
 // https://docs.cypress.io/api/introduction/api.html
 
 describe('My First Test', () => {
-  it('Visits the app root url', () => {
+  it('Should redirect to login', () => {
     cy.visit('/')
-    cy.url().contains('/')
+    cy.url().should('include', '/login')
   })
 })
