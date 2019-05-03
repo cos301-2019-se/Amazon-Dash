@@ -1,10 +1,11 @@
 import unittest
 from tests.test_verify import TestVerify
+from tests.test_ec2_instances import TestEc2Instances
 
 if __name__ == '__main__':
     # Run only the tests in the specified classes
 
-    test_classes_to_run = [TestVerify]
+    test_classes_to_run = [TestVerify, TestEc2Instances]
 
     loader = unittest.TestLoader()
 

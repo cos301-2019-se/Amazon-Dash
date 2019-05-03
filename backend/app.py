@@ -10,6 +10,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from bson.objectid import ObjectId
 
+ec2_instances_mock_data: list = [
+    {
+        "id": 1,
+        "title": "Analytics"
+    },
+    {
+        "id": 2,
+        "title": "Application Integration"
+    },
+    {
+        "id": 3,
+        "title": "AR and VR"
+    }
+]
+
 
 def create_app(db, test_config=None):
     # create and configure the app
@@ -28,7 +43,7 @@ def create_app(db, test_config=None):
         os.makedirs(app.instance_path)
 
     @app.route('/api/login', methods=['POST'])
-    def verify():
+    def verify() -> Response:
         """
         A method to log a user in and supply them with a token to access the service
 
@@ -68,6 +83,7 @@ def create_app(db, test_config=None):
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
+<<<<<<< HEAD
     @app.route('/api/register', methods=['POST'])
     def register():
         """
@@ -128,4 +144,22 @@ def create_app(db, test_config=None):
         else:
             return Response('Token missing', status=401, mimetype='application/text')
 
+=======
+    @app.route('/api/ec2_instances', methods=['POST'])
+    def ec2_instances() -> Response:
+        """
+        A method to return a list of ec2 instances given a user token
+        """
+        body = request.get_json()
+        if body:
+            body_token = body.get("token")
+            # ensure the id and secret exist
+            if body_token:
+                json_val = json.dumps(ec2_instances_mock_data)
+                return Response(json_val, status=200, mimetype='application/json')
+            return Response("Token missing", status=400, mimetype='application/text')
+        else:
+            return Response("Request body missing", status=400, mimetype='application/text')
+
+>>>>>>> develop
     return app
