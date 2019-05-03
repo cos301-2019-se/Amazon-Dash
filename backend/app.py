@@ -62,8 +62,9 @@ def create_app(db, test_config=None):
                     return Response(json.dumps({'message': 'Login unsuccessful'}),
                                     status=403, mimetype='application/json')
             else:
-                return Response(json.dumps({'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"}),
-                                status=401, mimetype='application/json')
+                return Response(json.dumps({
+                    'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"
+                    }), status=401, mimetype='application/json')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
