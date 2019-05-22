@@ -1,11 +1,13 @@
 import unittest
+
+from tests.test_google_verify import TestGoogleVerification
 from tests.test_verify import TestVerify
 from tests.test_ec2_instances import TestEc2Instances
 
 if __name__ == '__main__':
     # Run only the tests in the specified classes
 
-    test_classes_to_run = [TestVerify, TestEc2Instances]
+    test_classes_to_run = [TestVerify, TestEc2Instances, TestGoogleVerification]
 
     loader = unittest.TestLoader()
 
