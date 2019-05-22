@@ -1,1 +1,59 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Architectural design}
+\author{Contrapositives }
+\date{May 2019}
+
+\begin{document}
+\begin{titlepage}
+	\begin{center}
+	\huge{University of Pretoria\\
+	Software Engineering - COS 301}\\
+	\line(1,0){350}\\
+	\huge{\bfseries Amazon Dash Software Requirements Specification}\\
+	\line(1,0){350}\\
+	Contrapositives\\
+	May 2019\\
+	[3cm]
+	\end{center}
+	\begin{flushleft}
+	\bfseries{Authors:}
+	\end{flushleft}
+	\begin{flushleft}
+	Brendan Bath \hspace{32mm}{\textbf{u16023359}}\\
+	Musa Mathe			\hspace{34mm}{\textbf{u15048030}}\\
+	Jessica da Silva			\hspace{30mm}{\textbf{u16045816}}\\
+	Natasha Draper     \hspace{29mm}{\textbf{u16081758}}\\
+
+	\end{flushleft}
+\end{titlepage}
+\maketitle
+
+\newpage
+\section{3-tier + Component-based + Plug-in Architecture}
+     \subsection{3-tier}
+        \subsubsection{Presentation layer}
+            \begin{itemize}
+                \item This will be the top level of the application which will provide graphic user interface by displaying information to the user in a more organized and simple manner in which the user can easily understand and navigate through application. This layer will serve as a means to communicate with the user by displaying list of services, performing calculations, and displaying the metrics of the instances.
+            \end{itemize}
+        \subsubsection{Logic layer}
+            \begin{enumerate}
+                \item This layer will serve as a middle dynamic content processing which will be responsible for coordinating the application, and making logic decision and performing calculations. We will be using python for the logic and flask to expose the logic as a restful api.
+            \end{enumerate}
+        \subsection{Data layer}
+            \begin{enumerate}
+                \item The data layer will provide an API to the application layer that exposes methods of managing the stored data without exposing or creating dependencies on the data storage mechanisms.
+            \end{enumerate}
+            
+        \subsection{Component-based}
+            \begin{enumerate}
+                \item This will provide flexibility  which will ensure separation of concerns which will help for defining, implementing and composing loosely coupled independent components into systems through out the development cycle to allow the client benefit both for short and long-term process since it provides continuous deployment of features since a component(e.g displaying metrics) will be developed as a separate feature on it's own then later will be converted to a service which then will be added to the running application. It also give us an opportunity to substitute a component which needs to be replaced by another component with either an updated version or an alternative without breaking the system in which the component operates.
+            \end{enumerate}
+        \subsection{Plug-in}
+            \begin{enumerate}
+                \item 
+            \end{enumerate}
+
+\end{document}
 
