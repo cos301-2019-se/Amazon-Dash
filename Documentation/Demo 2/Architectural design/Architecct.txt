@@ -1,0 +1,6 @@
+In the web development field, three-tier is often used to refer to websites, commonly electronic commerce websites, which are built using three tiers:
+
+    A front-end web server serving static content, and potentially some cached dynamic content. In web-based application, front end is the content rendered by the browser. The content may be static or generated dynamically.
+    A middle dynamic content processing and generation level application server (e.g., Symfony, Spring, ASP.NET, Django, Rails, Node.js).
+    A back-end database or data store, comprising both data sets and the database management system software that manages and provides access to the data.
+
