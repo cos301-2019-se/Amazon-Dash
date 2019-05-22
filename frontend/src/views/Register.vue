@@ -2,7 +2,11 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-toolbar-title>Create account</v-toolbar-title>
+        <v-card>
+          <v-card-title>
+            <v-toolbar-title>Create account</v-toolbar-title>
+          </v-card-title>
+          <v-card-text>
               <v-form>
                   <v-text-field
                        v-model="firstname"
@@ -39,6 +43,8 @@
                       </router-link>
                   </v-subheader>
               </v-form>
+          </v-card-text>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
