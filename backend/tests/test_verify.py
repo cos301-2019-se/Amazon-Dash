@@ -1,29 +1,8 @@
-# import json
-from unittest import TestCase
-# from flask import Response
-from app import create_app
-from config import Config
-from db import MongoClient
-
+from .base import endpoint_test_factory
 
 # TODO write tests for verify
-class TestVerify(TestCase):
-    app = None
-    endpoint = "/api/login"
-
-    def setUp(self) -> None:
-        config = Config()
-        db = MongoClient(host=config.get_dbhost(), port=config.get_dbport(), database='amazondashtest')
-        temp_app = create_app(db)
-        temp_app.config['TESTING'] = True
-        temp_app.config['WTF_CSRF_ENABLED'] = False
-        temp_app.config['DEBUG'] = False
-
-        self.app = temp_app.test_client()
-
-    def tearDown(self):
-        pass
-
+class TestVerify(endpoint_test_factory('/api/verify')):
+    pass
 # TODO: Rewrite these tests. For now the demo is more important.
 #     def test_missing_username(self):
 #         ret_value: Response = self.app.post(self.endpoint, data=json.dumps(dict(secret='')),
