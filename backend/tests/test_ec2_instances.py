@@ -1,4 +1,3 @@
-import json
 from .base import endpoint_test_factory
 from flask import Response
 
