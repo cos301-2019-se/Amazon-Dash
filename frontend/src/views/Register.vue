@@ -2,7 +2,7 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-card justify-content: center>
+        <v-card>
           <v-card-title>
             <v-toolbar-title>Create account</v-toolbar-title>
           </v-card-title>
@@ -58,12 +58,11 @@
               </v-layout>
           </v-card-text>
           <v-card-actions>
-            <v-layout align-center justify-center>
+            <v-layout align-center>
               <v-subheader  class="pa-0">Already have an account?
-
-              <v-btn @click="$router.push('/login')">
-                    Login
-                </v-btn>
+                <v-btn @click="$router.push('/login')">
+                      Login
+                  </v-btn>
               </v-subheader>
             </v-layout>
           </v-card-actions>
@@ -103,7 +102,7 @@ export default class Register extends Vue {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
-      }).then(response => response.json()).then( res => this.$router.push('/'))
+      }).then(response => response.json()).then(res => this.$router.push('/'))
     }
   }
 }
