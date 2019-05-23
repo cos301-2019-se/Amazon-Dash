@@ -1,25 +1,7 @@
-from unittest import TestCase
-from app import create_app
-from config import Config
-from db import MongoClient
+from .base import endpoint_test_factory
 
 
-class TestGoogleVerification(TestCase):
-    app = None
-    endpoint = "/api/google_authentication"
-
-    def setUp(self) -> None:
-        config = Config()
-        db = MongoClient(host=config.get_dbhost(), port=config.get_dbport(), database='amazondashtest')
-        temp_app = create_app(db)
-        temp_app.config['TESTING'] = True
-        temp_app.config['WTF_CSRF_ENABLED'] = False
-        temp_app.config['DEBUG'] = False
-
-        self.app = temp_app.test_client()
-
-    def tearDown(self):
-        pass
+class TestGoogleVerification(endpoint_test_factory('/api/google_authentication')):
 
     def test_missing_body(self):
         ret_value = self.app.post(self.endpoint)
