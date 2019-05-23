@@ -35,7 +35,7 @@
                    :append-icon="cPasswordShow ? 'visibility_off' : 'visibility'"
                    @click:append="cPasswordShow = !cPasswordShow"
                    required
-                   v-model="password"
+                   v-model="cPassword"
                    :rules="[(v => !!v || 'Password is required')]"
                 ></v-text-field>
 
@@ -54,7 +54,7 @@
                       ></v-text-field>
               </v-form>
               <v-layout align-center justify-center>
-              <v-btn class="green" type="submit">Submit</v-btn>
+                <v-btn class="green" type="submit">Submit</v-btn>
               </v-layout>
           </v-card-text>
           <v-card-actions>
