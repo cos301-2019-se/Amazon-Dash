@@ -57,7 +57,7 @@ def create_app(db, test_config=None):
                         'user_id': user_id,
                         'token': token,
                         'expires': datetime.now() + timedelta(seconds=ttl),
-                        })
+                    })
                     res = {'token': token, 'ttl': ttl}
                     return Response(json.dumps(res), status=200, mimetype='application/json')
                 else:
@@ -66,7 +66,7 @@ def create_app(db, test_config=None):
             else:
                 return Response(json.dumps({
                     'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"
-                    }), status=401, mimetype='application/json')
+                }), status=401, mimetype='application/json')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
@@ -96,7 +96,7 @@ def create_app(db, test_config=None):
                     'salt': salt,
                     'access_key': access_key,
                     'secret_key': secret_key,
-                    })
+                })
                 return Response("Registered successfully", status=201, mimetype='application/text')
             else:
                 missing_fields = ', '.join([x for x in ['email', 'password', 'access_key', 'secret_key']
@@ -130,22 +130,6 @@ def create_app(db, test_config=None):
         else:
             return Response('Token missing', status=401, mimetype='application/text')
 
-    @app.route('/api/ec2_instances', methods=['POST'])
-    def ec2_instances() -> Response:
-        """
-        A method to return a list of ec2 instances given a user token
-        """
-        body = request.get_json()
-        if body:
-            body_token = body.get("token")
-            # ensure the id and secret exist
-            if body_token:
-                json_val = json.dumps(ec2_instances_mock_data)
-                return Response(json_val, status=200, mimetype='application/json')
-            return Response("Token missing", status=400, mimetype='application/text')
-        else:
-            return Response("Request body missing", status=400, mimetype='application/text')
-
     @app.route('/api/google_authentication', methods=["POST"])
     def google_authentication() -> Response:
         """
@@ -170,11 +154,9 @@ def create_app(db, test_config=None):
             if all((auth_email, auth_token, access_key, secret_key)):
                 try:
                     r = requests.get(CHECK_ENDPOINT + auth_token)
-                    data = r.json()\
-                    
-
+                    data = r.json() \
+ \
                     if data.get("issued_to") and data.get("issued_to") == auth_email:
-
                         token = str(uuid.uuid4())
                         ttl = 128000
 
@@ -197,7 +179,8 @@ def create_app(db, test_config=None):
                     return Response(json.dumps(res), status=400, mimetype='application/json')
             else:
                 return Response(json.dumps({
-                    'message': f"Missing fields: {', '.join([x for x in ['email', 'token', 'access_key', 'secret_key'] if not body.get(x)])}"
-                    }), status=401, mimetype='application/text')
+                    'message': f"Missing fields: {', '.join(
+                        [x for x in ['email', 'token', 'access_key', 'secret_key'] if not body.get(x)])}"
+                }), status=401, mimetype='application/text')
 
     return app
