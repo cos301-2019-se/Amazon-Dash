@@ -175,7 +175,6 @@ def create_app(db, test_config=None):
                     if data.get("issued_to") and data.get("issued_to") == auth_email:
                         token = str(uuid.uuid4())
 
-
                         db.insert('users', {
                             'email': auth_email,
                             'google_token': auth_token,
@@ -195,9 +194,9 @@ def create_app(db, test_config=None):
                     return Response(json.dumps(res), status=400, mimetype='application/json')
             else:
                 return Response(json.dumps({
-                    'message': f"Missing fields: email, token, access_key, or secret_key"
+                    'message': "Missing fields: email, token, access_key, or secret_key"
                 }), status=401, mimetype='application/text')
         else:
-            return Response(f"Request body missing", status=401, mimetype='application/text')
+            return Response("Request body missing", status=401, mimetype='application/text')
 
     return app
