@@ -10,7 +10,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from lib.util import json_serialize
 from services.authentication import require_auth
-from bson.objectid import ObjectId
 import requests
 
 
