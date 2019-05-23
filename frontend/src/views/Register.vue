@@ -7,7 +7,7 @@
             <v-toolbar-title>Create account</v-toolbar-title>
           </v-card-title>
           <v-card-text>
-              <v-form>
+              <v-form @submit.prevent="register()" v-model="valid">
                   <v-text-field
                        v-model="firstname"
                        label="First name"
@@ -29,7 +29,7 @@
                   ></v-text-field>
 
                   <v-text-field
-                    v-model="Cpassword"
+                    v-model="cpassword"
                     label="Confirm Password"
                     type="password"
                     required
@@ -49,3 +49,30 @@
     </v-layout>
   </v-container>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        firstname : '',
+        email : '',
+        password : '',
+        cpassword : '',
+
+      }
+    },
+
+  methods: {
+      register() {
+        const data = {
+          firstname: this.firstname,
+          email: this.email,
+          password: this.password,
+          cpassword: this.cpassword,
+        }
+        this.$store.dispatch('register', data)
+       .then(() => this.$router.push('/'))
+      },
+    },
+  }
+</script>
