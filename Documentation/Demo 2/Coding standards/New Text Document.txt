@@ -1,6 +1,0 @@
-Conventions and style
-Uniform style
-Clarity
-Flexibility
-Reliability
-Efficiency of your code
