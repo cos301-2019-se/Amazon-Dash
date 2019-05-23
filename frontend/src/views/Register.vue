@@ -8,11 +8,6 @@
           </v-card-title>
           <v-card-text>
               <v-form @submit.prevent="register()" v-model="valid">
-                  <v-text-field
-                       v-model="firstname"
-                       label="First name"
-                       required
-                    ></v-text-field>
 
                   <v-text-field
                     v-model="email"
@@ -34,6 +29,18 @@
                     type="password"
                     required
                   ></v-text-field>
+
+                  <v-text-field
+                       v-model="accessKey"
+                       label="Access Key"
+                       required
+                    ></v-text-field>
+
+                    <v-text-field
+                         v-model="secretKey"
+                         label="secret key"
+                         required
+                      ></v-text-field>
 
                   <v-btn class="green" type="submit" >Submit</v-btn>
 
@@ -58,6 +65,9 @@
         email : '',
         password : '',
         cpassword : '',
+        accessKey: '',
+        secretKey: '',
+
 
       }
     },
@@ -65,10 +75,11 @@
   methods: {
       register() {
         const data = {
-          firstname: this.firstname,
           email: this.email,
           password: this.password,
           cpassword: this.cpassword,
+          accessKey: this.accessKey,
+          secretKey: this.secretKey,
         }
         this.$store.dispatch('register', data)
        .then(() => this.$router.push('/'))
