@@ -2,7 +2,7 @@
     <v-container fluid fill-height>
         <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
-                <v-card> 
+                <v-card>
                   <v-layout justify-center row>
                      <v-flex xs4 md2>
                         <v-layout justify-center>
@@ -18,7 +18,7 @@
                 <v-flex xs12>
                     <v-card-text>
                         <v-form @submit.prevent="login()" v-model="valid">
-                         
+
                          <v-text-field class="username"
                            label="Username"
                            prepend-icon="person"
@@ -37,6 +37,14 @@
                            :rules="[(v => !!v || 'Password is required')]"
                         ></v-text-field>
                           <v-btn type="submit">Login</v-btn>
+
+                          <v-subheader  class="pa-0">Create a new account?
+                            <v-btn @click="$router.push('/register')">
+                                  Create account
+                              </v-btn>
+                          </v-subheader>
+
+
                         </v-form>
                     </v-card-text>
                 </v-flex>
