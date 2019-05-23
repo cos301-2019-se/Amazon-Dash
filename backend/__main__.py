@@ -1,6 +1,6 @@
 import app
 from config import Config
-from db import MongoClient
+from lib.db import MongoClient
 
 if __name__ == "__main__":
     config = Config('setup.cfg')

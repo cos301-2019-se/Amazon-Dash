@@ -80,7 +80,7 @@ class MongoClient:
 
     @classmethod
     def insert(cls, *args, **kwargs):
-        return cls.__instance(*args, **kwargs)
+        return cls.__instance.insert(*args, **kwargs)
 
     @classmethod
     def count(cls, *args, **kwargs):

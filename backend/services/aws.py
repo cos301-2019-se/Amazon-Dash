@@ -1,4 +1,5 @@
 import boto3
+import itertools
 
 
 def get_ec2_instances(access_key, secret_key, region):
@@ -25,4 +26,6 @@ def get_ec2_instances(access_key, secret_key, region):
             aws_secret_access_key=secret_key,
             region_name=region,
             )
-    return client.describe_instances()
+    reservations = client.describe_instances().get("Reservations")
+    instances = list(map(lambda x: x.get("Instances"), reservations))
+    return list(itertools.chain.from_iterable(instances))

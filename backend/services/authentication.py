@@ -1,5 +1,5 @@
 from flask import request, Response
-from db import MongoClient
+from lib.db import MongoClient
 from datetime import datetime
 from functools import wraps
 from bson.objectid import ObjectId
@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 def require_auth(func):
     @wraps(func)
     def wrapper(*args, **kwargs) -> Response:
-        token = request.args.get('token')
+        token = request.headers.get('authorization')
         if token:
             tokens = list(MongoClient.find('access', {'token': token}))
             token = tokens[0] if tokens and tokens[0]['expires'] > datetime.now() else None
