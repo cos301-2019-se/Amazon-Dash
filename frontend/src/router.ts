@@ -3,6 +3,7 @@ import Router, { NavigationGuard } from 'vue-router'
 import Services from './views/Services.vue'
 import Login from './views/Login.vue'
 import store from '@/store'
+import Register from './views/Register.vue'
 
 Vue.use(Router)
 
@@ -27,5 +28,10 @@ export default new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path:'/register',
+      name:'register',
+      component: Register,
+    }
   ],
 })
