@@ -2,7 +2,7 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-card>
+        <v-card justify-content: center>
           <v-card-title>
             <v-toolbar-title>Create account</v-toolbar-title>
           </v-card-title>
@@ -29,7 +29,7 @@
                  ></v-text-field>
 
                  <v-text-field class="password"
-                   label="Password"
+                   label="Confirm Password"
                    :type="cPasswordShow ? 'text' : 'password'"
                    prepend-icon="lock"
                    :append-icon="cPasswordShow ? 'visibility_off' : 'visibility'"
@@ -52,16 +52,21 @@
                          label="Secret Key"
                          required
                       ></v-text-field>
-
-                  <v-btn class="green" type="submit">Submit</v-btn>
-
-                  <v-subheader  class="pa-0">Already have an account?
-                  <v-btn @click="$router.push('/login')">
-                        Login
-                    </v-btn>
-                  </v-subheader>
               </v-form>
+              <v-layout align-center justify-center>
+              <v-btn class="green" type="submit">Submit</v-btn>
+              </v-layout>
           </v-card-text>
+          <v-card-actions>
+            <v-layout align-center justify-center>
+              <v-subheader  class="pa-0">Already have an account?
+
+              <v-btn @click="$router.push('/login')">
+                    Login
+                </v-btn>
+              </v-subheader>
+            </v-layout>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -79,19 +84,27 @@ export default class Register extends Vue {
   private valid: boolean = false
   private username: string = ''
   private password: string = ''
+  private cPassword: string = ''
   private secretKey: string = ''
   private accessKey: string = ''
   private register() {
-    const payload = { email: this.username, password: this.password,
-    secret_key: this.secretKey, access_key: this.accessKey}
-    fetch(config.apiUrl + '/register', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then(() => this.$router.push('/'))
+    if (this.password === this.cPassword) {
+      const payload = {
+        email: this.username,
+        password: this.password,
+        secret_key: this.secretKey,
+        access_key: this.accessKey,
+      }
+
+      fetch(config.apiUrl + '/register', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then(response => response.json()).then( res => this.$router.push('/'))
+    }
   }
 }
 </script>
