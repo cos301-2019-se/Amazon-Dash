@@ -8,7 +8,8 @@ from flask import Flask, request, Response
 from services.aws import get_ec2_instances
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
-from bson.objectid import ObjectId
+from lib.util import json_serialize
+from services.authentication import require_auth
 
 import requests
 
@@ -106,7 +107,8 @@ def create_app(db, test_config=None):
             return Response("Request body missing", status=400, mimetype='application/text')
 
     @app.route('/api/instances', methods=['GET'])
-    def instances():
+    @require_auth
+    def instances(user):
         """
         A method to get the AWS instances.
 
@@ -115,20 +117,11 @@ def create_app(db, test_config=None):
         Response
             an http response
         """
-        token = request.args.get('token')
-        if token:
-            tokens = list(db.find('access', {'token': token}))
-            token = tokens[0] if tokens and tokens[0]['expires'] > datetime.now() else None
-            if token:
-                user = list(db.find('users', {'_id': ObjectId(token['user_id'])}))[0]
-                access_key = user['access_key']
-                secret_key = user['secret_key']
-                instances = json.dumps(get_ec2_instances(access_key, secret_key))
-                return Response(instances, status=200, mimetype='application/json')
-            else:
-                return Response('Invalid token', status=403, mimetype='application/text')
-        else:
-            return Response('Token missing', status=401, mimetype='application/text')
+        access_key = user['access_key']
+        secret_key = user['secret_key']
+        region = request.args.get('region') or 'us-east-2'
+        instances = json.dumps(get_ec2_instances(access_key, secret_key, region), default=json_serialize)
+        return Response(instances, status=200, mimetype='application/json')
 
     @app.route('/api/ec2_instances', methods=['POST'])
     def ec2_instances() -> Response:
