@@ -38,7 +38,7 @@
 
                     <v-text-field
                          v-model="secretKey"
-                         label="secret key"
+                         label="Secret Key"
                          required
                       ></v-text-field>
 
