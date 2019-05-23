@@ -1,5 +1,6 @@
 from datetime import date, datetime
 
+
 def json_serialize(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()

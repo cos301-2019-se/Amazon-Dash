@@ -1,5 +1,6 @@
 import json
 from .base import endpoint_test_factory
+from flask import Response
 
 
 class TestEc2Instances(endpoint_test_factory('/api/ec2_instances')):

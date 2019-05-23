@@ -19,7 +19,6 @@ def get_ec2_instances(access_key, secret_key, region):
     boto3.Client
         the client to interact with AWS with.
     """
-    regions = boto3.session.Session().get_available_regions('ec2')
     client = boto3.client(
             'ec2',
             aws_access_key_id=access_key,

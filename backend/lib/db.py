@@ -1,8 +1,5 @@
 import pymongo
 
-class UninitializedException(Exception):
-    def __init__(self, message):
-        self.message = message
 
 class MongoClient:
     """
@@ -66,7 +63,7 @@ class MongoClient:
         if not MongoClient.__instance:
             MongoClient.__instance = \
                     MongoClient.__MongoClient(host, port, database)
-    
+
     def __getattr__(self, key):
         return getattr(self.__instance, key)
 

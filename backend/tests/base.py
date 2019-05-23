@@ -1,7 +1,6 @@
 from unittest import TestCase
 from config import Config
 from app import create_app
-from config import Config
 from lib.db import MongoClient
 
 

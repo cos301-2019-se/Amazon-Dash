@@ -1,5 +1,6 @@
 from .base import endpoint_test_factory
 
+
 # TODO write tests for verify
 class TestVerify(endpoint_test_factory('/api/verify')):
     pass
