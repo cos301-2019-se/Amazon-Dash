@@ -9,11 +9,11 @@ from services.aws import get_ec2_instances
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from bson.objectid import ObjectId
-
 import requests
 
 
 def create_app(db, test_config=None):
+    ttl = 128000
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
@@ -52,7 +52,7 @@ def create_app(db, test_config=None):
                 if user and check_password_hash(user['password'], user['salt'] + password + user['salt']):
                     user_id = str(user['_id'])
                     token = str(uuid.uuid4())
-                    ttl = 128000
+
                     db.insert('access', {
                         'user_id': user_id,
                         'token': token,
@@ -174,7 +174,7 @@ def create_app(db, test_config=None):
 
                     if data.get("issued_to") and data.get("issued_to") == auth_email:
                         token = str(uuid.uuid4())
-                        ttl = 128000
+
 
                         db.insert('users', {
                             'email': auth_email,
