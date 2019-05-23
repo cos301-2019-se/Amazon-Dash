@@ -1,13 +1,12 @@
 from unittest import TestCase
-from flask import Response
 from app import create_app
 from config import Config
 from db import MongoClient
 
 
-class TestEc2Instances(TestCase):
+class TestGoogleVerification(TestCase):
     app = None
-    endpoint = "/api/ec2_instances"
+    endpoint = "/api/google_authentication"
 
     def setUp(self) -> None:
         config = Config()
@@ -23,6 +22,6 @@ class TestEc2Instances(TestCase):
         pass
 
     def test_missing_body(self):
-        ret_value: Response = self.app.post(self.endpoint)
-        self.assertEqual(400, ret_value.status_code)
+        ret_value = self.app.post(self.endpoint)
+        self.assertEqual(401, ret_value.status_code)
         self.assertEqual(b'Request body missing', ret_value.data)

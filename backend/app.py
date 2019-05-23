@@ -10,20 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from bson.objectid import ObjectId
 
-ec2_instances_mock_data: list = [
-    {
-        "id": 1,
-        "title": "Analytics"
-    },
-    {
-        "id": 2,
-        "title": "Application Integration"
-    },
-    {
-        "id": 3,
-        "title": "AR and VR"
-    }
-]
+import requests
 
 
 def create_app(db, test_config=None):
@@ -70,7 +57,7 @@ def create_app(db, test_config=None):
                         'user_id': user_id,
                         'token': token,
                         'expires': datetime.now() + timedelta(seconds=ttl),
-                        })
+                    })
                     res = {'token': token, 'ttl': ttl}
                     return Response(json.dumps(res), status=200, mimetype='application/json')
                 else:
@@ -79,7 +66,7 @@ def create_app(db, test_config=None):
             else:
                 return Response(json.dumps({
                     'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"
-                    }), status=401, mimetype='application/json')
+                }), status=401, mimetype='application/json')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
@@ -109,7 +96,7 @@ def create_app(db, test_config=None):
                     'salt': salt,
                     'access_key': access_key,
                     'secret_key': secret_key,
-                    })
+                })
                 return Response("Registered successfully", status=201, mimetype='application/text')
             else:
                 missing_fields = ', '.join([x for x in ['email', 'password', 'access_key', 'secret_key']
@@ -153,10 +140,64 @@ def create_app(db, test_config=None):
             body_token = body.get("token")
             # ensure the id and secret exist
             if body_token:
-                json_val = json.dumps(ec2_instances_mock_data)
+                json_val = json.dumps({"Nothing": "nothing"})
                 return Response(json_val, status=200, mimetype='application/json')
             return Response("Token missing", status=400, mimetype='application/text')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
+
+    @app.route('/api/google_authentication', methods=["POST"])
+    def google_authentication() -> Response:
+        """
+        A method to authenticate with google.
+
+        Returns
+        -------
+        Response
+            an http response
+        """
+
+        check_endpoint = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="
+
+        body = request.get_json()
+
+        if body:
+            auth_email = body.get("email")
+            auth_token = body.get("token")
+            access_key = body.get("access_key")
+            secret_key = body.get("secret_key")
+
+            if all((auth_email, auth_token, access_key, secret_key)):
+                try:
+                    r = requests.get(check_endpoint + auth_token)
+                    data = r.json()
+
+                    if data.get("issued_to") and data.get("issued_to") == auth_email:
+                        token = str(uuid.uuid4())
+                        ttl = 128000
+
+                        db.insert('users', {
+                            'email': auth_email,
+                            'google_token': auth_token,
+                            'access_key': access_key,
+                            'secret_key': secret_key,
+                        })
+
+                        db.insert('access', {
+                            'user_id': auth_email,
+                            'token': token,
+                            'expires': datetime.now() + timedelta(seconds=ttl),
+                        })
+                        res = {'token': token, 'ttl': ttl}
+                        return Response(json.dumps(res), status=200, mimetype='application/json')
+                except Exception as e:
+                    res = {'error': e}
+                    return Response(json.dumps(res), status=400, mimetype='application/json')
+            else:
+                return Response(json.dumps({
+                    'message': f"Missing fields: email, token, access_key, or secret_key"
+                }), status=401, mimetype='application/text')
+        else:
+            return Response(f"Request body missing", status=401, mimetype='application/text')
 
     return app
