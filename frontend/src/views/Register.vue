@@ -42,12 +42,12 @@
                          required
                       ></v-text-field>
 
-                  <v-btn class="green" type="submit" >Submit</v-btn>
+                  <v-btn class="green" type="submit">Submit</v-btn>
 
                   <v-subheader  class="pa-0">Already have an account?
-                      <router-link to="/login">
-                          Sign in
-                      </router-link>
+                  <v-btn @click="$router.push('/login')">
+                        Login
+                    </v-btn>
                   </v-subheader>
               </v-form>
           </v-card-text>
@@ -57,33 +57,17 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    data() {
-      return {
-        firstname : '',
-        email : '',
-        password : '',
-        cpassword : '',
-        accessKey: '',
-        secretKey: '',
-
-
-      }
-    },
-
-  methods: {
-      register() {
-        const data = {
-          email: this.email,
-          password: this.password,
-          cpassword: this.cpassword,
-          accessKey: this.accessKey,
-          secretKey: this.secretKey,
-        }
-        this.$store.dispatch('register', data)
-       .then(() => this.$router.push('/'))
-      },
-    },
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import config from '@/config'
+@Component
+export default class Register extends Vue {
+  private passwordShow: boolean = false
+  private valid: boolean = false
+  private username: string = ''
+  private password: string = ''
+  private register() {
+    const payload = { email: this.username, password: this.password }
   }
+}
 </script>

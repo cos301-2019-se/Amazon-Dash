@@ -39,9 +39,9 @@
                           <v-btn type="submit">Login</v-btn>
 
                           <v-subheader  class="pa-0">Create a new account?
-                              <router-link to="/register">
+                            <v-btn @click="$router.push('/register')">
                                   Create account
-                              </router-link>
+                              </v-btn>
                           </v-subheader>
 
 
