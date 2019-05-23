@@ -10,11 +10,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from lib.util import json_serialize
 from services.authentication import require_auth
-
 import requests
 
 
 def create_app(db, test_config=None):
+    ttl = 128000
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
@@ -53,7 +53,7 @@ def create_app(db, test_config=None):
                 if user and check_password_hash(user['password'], user['salt'] + password + user['salt']):
                     user_id = str(user['_id'])
                     token = str(uuid.uuid4())
-                    ttl = 128000
+
                     db.insert('access', {
                         'user_id': user_id,
                         'token': token,
@@ -167,7 +167,6 @@ def create_app(db, test_config=None):
 
                     if data.get("issued_to") and data.get("issued_to") == auth_email:
                         token = str(uuid.uuid4())
-                        ttl = 128000
 
                         db.insert('users', {
                             'email': auth_email,
@@ -188,9 +187,9 @@ def create_app(db, test_config=None):
                     return Response(json.dumps(res), status=400, mimetype='application/json')
             else:
                 return Response(json.dumps({
-                    'message': f"Missing fields: email, token, access_key, or secret_key"
+                    'message': "Missing fields: email, token, access_key, or secret_key"
                 }), status=401, mimetype='application/text')
         else:
-            return Response(f"Request body missing", status=401, mimetype='application/text')
+            return Response("Request body missing", status=401, mimetype='application/text')
 
     return app
