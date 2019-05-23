@@ -5,11 +5,12 @@ import bcrypt
 
 from datetime import datetime, timedelta
 from flask import Flask, request, Response
-from services.aws import get_ec2_instances
+from services import aws
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from lib.util import json_serialize
 from services.authentication import require_auth
+from botocore.exceptions import ClientError
 import requests
 
 
@@ -108,19 +109,23 @@ def create_app(db, test_config=None):
 
     @app.route('/api/instances', methods=['GET'])
     @require_auth
-    def instances(user):
+    @aws.boto3_client()
+    def instances(user, client):
         """
         A method to get the AWS instances.
 
+        Parameters
+        ----------
+        user : dict
+            The currently authenticated user.
+        client : boto3.Client
+            The client authenticated with the user.
         Returns
         -------
         Response
             an http response
         """
-        access_key = user['access_key']
-        secret_key = user['secret_key']
-        region = request.args.get('region') or 'us-east-2'
-        instances = json.dumps(get_ec2_instances(access_key, secret_key, region), default=json_serialize)
+        instances = json.dumps(aws.get_ec2_instances(client), default=json_serialize)
         return Response(instances, status=200, mimetype='application/json')
 
     @app.route('/api/ec2_instances', methods=['POST'])
@@ -191,5 +196,39 @@ def create_app(db, test_config=None):
                 }), status=401, mimetype='application/text')
         else:
             return Response("Request body missing", status=401, mimetype='application/text')
+
+    @app.route('/api/instances/<instance_id>/stop')
+    @require_auth
+    @aws.boto3_client()
+    def stop_instance(user, client, instance_id):
+        try:
+            aws.stop_ec2_instance(client, instance_id)
+            return Response('Success', status=200, mimetype='application/text')
+        except ClientError as ex:
+            message, status = aws.boto3_errors(ex)
+            return Response(message, status=status, mimetype='application/text')
+
+    @app.route('/api/instances/<instance_id>/start')
+    @require_auth
+    @aws.boto3_client()
+    def start_instance(user, client, instance_id):
+        try:
+            aws.start_ec2_instance(client, instance_id)
+            return Response('Success', status=200, mimetype='application/text')
+        except ClientError as ex:
+            message, status = aws.boto3_errors(ex)
+            return Response(message, status=status, mimetype='application/text')
+
+    @app.route('/api/instances/<instance_id>/restart')
+    @require_auth
+    @aws.boto3_client()
+    def restart_instance(user, client, instance_id):
+        try:
+            aws.stop_ec2_instance(client, instance_id)
+            aws.start_ec2_instance(client, instance_id)
+            return Response('Success', status=200, mimetype='application/text')
+        except ClientError as ex:
+            message, status = aws.boto3_errors(ex)
+            return Response(message, status=status, mimetype='application/text')
 
     return app
