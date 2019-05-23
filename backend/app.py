@@ -132,7 +132,8 @@ def create_app(db, test_config=None):
         """
         access_key = user['access_key']
         secret_key = user['secret_key']
-        instances = json.dumps(get_ec2_instances(access_key, secret_key, 'us-east-2'), default=json_serialize)
+        region = request.args.get('region') or 'us-east-2'
+        instances = json.dumps(get_ec2_instances(access_key, secret_key, region), default=json_serialize)
         return Response(instances, status=200, mimetype='application/json')
 
     @app.route('/api/ec2_instances', methods=['POST'])
