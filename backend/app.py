@@ -4,6 +4,8 @@ import json
 import bcrypt
 
 from datetime import datetime, timedelta
+from config import Config
+from lib.db import MongoClient
 from flask import Flask, request, Response
 from services import aws
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -14,10 +16,15 @@ from botocore.exceptions import ClientError
 import requests
 
 
-def create_app(db, test_config=None):
+config = Config('setup.cfg')
+client = MongoClient(host=config.get_dbhost(), port=config.get_dbport(), database='amazondash')
+
+
+def create_app(test_config=None):
     ttl = 128000
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True,
+                static_folder='./dist', static_url_path='')
     CORS(app)
 
     if not test_config:
@@ -30,6 +37,10 @@ def create_app(db, test_config=None):
     # ensure the instance folder exists
     if not os.path.isdir(app.instance_path):
         os.makedirs(app.instance_path)
+
+    @app.route('/')
+    def root():
+        return app.send_static_file('index.html')
 
     @app.route('/api/login', methods=['POST'])
     def verify() -> Response:
@@ -49,13 +60,13 @@ def create_app(db, test_config=None):
 
             # ensure the id and secret exist
             if email and password:
-                users = list(db.find('users', {'email': email}))
+                users = list(client.find('users', {'email': email}))
                 user = users[0] if users else None
                 if user and check_password_hash(user['password'], user['salt'] + password + user['salt']):
                     user_id = str(user['_id'])
                     token = str(uuid.uuid4())
 
-                    db.insert('access', {
+                    client.insert('access', {
                         'user_id': user_id,
                         'token': token,
                         'expires': datetime.now() + timedelta(seconds=ttl),
@@ -92,7 +103,7 @@ def create_app(db, test_config=None):
             if all((email, password, access_key, secret_key)):
                 salt = bcrypt.gensalt().decode('utf-8')
                 password_hash = generate_password_hash(salt + password + salt)
-                db.insert('users', {
+                client.insert('users', {
                     'email': email,
                     'password': password_hash,
                     'salt': salt,
@@ -173,14 +184,14 @@ def create_app(db, test_config=None):
                     if data.get("issued_to") and data.get("issued_to") == auth_email:
                         token = str(uuid.uuid4())
 
-                        db.insert('users', {
+                        client.insert('users', {
                             'email': auth_email,
                             'google_token': auth_token,
                             'access_key': access_key,
                             'secret_key': secret_key,
                         })
 
-                        db.insert('access', {
+                        client.insert('access', {
                             'user_id': auth_email,
                             'token': token,
                             'expires': datetime.now() + timedelta(seconds=ttl),
