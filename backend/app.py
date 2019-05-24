@@ -5,28 +5,17 @@ import bcrypt
 
 from datetime import datetime, timedelta
 from flask import Flask, request, Response
-from services.aws import get_ec2_instances
+from services import aws
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
-from bson.objectid import ObjectId
-
-ec2_instances_mock_data: list = [
-    {
-        "id": 1,
-        "title": "Analytics"
-    },
-    {
-        "id": 2,
-        "title": "Application Integration"
-    },
-    {
-        "id": 3,
-        "title": "AR and VR"
-    }
-]
+from lib.util import json_serialize
+from services.authentication import require_auth
+from botocore.exceptions import ClientError
+import requests
 
 
 def create_app(db, test_config=None):
+    ttl = 128000
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
@@ -65,12 +54,12 @@ def create_app(db, test_config=None):
                 if user and check_password_hash(user['password'], user['salt'] + password + user['salt']):
                     user_id = str(user['_id'])
                     token = str(uuid.uuid4())
-                    ttl = 128000
+
                     db.insert('access', {
                         'user_id': user_id,
                         'token': token,
                         'expires': datetime.now() + timedelta(seconds=ttl),
-                        })
+                    })
                     res = {'token': token, 'ttl': ttl}
                     return Response(json.dumps(res), status=200, mimetype='application/json')
                 else:
@@ -79,7 +68,7 @@ def create_app(db, test_config=None):
             else:
                 return Response(json.dumps({
                     'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"
-                    }), status=401, mimetype='application/json')
+                }), status=401, mimetype='application/json')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
 
@@ -109,7 +98,7 @@ def create_app(db, test_config=None):
                     'salt': salt,
                     'access_key': access_key,
                     'secret_key': secret_key,
-                    })
+                })
                 return Response("Registered successfully", status=201, mimetype='application/text')
             else:
                 missing_fields = ', '.join([x for x in ['email', 'password', 'access_key', 'secret_key']
@@ -119,29 +108,25 @@ def create_app(db, test_config=None):
             return Response("Request body missing", status=400, mimetype='application/text')
 
     @app.route('/api/instances', methods=['GET'])
-    def instances():
+    @require_auth
+    @aws.boto3_client()
+    def instances(user, client):
         """
         A method to get the AWS instances.
 
+        Parameters
+        ----------
+        user : dict
+            The currently authenticated user.
+        client : boto3.Client
+            The client authenticated with the user.
         Returns
         -------
         Response
             an http response
         """
-        token = request.args.get('token')
-        if token:
-            tokens = list(db.find('access', {'token': token}))
-            token = tokens[0] if tokens and tokens[0]['expires'] > datetime.now() else None
-            if token:
-                user = list(db.find('users', {'_id': ObjectId(token['user_id'])}))[0]
-                access_key = user['access_key']
-                secret_key = user['secret_key']
-                instances = json.dumps(get_ec2_instances(access_key, secret_key))
-                return Response(instances, status=200, mimetype='application/json')
-            else:
-                return Response('Invalid token', status=403, mimetype='application/text')
-        else:
-            return Response('Token missing', status=401, mimetype='application/text')
+        instances = json.dumps(aws.get_ec2_instances(client), default=json_serialize)
+        return Response(instances, status=200, mimetype='application/json')
 
     @app.route('/api/ec2_instances', methods=['POST'])
     def ec2_instances() -> Response:
@@ -153,10 +138,97 @@ def create_app(db, test_config=None):
             body_token = body.get("token")
             # ensure the id and secret exist
             if body_token:
-                json_val = json.dumps(ec2_instances_mock_data)
+                json_val = json.dumps({"Nothing": "nothing"})
                 return Response(json_val, status=200, mimetype='application/json')
             return Response("Token missing", status=400, mimetype='application/text')
         else:
             return Response("Request body missing", status=400, mimetype='application/text')
+
+    @app.route('/api/google_authentication', methods=["POST"])
+    def google_authentication() -> Response:
+        """
+        A method to authenticate with google.
+
+        Returns
+        -------
+        Response
+            an http response
+        """
+
+        check_endpoint = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="
+
+        body = request.get_json()
+
+        if body:
+            auth_email = body.get("email")
+            auth_token = body.get("token")
+            access_key = body.get("access_key")
+            secret_key = body.get("secret_key")
+
+            if all((auth_email, auth_token, access_key, secret_key)):
+                try:
+                    r = requests.get(check_endpoint + auth_token)
+                    data = r.json()
+
+                    if data.get("issued_to") and data.get("issued_to") == auth_email:
+                        token = str(uuid.uuid4())
+
+                        db.insert('users', {
+                            'email': auth_email,
+                            'google_token': auth_token,
+                            'access_key': access_key,
+                            'secret_key': secret_key,
+                        })
+
+                        db.insert('access', {
+                            'user_id': auth_email,
+                            'token': token,
+                            'expires': datetime.now() + timedelta(seconds=ttl),
+                        })
+                        res = {'token': token, 'ttl': ttl}
+                        return Response(json.dumps(res), status=200, mimetype='application/json')
+                except Exception as e:
+                    res = {'error': e}
+                    return Response(json.dumps(res), status=400, mimetype='application/json')
+            else:
+                return Response(json.dumps({
+                    'message': "Missing fields: email, token, access_key, or secret_key"
+                }), status=401, mimetype='application/text')
+        else:
+            return Response("Request body missing", status=401, mimetype='application/text')
+
+    @app.route('/api/instances/<instance_id>/stop')
+    @require_auth
+    @aws.boto3_client()
+    def stop_instance(user, client, instance_id):
+        try:
+            aws.stop_ec2_instance(client, instance_id)
+            return Response('Success', status=200, mimetype='application/text')
+        except ClientError as ex:
+            message, status = aws.boto3_errors(ex)
+            return Response(message, status=status, mimetype='application/text')
+
+    @app.route('/api/instances/<instance_id>/start')
+    @require_auth
+    @aws.boto3_client()
+    def start_instance(user, client, instance_id):
+        try:
+            aws.start_ec2_instance(client, instance_id)
+            return Response('Success', status=200, mimetype='application/text')
+        except ClientError as ex:
+            message, status = aws.boto3_errors(ex)
+            return Response(message, status=status, mimetype='application/text')
+
+    @app.route('/api/instances/<instance_id>/restart')
+    @require_auth
+    @aws.boto3_client()
+    def restart_instance(user, client, instance_id):
+        try:
+            aws.stop_ec2_instance(client, instance_id)
+            aws.start_ec2_instance(client, instance_id)
+            return Response('Success', status=200, mimetype='application/text')
+        except ClientError as ex:
+            message, status = aws.boto3_errors(ex)
+            return Response(message, status=status, mimetype='application/text')
 
     return app
