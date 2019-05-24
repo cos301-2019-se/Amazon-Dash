@@ -37,7 +37,6 @@
                            :rules="[(v => !!v || 'Password is required')]"
                         ></v-text-field>
                           <v-btn type="submit">Login</v-btn>
-
                           <v-subheader  class="pa-0">Create a new account?
                             <v-btn @click="$router.push('/register')">
                                   Create account
@@ -47,6 +46,9 @@
 
                         </v-form>
                     </v-card-text>
+                    <v-card-actions>
+                      <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure">Login</GoogleLogin>
+                    </v-card-actions>
                 </v-flex>
               </v-layout>
             </v-card>
@@ -56,6 +58,7 @@
 </template>
 
 <script lang="ts">
+import GoogleLogin from 'vue-google-login'
 import { Component, Vue } from 'vue-property-decorator'
 import config from '@/config'
 @Component
@@ -64,6 +67,9 @@ export default class Login extends Vue {
   private valid: boolean = false
   private username: string = ''
   private password: string = ''
+  private params: object = {
+                    client_id: '717143127692-',
+                }
   private login() {
     const payload = { email: this.username, password: this.password }
     fetch(config.apiUrl + '/login', {
@@ -75,6 +81,9 @@ export default class Login extends Vue {
       body: JSON.stringify(payload),
     }).then(response => response.json()).then(res => this.$store.commit('setToken', res.token))
       .then(() => this.$router.push('/'))
+  }
+  private onSuccess(googleUser: object) {
+    const payload = googleUser
   }
 }
 </script>
