@@ -94,15 +94,7 @@ export default class Register extends Vue {
         secret_key: this.secretKey,
         access_key: this.accessKey,
       }
-
-      fetch(config.apiUrl + '/register', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      }).then(response => response.json()).then(res => this.$router.push('/'))
+      this.$store.dispatch('register', payload)
     }
   }
 }

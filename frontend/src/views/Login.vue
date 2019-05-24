@@ -66,15 +66,7 @@ export default class Login extends Vue {
   private password: string = ''
   private login() {
     const payload = { email: this.username, password: this.password }
-    fetch(config.apiUrl + '/login', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then(response => response.json()).then(res => this.$store.commit('setToken', res.token))
-      .then(() => this.$router.push('/'))
+    this.$store.dispatch('login', payload)
   }
 }
 </script>
