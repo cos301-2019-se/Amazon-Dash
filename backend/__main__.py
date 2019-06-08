@@ -1,9 +1,8 @@
-import app
-from config import Config
-from lib.db import MongoClient
+from backend.app import app
+from backend.config import Config
+from backend.lib.db import MongoClient
 
 if __name__ == "__main__":
     config = Config('setup.cfg')
-    client = MongoClient(host=config.get_dbhost(), port=config.get_dbport(), database='amazondash')
-    webapp = app.create_app(client)
-    webapp.run(host='0.0.0.0')
+    MongoClient(host=config.get_dbhost(), port=config.get_dbport(), database='amazondash')
+    app.run()
