@@ -36,16 +36,18 @@
                            v-model="password"
                            :rules="[(v => !!v || 'Password is required')]"
                         ></v-text-field>
+                        <div>
+                          <v-btn type="submit" @click="$router.push('/google_authentication')">Google authenticate</v-btn>
+                        </div>
                           <v-btn type="submit">Login</v-btn>
                           <v-subheader  class="pa-0">Create a new account?
                             <v-btn @click="$router.push('/register')">
                                   Create account
                               </v-btn>
                           </v-subheader>
-
-
                         </v-form>
                     </v-card-text>
+
                     <v-card-actions>
                       <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure">Login</GoogleLogin>
                     </v-card-actions>
