@@ -1,9 +1,9 @@
 import os
 from flask import Flask
 from flask_cors import CORS
-from backend.views.auth import auth
-from backend.views.home import home
-from backend.views.ec2 import ec2
+from backend.app.views.auth import auth
+from backend.app.views.home import home
+from backend.app.views.ec2 import ec2
 
 app = Flask(__name__, instance_relative_config=True)
 # ensure the instance folder exists
