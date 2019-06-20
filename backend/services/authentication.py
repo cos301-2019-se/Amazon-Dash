@@ -1,5 +1,5 @@
 from flask import request, Response
-from lib.db import MongoClient
+from backend.lib.db import MongoClient
 from datetime import datetime
 from functools import wraps
 from bson.objectid import ObjectId
