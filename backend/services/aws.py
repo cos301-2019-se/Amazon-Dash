@@ -34,7 +34,7 @@ def boto3_errors(exception):
     return message, status
 
 
-def get_client(access_key, secret_key, region='us-east-2', service='ec2'):
+def get_client(access_key, secret_key, region='eu-west-1', service='ec2'):
     """
     A method to get a boto3 client instance.
 
@@ -80,7 +80,7 @@ def boto3_client(service='ec2'):
     def wrapper(func):
         @wraps(func)
         def wrapped_func(user, *args, **kwargs):
-            region = request.args.get('region') or 'us-east-2'
+            region = request.args.get('region') or 'eu-west-1'
             client = get_client(user['access_key'], user['secret_key'],
                                 region=region, service=service)
             return func(user, client, *args, **kwargs)
@@ -103,7 +103,11 @@ def get_ec2_instances(client):
     """
     reservations = client.describe_instances().get("Reservations")
     instances = list(map(lambda x: x.get("Instances"), reservations))
-    return list(itertools.chain.from_iterable(instances))
+    instances = list(itertools.chain.from_iterable(instances))
+    return list(map(lambda x: {
+        'name': next((t['Value'] for t in x.get('Tags', []) if t.get('Key') == 'Name'), 'Unknown'),
+        'id': x.get('InstanceId'),
+    }, instances))
 
 
 def stop_ec2_instance(client, instance_id, hibernate=False):

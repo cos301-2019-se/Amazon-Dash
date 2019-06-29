@@ -17,15 +17,18 @@
     "core-js": "^2.6.5",
     "jsonwebtoken": "^8.5.1",
     "material-design-icons-iconfont": "^3.0.3",
+    "node-sass": "^4.12.0",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",
+    "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
     "vue-authenticate": "^1.4.1",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
     "vuetify": "^1.5.5",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persist": "^2.0.1"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
@@ -36,11 +39,13 @@
     "@vue/cli-plugin-unit-jest": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
     "@vue/test-utils": "1.0.0-beta.29",
+    "axios": "^0.18.0",
     "babel-core": "7.0.0-bridge.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "ts-jest": "^23.0.0",
     "typescript": "^3.4.3",
+    "vue-cli-plugin-axios-ts": "^1.0.2",
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.5.21",
     "vuetify-loader": "^1.0.5"

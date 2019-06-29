@@ -2,6 +2,7 @@ from flask import Blueprint, request, Response
 from backend.lib.db import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
+from backend.services.authentication import check_auth
 import requests
 import bcrypt
 import json
@@ -43,8 +44,8 @@ def verify() -> Response:
                 res = {'token': token, 'ttl': 128000}
                 return Response(json.dumps(res), status=200, mimetype='application/json')
             else:
-                return Response(json.dumps({'message': 'Login unsuccessful'}),
-                                status=403, mimetype='application/json')
+                return Response(json.dumps('Login unsucessful'),
+                                status=403, mimetype='application/text')
         else:
             return Response(json.dumps({
                 'message': f"Missing fields: {', '.join([x for x in ['email', 'password'] if not body.get(x)])}"
@@ -71,6 +72,8 @@ def register():
         secret_key = body.get('secret_key')
 
         if all((email, password, access_key, secret_key)):
+            if MongoClient.count('users', {'email': email}):
+                return Response("That email address already exists", status=403, mimetype="application/text")
             salt = bcrypt.gensalt().decode('utf-8')
             password_hash = generate_password_hash(salt + password + salt)
             MongoClient.insert('users', {
@@ -141,3 +144,9 @@ def google_authentication() -> Response:
             }), status=401, mimetype='application/text')
     else:
         return Response("Request body missing", status=401, mimetype='application/text')
+
+
+@auth.route('/api/authenticated')
+def check_authentication():
+    token = request.headers.get('authorization')
+    return json.dumps(check_auth(token))
