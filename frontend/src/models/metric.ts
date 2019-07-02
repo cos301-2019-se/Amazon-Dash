@@ -2,6 +2,7 @@ export interface MetricData {
     id: string
     name: string
     data: number[]
+    graphType: string
 }
 
 export class Metric {
@@ -16,5 +17,8 @@ export class Metric {
         this.id = data.id
         this.name = data.name
         this.data = data.data
+        if (data.graphType !== undefined) {
+            this.graphType = data.graphType
+        }
     }
 }

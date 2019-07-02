@@ -63,6 +63,14 @@ const actions: ActionTree<RootState, RootState> = {
             }
         })
     },
+    fetchMetrics({dispatch, commit, getters}) {
+        dispatch('checkAuth').then(authenticated => {
+            if (authenticated) {
+                const res: object[] = [{data: 'test', name: 'test'}]
+                commit('setMetrics', res)
+            }
+        })
+    },
     openSnackbar({ commit }, payload: SnackbarOptions) {
         commit('openSnackbar', payload)
     },

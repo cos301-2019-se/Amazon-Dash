@@ -2,7 +2,9 @@
   <v-container grid-list-md>
     <v-layout row>
       <v-flex xs6 v-for="instance in instances" :key="instance.id">
-        <ServiceCard :instance="instance"></ServiceCard>
+        <router-link :to="{ name: 'metrics', params: { instanceId: instance.id }}">
+          <ServiceCard :instance="instance"></ServiceCard>
+        </router-link>
       </v-flex>
     </v-layout>
   </v-container>

@@ -18,4 +18,5 @@ export interface RootState {
     instances: any[]
     bus: Vue
     snackbar: Snackbar
+    metrics: any[]
 }
