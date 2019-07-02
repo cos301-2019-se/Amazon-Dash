@@ -8,14 +8,13 @@ export class Metric {
     public id: string
     public name: string
     public data: number[]
-    public min: number
-    public max: number
+    public graphType: string = 'line'
+    public min: number = 0
+    public max: number = 100
 
     constructor(data: MetricData) {
         this.id = data.id
         this.name = data.name
         this.data = data.data
-        this.min = 0
-        this.max = 100
     }
 }
