@@ -60,8 +60,7 @@ def start_instance(user, client, instance_id):
 @aws.boto3_client()
 def restart_instance(user, client, instance_id):
     try:
-        aws.stop_ec2_instance(client, instance_id)
-        aws.start_ec2_instance(client, instance_id)
+        aws.restart_ec2_instance(client, instance_id)
         return Response('Success', status=200, mimetype='application/text')
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)

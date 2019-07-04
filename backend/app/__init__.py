@@ -9,6 +9,8 @@ app = Flask(__name__, instance_relative_config=True)
 # ensure the instance folder exists
 if not os.path.isdir(app.instance_path):
     os.makedirs(app.instance_path)
+if os.path.exists(os.path.join(app.instance_path, 'config.py')):
+    app.config.from_pyfile('config.py')
 CORS(app)
 app.register_blueprint(auth)
 app.register_blueprint(home)

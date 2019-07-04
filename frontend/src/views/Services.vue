@@ -1,7 +1,7 @@
 <template>
-  <v-container grid-list-md>
-    <v-layout row>
-      <v-flex xs6 v-for="instance in instances" :key="instance.id">
+  <v-container grid-list-md fluid fill-height>
+    <v-layout row justify-center>
+      <v-flex xs12 md6 lg4 v-for="instance in instances" :key="instance.id">
         <ServiceCard :instance="instance"></ServiceCard>
       </v-flex>
     </v-layout>
