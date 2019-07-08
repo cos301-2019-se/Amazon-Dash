@@ -281,6 +281,19 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
                     'Unit': 'Count',
                 },
             },
+            {
+                'Id': 'diskwriteops',
+                'MetricStat': {
+                    'Metric': {
+                        'Namespace': 'AWS/EC2',
+                        'MetricName': 'DiskWriteOps',
+                        'Dimensions': dimensions,
+                    },
+                    'Period': 300,
+                    'Stat': 'Average',
+                    'Unit': 'Count',
+                },
+            },
         ],
         StartTime=datetime.utcnow() - timedelta(hours=1),
         EndTime=datetime.utcnow(),
