@@ -159,21 +159,6 @@ def restart_ec2_instance(client, instance_id):
 
 
 def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
-    response = client.get_metric_statistics(
-        Namespace='AWS/EC2',
-        MetricName='CPUUtilization',
-        Dimensions=[
-            {
-                'Name': 'InstanceId',
-                'Value': instance_id,
-            },
-        ],
-        Period=300,
-        Statistics=['Average'],
-        StartTime=datetime.utcnow() - timedelta(hours=1),
-        EndTime=datetime.now(),
-        Unit='Percent',
-    )
     dimensions = [{'Name': 'InstanceId', 'Value': instance_id}]
     response = client.get_metric_data(
         MetricDataQueries=[
