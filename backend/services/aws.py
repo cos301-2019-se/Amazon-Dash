@@ -167,11 +167,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'cpu',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'CPUUtilization',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'CPUUtilization', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Percent',
@@ -180,11 +176,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'netin',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'NetworkIn',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkIn', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Bytes',
@@ -193,11 +185,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'netout',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'NetworkOut',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkOut', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Bytes',
@@ -206,11 +194,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'netpacketin',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'NetworkPacketsIn',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkPacketsIn', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Count',
@@ -219,11 +203,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'netpacketout',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'NetworkPacketsOut',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkPacketsOut', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Count',
@@ -232,11 +212,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'diskread',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'DiskReadBytes',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskReadBytes', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Bytes',
@@ -245,11 +221,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'diskwrite',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'DiskWriteBytes',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskWriteBytes', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Bytes',
@@ -258,11 +230,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'diskreadops',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'DiskReadOps',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskReadOps', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Count',
@@ -271,11 +239,7 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             {
                 'Id': 'diskwriteops',
                 'MetricStat': {
-                    'Metric': {
-                        'Namespace': 'AWS/EC2',
-                        'MetricName': 'DiskWriteOps',
-                        'Dimensions': dimensions,
-                    },
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskWriteOps', 'Dimensions': dimensions},
                     'Period': period,
                     'Stat': stat,
                     'Unit': 'Count',
