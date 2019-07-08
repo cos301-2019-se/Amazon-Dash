@@ -229,6 +229,19 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
                     'Unit': 'Count',
                 },
             },
+            {
+                'Id': 'netpacketout',
+                'MetricStat': {
+                    'Metric': {
+                        'Namespace': 'AWS/EC2',
+                        'MetricName': 'NetworkPacketsOut',
+                        'Dimensions': dimensions,
+                    },
+                    'Period': 300,
+                    'Stat': 'Average',
+                    'Unit': 'Count',
+                },
+            },
         ],
         StartTime=datetime.utcnow() - timedelta(hours=1),
         EndTime=datetime.utcnow(),
