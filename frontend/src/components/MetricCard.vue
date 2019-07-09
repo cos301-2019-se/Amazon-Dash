@@ -7,12 +7,12 @@
                 max-width="calc(100% - 32px)"
                 center
         >
-            <v-progress-circular
-                    :size="70"
-                    :width="7"
-                    color="purple"
-                    indeterminate
-            ></v-progress-circular>
+            <la-cartesian :data="metric.data" :bound="[metric.min, metric.max]" autoresize>
+                <la-line animated :width="2" curve prop="value" color="white"></la-line>
+                <la-x-axis color="white" prop="date"></la-x-axis>
+                <la-y-axis color="white"></la-y-axis>
+                <la-tooltip></la-tooltip>
+            </la-cartesian>
         </v-sheet>
         <v-card-title>
             <span class="headline">{{ metric.name }}</span>

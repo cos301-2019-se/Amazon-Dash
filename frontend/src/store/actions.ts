@@ -66,7 +66,7 @@ const actions: ActionTree<RootState, RootState> = {
     fetchMetrics({dispatch, commit, getters}) {
         dispatch('checkAuth').then(authenticated => {
             if (authenticated) {
-                const res: object[] = [{data: 'test', name: 'test'}]
+                const res: object[] = []
                 commit('setMetrics', res)
             }
         })
