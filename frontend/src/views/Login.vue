@@ -38,13 +38,15 @@
                         ></v-text-field>
                           <v-btn type="submit">Login</v-btn>
 
+                          <div>
+                          <v-btn type="submit" @click="signIn()">Google authenticate</v-btn>
+                          </div>
+
                           <v-subheader  class="pa-0">Create a new account?
                             <v-btn @click="$router.push('/register')">
                                   Create account
                               </v-btn>
                           </v-subheader>
-
-
                         </v-form>
                     </v-card-text>
                 </v-flex>
@@ -55,18 +57,31 @@
     </v-container>
 </template>
 
+<script>
+import GoogleAuth from 'vue-google-auth'
+import Vue from 'vue'
+Vue.use(GoogleAuth, { clientID: '802654837146-hva9r5gdu128vv1e2ifun3ss63hqjld7.apps.googleusercontent.com' })
+Vue.googleAuth().load()
+Vue.googleAuth().signIn(function (authorizationCode) {
+$router.push('/')
+}, function (error) {
+    $router.push('/login')
+))
+
+</script>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import config from '@/config'
 @Component
 export default class Login extends Vue {
+
   private passwordShow: boolean = false
   private valid: boolean = false
   private username: string = ''
   private password: string = ''
   private login() {
     const payload = { email: this.username, password: this.password }
-    this.$store.dispatch('login', payload)
+
   }
 }
 </script>

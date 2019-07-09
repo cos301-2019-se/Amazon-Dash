@@ -11,5 +11,6 @@ const mutations: MutationTree<BackendState> = {
     setInstances(state, payload) {
         state.instances = payload
     },
+
 }
 export default mutations
