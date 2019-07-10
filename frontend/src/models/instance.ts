@@ -1,3 +1,5 @@
+import { Metric } from '@/models/metric'
+
 export interface InstanceData {
     id: string
     name: string
@@ -10,7 +12,7 @@ export interface State {
 }
 
 const stateColourMap: { [key: number]: string } = {
-    0: 'yellow',
+    0: 'orange',
     16: 'green',
     32: 'orange',
     48: 'red',
@@ -21,10 +23,17 @@ const stateColourMap: { [key: number]: string } = {
 export class Instance {
     public id: string
     public name: string
+    public metrics: Metric[]
     private state: State
 
     constructor(data: InstanceData) {
         this.id = data.id
+        this.name = data.name
+        this.state = data.state
+        this.metrics = []
+    }
+
+    public update(data: InstanceData) {
         this.name = data.name
         this.state = data.state
     }
@@ -41,5 +50,14 @@ export class Instance {
 
     public get running() {
         return this.state.Code === 16
+    }
+
+    public getMetric(metricId: string) {
+        const multiplier = metricId === 'cpu' ? 100 : 1
+        const metric = this.metrics.find(m => m.id === metricId)
+        if (metric) {
+            return metric.data.map(m => ({ value: m.value * multiplier }))
+        }
+        return []
     }
 }

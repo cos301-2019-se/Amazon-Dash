@@ -1,12 +1,56 @@
+<style>
+.loading-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 100%;
+  height: 100%;
+  font-size: 2em;
+}
+.metric-label {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  color: white;
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+</style>
 <template>
   <v-hover>
     <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="mx-auto">
-      <v-sheet :color="instance.stateColour" elevation="12">
-        <la-cartesian :data="chartData" :height="200" :bound="[0, 100]">
+      <v-sheet :color="instance.stateColour" elevation="12" height="200px">
+        <la-cartesian v-if="instance.getMetric(metric.id).length" :data="instance.getMetric(metric.id)" :height="200" autoresize :bound="metric.bound">
           <la-line animated curve color="white" prop="value"></la-line>
-          <la-y-axis color="white"></la-y-axis>
+          <la-y-axis color="white" :nbTicks=5></la-y-axis>
           <la-tooltip></la-tooltip>
         </la-cartesian>
+        <div v-else class="loading-box">
+          Loading Metrics...
+        </div>
+        <div class="metric-label" v-if="instance.getMetric(metric.id).length">
+          <span>{{ metric.name }} ({{ metric.unit }})</span>
+          <v-menu>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                icon
+                v-on="on">
+                <v-icon>arrow_drop_down</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-tile
+                v-for="(item, index) in metricOptions"
+                :key="index"
+                @click="metricIndex = index">
+                <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+        </div>
       </v-sheet>
       <v-menu>
         <v-btn slot="activator" icon small flat><v-icon>more_vert</v-icon></v-btn>
@@ -28,25 +72,39 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Instance } from '@/models/instance'
+import { metricOptions } from '@/models/metric'
 
 @Component
 export default class ServiceCard extends Vue {
   @Prop() public instance!: Instance
-  chartData = [
-    { value: 12 },
-    { value: 24 },
-    { value: 10 },
-    { value: 15 },
-  ]
 
-  stop() {
+  public metricIndex = 0
+  public metricOptions = metricOptions
+  private metricPoller = -1
+
+  public mounted() {
+    this.metricPoller = setInterval(() => this.getMetrics(), 5000)
+  }
+
+  public beforeDestroy() {
+    clearInterval(this.metricPoller)
+  }
+
+  private getMetrics() {
+    this.$store.dispatch('getInstanceMetrics', this.instance.id)
+  }
+
+  private stop() {
     this.$store.dispatch('stopInstance', this.instance.id)
   }
-  restart() {
+  private restart() {
     this.$store.dispatch('restartInstance', this.instance.id)
   }
-  start() {
+  private start() {
     this.$store.dispatch('startInstance', this.instance.id)
+  }
+  private get metric() {
+    return this.metricOptions[this.metricIndex]
   }
 }
 </script>
