@@ -2,6 +2,7 @@ import router from '@/router'
 import { ActionTree } from 'vuex'
 import config from '@/config'
 import { RootState, SnackbarOptions } from './types'
+import { Instance } from '@/models/instance'
 
 const actions: ActionTree<RootState, RootState> = {
     get({ getters }, { url }: { url: string }) {
@@ -61,6 +62,33 @@ const actions: ActionTree<RootState, RootState> = {
                     dispatch('makeErrorMessage', { message: `Error fetching instances: ${err}` })
                 })
             }
+        })
+    },
+    getInstanceMetrics({ dispatch, commit }, instanceId: string) {
+        dispatch('checkAuth')
+        dispatch('get', { url: `instances/${instanceId}/metrics` }).then(res => {
+            commit('setInstanceMetrics', res)
+        })
+    },
+    stopInstance({ dispatch, getters }, instanceId: string) {
+        dispatch('checkAuth')
+        const instance = getters.instances.find((i: Instance) => i.id === instanceId)
+        dispatch('get', { url: `instances/${instanceId}/stop` }).then(res => {
+            dispatch('openSnackbar', { message: `Successfully stopped ${instance.name}`, colour: 'green' })
+        })
+    },
+    restartInstance({ dispatch, getters }, instanceId: string) {
+        dispatch('checkAuth')
+        const instance = getters.instances.find((i: Instance) => i.id === instanceId)
+        dispatch('get', { url: `instances/${instanceId}/restart` }).then(res => {
+            dispatch('openSnackbar', { message: `Successfully restarted ${instance.name}`, colour: 'green' })
+        })
+    },
+    startInstance({ dispatch, getters }, instanceId: string) {
+        dispatch('checkAuth')
+        const instance = getters.instances.find((i: Instance) => i.id === instanceId)
+        dispatch('get', { url: `instances/${instanceId}/start` }).then(res => {
+            dispatch('openSnackbar', { message: `Successfully started ${instance.name}`, colour: 'green' })
         })
     },
     openSnackbar({ commit }, payload: SnackbarOptions) {

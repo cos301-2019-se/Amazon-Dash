@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { Instance } from '@/models/instance'
 
 export interface Snackbar {
     message: string
@@ -15,7 +16,7 @@ export interface SnackbarOptions {
 
 export interface RootState {
     token: string | null
-    instances: any[]
+    instances: Instance[]
     bus: Vue
     snackbar: Snackbar
 }
