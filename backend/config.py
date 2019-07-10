@@ -21,10 +21,16 @@ class Config:
                 or mongoconf.get('host')
             self.__dbsettings['port'] = os.getenv('DB_PORT') \
                 or mongoconf.get('port')
+            self.__dbsettings['username'] = os.getenv('DB_USER') \
+                or mongoconf.get('username')
+            self.__dbsettings['username'] = os.getenv('DB_PASS') \
+                or mongoconf.get('pass')
         except KeyError:
             print(f'{self.settingsfile} does not contain a mongodb section')
             self.__dbsettings['port'] = os.getenv('DB_PORT')
             self.__dbsettings['host'] = os.getenv('DB_HOST')
+            self.__dbsettings['username'] = os.getenv('DB_USER')
+            self.__dbsettings['password'] = os.getenv('DB_PASS')
 
         self.__appsettings = config['app'] if 'app' in config else {}
 
@@ -33,6 +39,12 @@ class Config:
 
     def get_dbhost(self):
         return self.__dbsettings.get('host')
+
+    def get_dbuser(self):
+        return self.__dbsettings.get('username')
+
+    def get_dbpass(self):
+        return self.__dbsettings.get('password')
 
     def get_port(self):
         return self.__appsettings.get('port')

@@ -6,3 +6,4 @@ Werkzeug
 bcrypt
 pymongo
 flask_cors
+gunicorn

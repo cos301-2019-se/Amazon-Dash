@@ -26,10 +26,11 @@ class MongoClient:
                The database retrieved by the client.
 
         """
-        def __init__(self, host, port, database):
+        def __init__(self, host, port, user=None, password=None, database='amazon-dash'):
             self.host = host
             self.port = port
-            self.__client = pymongo.MongoClient(host, port)
+            print(user, password)
+            self.__client = pymongo.MongoClient(host, port, username=user, password=password)
             self.__db = self.__client[database]
 
         def find(self, collection, query=None, filter=None):
@@ -59,10 +60,10 @@ class MongoClient:
         def count(self, collection, query=None):
             return self.__db[collection].count(query)
 
-    def __init__(self, host, port, database):
+    def __init__(self, host, port, user=None, password=None, database=None):
         if not MongoClient.__instance:
             MongoClient.__instance = \
-                    MongoClient.__MongoClient(host, port, database)
+                    MongoClient.__MongoClient(host, port, user=user, password=password, database=database)
 
     def __getattr__(self, key):
         return getattr(self.__instance, key)
