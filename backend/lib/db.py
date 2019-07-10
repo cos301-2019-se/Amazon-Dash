@@ -29,7 +29,6 @@ class MongoClient:
         def __init__(self, host, port, user=None, password=None, database='amazon-dash'):
             self.host = host
             self.port = port
-            print(user, password)
             self.__client = pymongo.MongoClient(host, port, username=user, password=password)
             self.__db = self.__client[database]
 
