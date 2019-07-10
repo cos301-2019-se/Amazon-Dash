@@ -8,13 +8,16 @@ from backend.config import Config
 from backend.lib.db import MongoClient
 
 config = Config('setup.cfg')
-MongoClient(
-    host=config.get_dbhost(),
-    port=config.get_dbport(),
-    user=config.get_dbuser(),
-    password=config.get_dbpass(),
-    database='amazondash',
-)
+if config.get_dburi():
+    MongoClient(uri=config.get_dburi(), database='amazondash')
+else:
+    MongoClient(
+        host=config.get_dbhost(),
+        port=config.get_dbport(),
+        user=config.get_dbuser(),
+        password=config.get_dbpass(),
+        database='amazondash',
+    )
 
 app = Flask(__name__, instance_relative_config=True,
             static_folder='./dist/static', template_folder='./dist')
