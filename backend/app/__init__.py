@@ -5,7 +5,8 @@ from backend.app.views.auth import auth
 from backend.app.views.home import home
 from backend.app.views.ec2 import ec2
 
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__, instance_relative_config=True,
+            static_folder='./dist/static', template_folder='./dist')
 # ensure the instance folder exists
 if not os.path.isdir(app.instance_path):
     os.makedirs(app.instance_path)
