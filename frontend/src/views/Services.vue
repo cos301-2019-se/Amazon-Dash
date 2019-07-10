@@ -1,7 +1,7 @@
 <template>
-  <v-container grid-list-md>
-    <v-layout row>
-      <v-flex xs6 v-for="instance in instances" :key="instance.id">
+  <v-container grid-list-md fluid fill-height>
+    <v-layout row justify-center>
+      <v-flex xs12 md6 lg4 v-for="instance in instances" :key="instance.id">
         <ServiceCard :instance="instance"></ServiceCard>
       </v-flex>
     </v-layout>
@@ -15,8 +15,14 @@ import ServiceCard from '@/components/ServiceCard.vue'
   components: { ServiceCard },
 })
 export default class Services extends Vue {
+  private instancePoller = -1
   private mounted() {
     this.$store.dispatch('fetchInstances')
+    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
+  }
+
+  public beforeDestroy() {
+    clearInterval(this.instancePoller)
   }
 
   private get instances() {

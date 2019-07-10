@@ -108,6 +108,7 @@ def get_ec2_instances(client):
     return list(map(lambda x: {
         'name': next((t['Value'] for t in x.get('Tags', []) if t.get('Key') == 'Name'), 'Unknown'),
         'id': x.get('InstanceId'),
+        'state': x.get('State'),
     }, instances))
 
 
@@ -152,6 +153,21 @@ def start_ec2_instance(client, instance_id, hibernate=False):
 
 
 def restart_ec2_instance(client, instance_id):
+    """
+    A method to restart an ec2  instance.
+
+    Parameters
+    ----------
+    client : boto3.Client
+        the client to interact with
+    instance_id : str
+        the instance to restart
+    Returns
+    -------
+    Response
+        ...
+    """
+
     response = client.reboot_instances(
         InstanceIds=[instance_id],
     )
