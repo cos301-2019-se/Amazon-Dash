@@ -4,6 +4,17 @@ from flask_cors import CORS
 from backend.app.views.auth import auth
 from backend.app.views.home import home
 from backend.app.views.ec2 import ec2
+from backend.config import Config
+from backend.lib.db import MongoClient
+
+config = Config('setup.cfg')
+MongoClient(
+    host=config.get_dbhost(),
+    port=config.get_dbport(),
+    user=config.get_dbuser(),
+    password=config.get_dbpass(),
+    database='amazondash',
+)
 
 app = Flask(__name__, instance_relative_config=True,
             static_folder='./dist/static', template_folder='./dist')
