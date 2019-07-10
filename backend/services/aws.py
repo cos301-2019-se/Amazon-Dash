@@ -2,6 +2,7 @@ import boto3
 import itertools
 from functools import wraps
 from flask import request
+from datetime import datetime, timedelta
 
 
 def boto3_errors(exception):
@@ -126,7 +127,6 @@ def stop_ec2_instance(client, instance_id, hibernate=False):
 
     response = client.stop_instances(
         InstanceIds=[instance_id],
-        DryRun=True,
     )
     return response
 
@@ -147,6 +147,112 @@ def start_ec2_instance(client, instance_id, hibernate=False):
 
     response = client.start_instances(
         InstanceIds=[instance_id],
-        DryRun=True,
     )
     return response
+
+
+def restart_ec2_instance(client, instance_id):
+    response = client.reboot_instances(
+        InstanceIds=[instance_id],
+    )
+    return response
+
+
+def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
+    dimensions = [{'Name': 'InstanceId', 'Value': instance_id}]
+    period = 300
+    stat = 'Average'
+    response = client.get_metric_data(
+        MetricDataQueries=[
+            {
+                'Id': 'cpu',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'CPUUtilization', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Percent',
+                },
+            },
+            {
+                'Id': 'netin',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkIn', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Bytes',
+                },
+            },
+            {
+                'Id': 'netout',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkOut', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Bytes',
+                },
+            },
+            {
+                'Id': 'netpacketin',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkPacketsIn', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Count',
+                },
+            },
+            {
+                'Id': 'netpacketout',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'NetworkPacketsOut', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Count',
+                },
+            },
+            {
+                'Id': 'diskread',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskReadBytes', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Bytes',
+                },
+            },
+            {
+                'Id': 'diskwrite',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskWriteBytes', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Bytes',
+                },
+            },
+            {
+                'Id': 'diskreadops',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskReadOps', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Count',
+                },
+            },
+            {
+                'Id': 'diskwriteops',
+                'MetricStat': {
+                    'Metric': {'Namespace': 'AWS/EC2', 'MetricName': 'DiskWriteOps', 'Dimensions': dimensions},
+                    'Period': period,
+                    'Stat': stat,
+                    'Unit': 'Count',
+                },
+            },
+        ],
+        StartTime=datetime.utcnow() - timedelta(hours=1),
+        EndTime=datetime.utcnow(),
+    )
+    return list(map(lambda met: {
+        'id': met['Id'],
+        'data': list(map(
+            lambda time: {'timestamp': time[1].isoformat(), 'value': met['Values'][time[0]]},
+            enumerate(met['Timestamps']),
+        ))
+    }, response['MetricDataResults']))

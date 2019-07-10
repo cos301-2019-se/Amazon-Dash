@@ -60,9 +60,20 @@ def start_instance(user, client, instance_id):
 @aws.boto3_client()
 def restart_instance(user, client, instance_id):
     try:
-        aws.stop_ec2_instance(client, instance_id)
-        aws.start_ec2_instance(client, instance_id)
+        aws.restart_ec2_instance(client, instance_id)
         return Response('Success', status=200, mimetype='application/text')
+    except ClientError as ex:
+        message, status = aws.boto3_errors(ex)
+        return Response(message, status=status, mimetype='application/text')
+
+
+@ec2.route('/api/instances/<instance_id>/metrics', methods=['GET'])
+@require_auth
+@aws.boto3_client(service='cloudwatch')
+def get_instance_metrics(user, client, instance_id):
+    try:
+        metrics = aws.get_ec2_instance_metrics(client, instance_id)
+        return {'instance_id': instance_id, 'metrics': metrics}
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
