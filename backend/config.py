@@ -35,7 +35,7 @@ class Config:
         self.__appsettings = config['app'] if 'app' in config else {}
 
     def get_dburi(self):
-        return os.getenv('DB_URI')
+        return os.getenv('MONGODB_URI')
 
     def get_dbport(self):
         return int(self.__dbsettings.get('port') or 27017)
