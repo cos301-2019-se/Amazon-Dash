@@ -1,9 +1,0 @@
-requests
-flask
-flake8
-boto3
-Werkzeug
-bcrypt
-pymongo
-flask_cors
-gunicorn
