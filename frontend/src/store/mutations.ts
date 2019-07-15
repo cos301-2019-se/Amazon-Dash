@@ -2,6 +2,7 @@ import { RootState, SnackbarOptions } from './types'
 import { MutationTree } from 'vuex'
 import { InstanceData, Instance } from '@/models/instance'
 import { MetricData, Metric } from '@/models/metric'
+import {MetricView, MetricViewClass} from "@/models/metricView";
 
 const mutations: MutationTree<RootState> = {
     setToken(state, payload: string) {
@@ -22,10 +23,13 @@ const mutations: MutationTree<RootState> = {
         })
     },
     setInstanceMetrics(state, payload: MetricData) {
-        const instance = state.instances.find(i => i.id === payload.instance_id)
+        const instance = state.instances.find((i:MetricData) => i.id === payload.instance_id)
         if (instance) {
             instance.metrics = payload.metrics
         }
+    },
+    setMetrics(state, payload){
+        state.metrics = payload.metrics.map((i:MetricView)=>new MetricViewClass(i))
     },
     openSnackbar(state, { message, colour, timeout = 3000 }: SnackbarOptions) {
         state.snackbar.message = message

@@ -1,7 +1,7 @@
 <template>
-    <v-container grid-list-md>
-        <v-layout row>
-            <v-flex xs6 v-for="metric in metrics" :key="metric.id">
+    <v-container grid-list-md fluid fill-height>
+        <v-layout row justify-center>
+            <v-flex xs12 md6 lg4 v-for="metric in metrics" :key="metric.id">
                 <MetricCard :metric="metric"></MetricCard>
             </v-flex>
         </v-layout>
@@ -19,10 +19,11 @@
         @Prop() public instanceId: string
 
         private mounted() {
-            this.$store.dispatch('fetchMetrics')
+            this.$store.dispatch('fetchMetrics', this.instanceId)
         }
 
         private get metrics() {
+            console.log(this.$store.getters.metrics)
             return this.$store.getters.metrics
         }
     }

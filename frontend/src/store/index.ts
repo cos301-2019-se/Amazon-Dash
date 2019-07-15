@@ -32,5 +32,5 @@ const backend = new Vuex.Store<RootState>({
     getters,
     actions,
     plugins: [vuexLocal.plugin],
-})
+});
 export default backend
