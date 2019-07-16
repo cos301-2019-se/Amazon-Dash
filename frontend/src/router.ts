@@ -32,5 +32,10 @@ export default new Router({
       name: 'register',
       component: () => import(/* webpackChunkName: "register" */ './views/Register.vue'),
     },
+    {
+      path:'/alarm',
+      name:'alarm',
+      component: () => import(/* webpackChunkName: "register" */ './views/Alarm.vue'),
+    }
   ],
 })
