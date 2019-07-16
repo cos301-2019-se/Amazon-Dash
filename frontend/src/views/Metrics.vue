@@ -1,10 +1,17 @@
 <template>
-    <v-container grid-list-md fluid fill-height>
-        <v-layout row justify-center>
-            <v-flex xs12 md6 lg4 v-for="metric in metrics" :key="metric.id">
-                <MetricCard :metric="metric"></MetricCard>
-            </v-flex>
-        </v-layout>
+    <v-container >
+        <v-text-field
+                label="Search"
+                append-icon="search"
+                type="text"
+        ></v-text-field>
+        <v-container grid-list-md fluid fill-height>
+            <v-layout row wrap justify-center>
+                <v-flex xl1 lg3 md4 sm6 xs12 v-for="metric in metrics" :key="metric.id" column>
+                    <MetricCard :metric="metric"></MetricCard>
+                </v-flex>
+            </v-layout>
+        </v-container>
     </v-container>
 </template>
 
@@ -17,9 +24,15 @@
     })
     export default class Metrics extends Vue {
         @Prop() public instanceId: string
+        private metricPoller = -1
 
         private mounted() {
             this.$store.dispatch('fetchMetrics', this.instanceId)
+            this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
+        }
+
+        public beforeDestroy() {
+            clearInterval(this.metricPoller)
         }
 
         private get metrics() {

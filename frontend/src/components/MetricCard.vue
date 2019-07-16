@@ -1,5 +1,6 @@
 <template>
-    <v-card class="mx-auto">
+    <v-card class="v-card--padding mt-3 mx-auto"
+            max-width="400">
         <v-sheet
                 class="v-sheet--offset mx-auto"
                 color="cyan"
@@ -32,6 +33,11 @@
         public bounds:any = []
         public mounted() {
             this.bounds = this.getBounds()
+            if(this.metric.id == "cpu"){
+                this.metric.data.map(i=>{
+                    i.value = i.value*100
+                })
+            }
         }
 
         private getBounds(){
@@ -44,6 +50,13 @@
 </script>
 
 <style scoped>
+    .v-sheet--offset {
+        top: -35px;
+        position: relative;
+    }
+    .v-card--padding{
+        padding-top: 20px;
+    }
     .metric-label {
         position: absolute;
         top: .5rem;
