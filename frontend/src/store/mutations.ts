@@ -35,5 +35,6 @@ const mutations: MutationTree<RootState> = {
 
         setTimeout(() => state.snackbar.enabled = false, timeout)
     },
+
 }
 export default mutations

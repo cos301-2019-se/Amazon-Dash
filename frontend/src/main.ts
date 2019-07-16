@@ -4,11 +4,15 @@ import './plugins/laue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
+import GAuth from 'vue-google-oauth2'
 import './registerServiceWorker'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import './plugins/vuetify'
+
+
+
+
 
 Vue.config.productionTip = false
 
