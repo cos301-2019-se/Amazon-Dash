@@ -1,4 +1,4 @@
-import {MetricViewDataPoint} from '@/models/MetricViewDataPoint'
+import {MetricViewDataPoint, MetricViewDataPointClass} from '@/models/MetricViewDataPoint'
 export interface MetricView {
     id: string
     data: MetricViewDataPoint[]
