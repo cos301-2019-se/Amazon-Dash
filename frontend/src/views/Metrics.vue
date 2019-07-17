@@ -2,7 +2,9 @@
     <v-container >
         <v-text-field
                 label="Search"
+                v-model="searchFilter"
                 append-icon="search"
+                clearable
                 type="text"
         ></v-text-field>
         <v-container grid-list-md fluid fill-height>
@@ -24,6 +26,7 @@
     })
     export default class Metrics extends Vue {
         @Prop() public instanceId: string
+        searchFilter: string ='';
         private metricPoller = -1
 
         private mounted() {
@@ -37,7 +40,7 @@
 
         private get metrics() {
             console.log(this.$store.getters.metrics)
-            return this.$store.getters.metrics
+            return this.$store.getters.metrics.filter(i => i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
         }
     }
 </script>
