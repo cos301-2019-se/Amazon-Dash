@@ -15,18 +15,18 @@ import ServiceCard from '@/components/ServiceCard.vue'
   components: { ServiceCard },
 })
 export default class Services extends Vue {
-  private instancePoller = -1
-  private mounted() {
-    this.$store.dispatch('fetchInstances')
-    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
+
+  private get instances() {
+    return this.$store.getters.instances
   }
+  private instancePoller = -1
 
   public beforeDestroy() {
     clearInterval(this.instancePoller)
   }
-
-  private get instances() {
-    return this.$store.getters.instances
+  private mounted() {
+    this.$store.dispatch('fetchInstances')
+    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
   }
 }
 </script>

@@ -9,16 +9,16 @@ import Anychart from 'anychart'
   name: 'ad-chart',
 })
 export default class ADChart extends Vue {
-  @Prop() options
-  chart = null
+  @Prop() public options
+  public chart = null
 
-  mounted() {
+  public mounted() {
     if (!this.chart && this.options) {
       this.init()
     }
   }
 
-  init() {
+  public init() {
     if (!this.chart && this.options) {
       this.chart = new Anychart.fromJson(this.options)
       this.chart.container(this.$el).draw()
@@ -26,7 +26,7 @@ export default class ADChart extends Vue {
   }
 
   @Watch('options')
-  onOptionsChange(options) {
+  public onOptionsChange(options) {
     if (!this.chart && options) {
       this.init()
     } else {

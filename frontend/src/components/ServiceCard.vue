@@ -76,6 +76,9 @@ import { metricOptions } from '@/models/metric'
 
 @Component
 export default class ServiceCard extends Vue {
+  private get metric() {
+    return this.metricOptions[this.metricIndex]
+  }
   @Prop() public instance!: Instance
 
   public metricIndex = 0
@@ -88,6 +91,9 @@ export default class ServiceCard extends Vue {
 
   public beforeDestroy() {
     clearInterval(this.metricPoller)
+  }
+  public goToMetricView(id: string) {
+    this.$router.push({ path: `/instances/${id}` })
   }
 
   private getMetrics() {
@@ -102,13 +108,6 @@ export default class ServiceCard extends Vue {
   }
   private start() {
     this.$store.dispatch('startInstance', this.instance.id)
-  }
-  private get metric() {
-    return this.metricOptions[this.metricIndex]
-  }
-  public goToMetricView(id:string)
-  {
-    this.$router.push({ path: `/instances/${id}` })
   }
 }
 </script>

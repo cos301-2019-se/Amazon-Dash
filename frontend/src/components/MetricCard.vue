@@ -23,30 +23,30 @@
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator'
-    import {Metric, MetricData, metricOptions} from "@/models/metric";
-    import {MetricViewClass} from "@/models/metricView"
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import {Metric, MetricData, metricOptions} from '@/models/metric'
+import {MetricViewClass} from '@/models/metricView'
 
-    @Component
-    export default class MetricCard extends Vue {
-        @Prop() public metric: MetricViewClass
-        public bounds:any = []
-        public mounted() {
-            this.bounds = this.getBounds()
-            if(this.metric.id == "cpu"){
-                this.metric.data.map(i=>{
-                    i.value = i.value*100
-                })
-            }
+@Component
+export default class MetricCard extends Vue {
+    @Prop() public metric: MetricViewClass
+    public bounds: any = []
+    public mounted() {
+        this.bounds = this.getBounds()
+        if (this.metric.id === 'cpu') {
+            this.metric.data.map(i => {
+                i.value = i.value * 100
+            })
         }
-
-        private getBounds(){
-            return metricOptions.find((i:any) => {
-                return i.id === this.metric.id;
-            }).bound
-        }
-
     }
+
+    private getBounds() {
+        return metricOptions.find((i: any) => {
+            return i.id === this.metric.id
+        }).bound
+    }
+
+}
 </script>
 
 <style scoped>

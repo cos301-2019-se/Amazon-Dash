@@ -18,31 +18,32 @@
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator'
-    import MetricCard from '@/components/MetricCard.vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import MetricCard from '@/components/MetricCard.vue'
 
-    @Component({
-        components: { MetricCard },
-    })
-    export default class Metrics extends Vue {
-        @Prop() public instanceId: string
-        searchFilter: string ='';
-        private metricPoller = -1
+@Component({
+    components: { MetricCard },
+})
+export default class Metrics extends Vue {
 
-        private mounted() {
-            this.$store.dispatch('fetchMetrics', this.instanceId)
-            this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
-        }
-
-        public beforeDestroy() {
-            clearInterval(this.metricPoller)
-        }
-
-        private get metrics() {
-            console.log(this.$store.getters.metrics)
-            return this.$store.getters.metrics.filter(i => i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
-        }
+    private get metrics() {
+        return this.$store.getters.metrics.filter(
+            i => i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()),
+        )
     }
+    @Prop() public instanceId: string
+    public searchFilter: string = ''
+    private metricPoller = -1
+
+    public beforeDestroy() {
+        clearInterval(this.metricPoller)
+    }
+
+    private mounted() {
+        this.$store.dispatch('fetchMetrics', this.instanceId)
+        this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
+    }
+}
 </script>
 
 <style scoped>
