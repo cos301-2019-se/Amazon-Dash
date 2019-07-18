@@ -4,13 +4,8 @@
     <v-spacer></v-spacer>
       <div class="display-2 pt-3 pb-2">Create alarm</div>
 
-
-
-
-
-
     <!-- TAB begins -->
-    <v-tabs v-model="active" color="cyan" dark slider-color="yellow">
+    <v-tabs v-model="active" color="primary" dark slider-color="yellow">
 
       <!-- Selecting metrics -->
       <v-tab>
@@ -50,22 +45,39 @@
                                   <v-container>
                                     <v-card flat>
                                       <v-layout row>
-                                          <v-flex xs12 md8>
-                                          <div>
-                                            <v-text-field outline  v-model="searc" append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
-                                            </div>
-                                            </v-flex>
+                                          <v-flex xs12 md12>
+                                            <v-layout row>
+                                                <v-flex xs12 md8>
+                                                  <v-text-field solo  v-model="searc" append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
+                                                </v-flex>
 
-                                            <v-flex xs12 md4>
-                                              <v-btn small color="normal" class="mb-4">Graph</v-btn>
-                                            </v-flex>
+                                                <v-divider vertical></v-divider>
+                                                <v-flex xs12 md4>
+                                                  <div class="mt-2">
+                                                    <v-btn small color="normal" class="">Graph</v-btn>
+                                                  </div>
+                                                </v-flex>
+                                            </v-layout>
+                                          </v-flex>
                                       </v-layout>
 
                                       <v-container>
                                         <v-card flat>
                                           <v-layout row>
-                                            <v-flex xs12 md12>
+                                            <v-flex xs12 md3>
+                                                <div>Hey</div>
+                                            </v-flex>
 
+                                            <v-flex xs12 md3>
+                                                <div>Hey</div>
+                                            </v-flex>
+
+                                            <v-flex xs12 md3>
+                                                <div>Hey</div>
+                                            </v-flex>
+
+                                            <v-flex xs12 md3>
+                                                <div>Hey</div>
                                             </v-flex>
                                           </v-layout>
                                         </v-card>
@@ -73,12 +85,11 @@
                                     </v-card>
                                   </v-container>
 
-
                                 </v-tab-item>
 
                                 <v-tab>Graphed metrics</v-tab>
                                 <v-tab-item>Musasa</v-tab-item>
-                                
+
                                 <v-tab>Graph options</v-tab>
                                 <v-tab-item>Musasa</v-tab-item>
 
@@ -131,7 +142,7 @@
                             <v-flex xs6 md12>
                               <v-card flat>
                                 <v-card flat>
-                                  <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                  <v-btn solo  class="primary right" @click="" >edit</v-btn>
                                 </v-card>
                               </v-card>
                             </v-flex>
@@ -170,27 +181,27 @@
 
                               <v-card flat>
                                   <div class="pt-4 pl-4">Metric name</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4 pt-2" label="4xxErrorRate" outline block></v-text-field>
+                                  <v-text-field class="pl-4 pr-5 mr-4 pt-2" label="4xxErrorRate" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Region</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="Global" outline block></v-text-field>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="Global" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">DistributionId</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="E2D5UY2120R4CG" outline block></v-text-field>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="E2D5UY2120R4CG" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Statistic</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="Average" outline block></v-text-field>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="Average" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Period</div>
-                                  <v-select :items="time" label="" class="pl-4 pr-5 mr-4 pt-1" outline block></v-select>
+                                  <v-select :items="time" label="" class="pl-4 pr-5 mr-4 pt-1" solo block></v-select>
                               </v-card>
 
                           </v-flex>
@@ -282,7 +293,7 @@
                                             <v-card flat class="mb-2 pb-2">
                                               <div class="ml-4 mt-2">than...</div>
                                               <div class="ml-4 mt-2 grey--text">Define the threshold value</div>
-                                              <v-text-field class="pl-4 mr-1 pr-5 mr-4 pt-0 mt-0" label="" outline block></v-text-field>
+                                              <v-text-field class="pl-4 mr-1 pr-5 mr-4 pt-0 mt-0" label="" solo block></v-text-field>
                                               <div class="ml-4 grey--text mb-2">Must be a number</div>
                                             </v-card>
                                           </v-flex>
@@ -300,11 +311,11 @@
 
                                 <v-layout row>
                                   <v-flex xs12 md1>
-                                    <v-text-field class="" label="" outline block></v-text-field>
+                                    <v-text-field class="" label="" solo block></v-text-field>
                                   </v-flex>
                                     <div class="mt-2 grey--text ml-2">out of</div>
                                   <v-flex xs12 md1 class="ml-2">
-                                    <v-text-field class="" label="" outline block></v-text-field>
+                                    <v-text-field class="" label="" solo block></v-text-field>
                                   </v-flex>
                                 </v-layout>
 
@@ -312,7 +323,7 @@
                                   <v-flex xs12 md6>
                                       <div class="mt-2">Missing data treatment</div>
                                       <div class="mt-2 grey--text">How to treat missing data when evaluating the alarm</div>
-                                      <v-select :items="data" label="" class="" outline block></v-select>
+                                      <v-select :items="data" label="" class="" solo block></v-select>
                                   </v-flex>
                                 </v-layout>
 
@@ -352,7 +363,7 @@
                                           <v-flex xs12 md12>
                                             <v-card flat>
                                                 <v-card flat>
-                                                  <v-btn outline  class="primary right" @click="next" >Remove</v-btn>
+                                                  <v-btn solo  class="primary right" @click="next" >Remove</v-btn>
                                                 </v-card>
 
                                                 <div class="pt-4 pl-4">Whenever this alarm state is...</div>
@@ -407,11 +418,11 @@
 
                                               <div class="ml-4 ">Send notification to...</div>
                                               <v-flex xs12 md5>
-                                                <div class="ml-4 mt-2"><v-text-field outline  v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field></div>
+                                                <div class="ml-4 mt-2"><v-text-field solo  v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field></div>
                                                 <div class="ml-4 grey--text ">Only email lists for this account are available </div>
 
                                                 <div class=" ml-3 mt-2 mb-5 pb-2">
-                                                  <v-btn depressed  class="normal left" >Add notification</v-btn>
+                                                  <v-btn depressed solo  class="normal left" >Add notification</v-btn>
                                                 </div>
                                               </v-flex>
                                             </v-card>
@@ -426,7 +437,7 @@
 
                                 <v-card class="mt-2">
                                   <v-flex xs12 md6>
-                                    <div class="mt-2 ml-3"><v-btn depressed class="normal left" >Add auto scaling action</v-btn></div>
+                                    <div class="mt-2 ml-3"><v-btn depressed solo class="normal left" >Add auto scaling action</v-btn></div>
                                   </v-flex>
                                 </v-card>
                               </v-flex>
@@ -446,7 +457,7 @@
                               <v-flex xs12 md12>
                                 <v-card flat>
                                     <v-card flat>
-                                      <v-btn class="right" color="normal" @click="next" >Remove</v-btn>
+                                      <v-btn class="right" solo color="normal" @click="next" >Remove</v-btn>
                                     </v-card>
 
                                     <div class="pt-4 pl-4">Whenever this alarm state is...</div>
@@ -490,15 +501,15 @@
                               <div class="ml-4 mt-3 pb-1">Take the following action...</div>
 
                               <v-radio-group v-model="column" class="ml-5" column>
-                                  <v-radio label="Recover this instance" value="radio-1"></v-radio>
-                                 <v-radio label="Stop this instance" value="radio-2"></v-radio>
-                                 <v-radio label="Terminate this instance" value="radio-2"></v-radio>
-                                 <v-radio class=""label="Reboot this instance" value="radio-2"></v-radio>
+                                   <v-radio label="Recover this instance" value="radio-1"></v-radio>
+                                   <v-radio label="Stop this instance" value="radio-2"></v-radio>
+                                   <v-radio label="Terminate this instance" value="radio-2"></v-radio>
+                                   <v-radio class=""label="Reboot this instance" value="radio-2"></v-radio>
                               </v-radio-group>
 
                              <v-card flat>
                                <v-flex xs12 md12>
-                                  <v-btn class="ml-5 left" color="normal">Add EC2 action</v-btn>
+                                  <v-btn class="ml-5 solo left" color="normal">Add EC2 action</v-btn>
                                </v-flex>
                              </v-card>
                     </v-container>
@@ -526,7 +537,7 @@
                           <div class="pt-3">Name and description</div>
                           <div class="pt-3 grey--text">Alarm name</div>
                             <v-flex xs12 md6>
-                              <v-text-field class="mt-2" placeholder="Alarm name" label="" outline block></v-text-field>
+                              <v-text-field class="mt-2" placeholder="Alarm name" label="" solo block></v-text-field>
                             </v-flex>
                           <div class=" pt-1">Alarm description - optional</div>
                           <div class="grey--text">Define a description for this alarm. Optionally you can also use markdown</div>
@@ -539,15 +550,15 @@
                             <v-container>
                               <v-card flat>
                                   <v-flex xs12 md12>
-                                  <v-btn class="ml-2 right" color="primary"  @click="next">Next</v-btn>
+                                  <v-btn class="ml-2 right" color="primary" solo  @click="next">Next</v-btn>
                                   </v-flex>
 
                                   <v-flex xs12 md12>
-                                  <v-btn outline  class="normal right" @click="next">Previous</v-btn>
+                                  <v-btn solo  class="normal right" @click="next">Previous</v-btn>
                                   </v-flex>
 
                                   <v-flex xs12 md12>
-                                    <v-btn outline  class="primary right" @click="next">Cancel</v-btn>
+                                    <v-btn solo  class="primary right" @click="next">Cancel</v-btn>
                                   </v-flex>
 
                                 </v-card>
@@ -590,7 +601,7 @@
                                     <v-flex xs6 md12>
                                       <v-card flat>
                                         <v-card flat>
-                                          <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                          <v-btn solo  class="success right" @click="" >edit</v-btn>
                                         </v-card>
                                       </v-card>
                                     </v-flex>
@@ -674,7 +685,7 @@
                               <v-flex xs12 md12>
                                 <v-card flat>
                                     <div class="grey--text pt-2 ">Threshold type</div>
-                                    <div class="pr-5 mr-4" label="Static" outline block>Static</div>
+                                    <div class="pr-5 mr-4" label="Static" solo block>Static</div>
                                 </v-card>
                               </v-flex>
 
@@ -682,7 +693,7 @@
                               <v-flex xs12 md12>
                                 <v-card flat>
                                     <div class="grey--text pt-4 ">Whenever <span class="font-weight-bold">DiskReadBytes</span> is...</div>
-                                    <div class="pr-5 mr-4" label="Greater" outline block>Greater(>)</div>
+                                    <div class="pr-5 mr-4" label="Greater" solo block>Greater(>)</div>
                                 </v-card>
                               </v-flex>
 
@@ -690,7 +701,7 @@
                               <v-flex xs12 md6>
                                 <v-card flat class="mb-2 pb-2">
                                   <div class=" mt-2">than...</div>
-                                 <div class=" mr-1 pr-5 mr-4 pt-0 mt-0" label="" outline block>10000</div>
+                                 <div class=" mr-1 pr-5 mr-4 pt-0 mt-0" label="" solo block>10000</div>
                                 </v-card>
                               </v-flex>
                             </v-layout>
@@ -730,7 +741,7 @@
                                 <v-flex xs6 md12>
                                   <v-card flat>
                                     <v-card flat>
-                                      <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                      <v-btn solo  class="success right" @click="" >edit</v-btn>
                                     </v-card>
                                   </v-card>
                                 </v-flex>
@@ -754,7 +765,7 @@
                                     <v-flex xs6 md12>
                                       <v-card flat>
                                         <v-card flat>
-                                          <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                          <v-btn solo  class="success right" @click="" >edit</v-btn>
                                         </v-card>
                                       </v-card>
                                     </v-flex>
@@ -778,15 +789,15 @@
                               <v-container>
                                 <v-card flat>
                                     <v-flex xs12 md12>
-                                    <v-btn class="ml-2 right" color="primary"  @click="next">Next</v-btn>
+                                    <v-btn class="ml-2 right" solo color="primary"  @click="next">Next</v-btn>
                                     </v-flex>
 
                                     <v-flex xs12 md12>
-                                    <v-btn outline  class="normal right" @click="prev">Previous</v-btn>
+                                    <v-btn solo class="normal right" @click="prev">Previous</v-btn>
                                     </v-flex>
 
                                     <v-flex xs12 md12>
-                                      <v-btn outline  class="primary right" @click="next">Cancel</v-btn>
+                                      <v-btn solo class="primary right" @click="next">Cancel</v-btn>
                                     </v-flex>
                                   </v-card>
                                 </v-container>
@@ -803,11 +814,11 @@
             <v-container>
               <v-card flat>
                   <v-flex xs12 md12>
-                  <v-btn outline  class="normal left" @click="prev">Previous</v-btn>
+                  <v-btn solo class="normal left" @click="prev">Previous</v-btn>
                   </v-flex>
 
                   <v-flex xs12 md12>
-                  <v-btn class="ml-2 left" color="primary"  @click="next">Next</v-btn>
+                  <v-btn class="ml-2 left" solo color="primary"  @click="next">Next</v-btn>
                   </v-flex>
                 </v-card>
               </v-container>
