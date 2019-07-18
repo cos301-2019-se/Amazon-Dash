@@ -23,7 +23,7 @@ const mutations: MutationTree<RootState> = {
         })
     },
     setInstanceMetrics(state, payload: MetricData) {
-        const instance = state.instances.find((i: MetricData) => i.id === payload.instance_id)
+        const instance = state.instances.find((i: Instance) => i.id === payload.instance_id)
         if (instance) {
             instance.metrics = payload.metrics
         }
