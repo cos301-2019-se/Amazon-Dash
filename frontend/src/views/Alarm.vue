@@ -1,212 +1,719 @@
 <template>
   <div>
-
+    <v-container>
     <v-spacer></v-spacer>
+      <div class="display-2 pt-3 pb-2">Create alarm</div>
 
-      <div class="display-2 pt-3 pb-3">Create alarm</div>
-
+    <!-- TAB begins -->
     <v-tabs v-model="active" color="cyan" dark slider-color="yellow">
 
       <v-tab >
-        1. Select metric
+        1. Specify metric and condition
       </v-tab>
-      <v-tab-item >
-        <v-card flat>
-          <v-card-text>  </v-card-text>
+              <v-tab-item >
+                <v-card flat>
+                  <v-card-text>  </v-card-text>
 
-        <v-container>
-          <v-layout row wrap>
-              <v-flex xs4 sm3 md2 lg2 xl2 >
-                <v-select :items="items" label="Instances" class="pl-1 pr-4" outline></v-select>
-              </v-flex>
+                  <!-- Container for headings -->
+                    <v-container>
+                      <v-card flat class="">
+                        <v-layout row wrap>
+                          <v-flex xs12 md12>
 
-              <v-flex xs12 sm6 md3 d-flex>
-                <v-text-field
-                  v-model="search"
-                  append-icon="search"
-                  label="Search"
-                  single-line
-                  class="pl-3"
-                  hide-details
-                  placeholder="Instance id.."
-                >
-                </v-text-field>
-              </v-flex>
-          </v-layout row wrap>
-        </v-container>
+                          <div class="display-2 pb-2">Specify metric and conditions</div>
 
-        <v-container>
-          <v-layout row wrap>
-          <v-data-table
-             :headers="headers"
-             :items="instances"
-             class="elevation-1"
-              >
-                <template v-slot:items="props">
-                  <v-checkbox
-                     v-model="checkbox"
-                     :error-messages="checkboxErrors"
-                     label=""
-                     required
-                     @change="$v.checkbox.$touch()"
-                     @blur="$v.checkbox.$touch()"
-                   ></v-checkbox>
+                          <div class="display-1 pt-3">Metric</div>
+                            <v-flex xs6 md12>
+                              <v-card flat>
+                                <v-card flat>
+                                  <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                </v-card>
+                              </v-card>
+                            </v-flex>
+                          </v-flex>
+                        </v-layout >
+                      </v-card>
+                    </v-container>
+                    <v-divider></v-divider>
 
-                   <td class="text-xl-center">{{ props.item.instanceId }}</td>
-                   <td class="text-xs-right">{{ props.item.instanceName }}</td>
-                   <td class="text-xs-left">{{ props.item.metricName }}</td>
-                </template>
-              </v-data-table>
-            </v-layout row wrap>
-          </v-container>
-        </v-card>
+                    <v-container>
+                      <v-card flat class="">
+                        <v-layout row>
+                          <v-flex xs6 md6>
+                            <v-card flat>
+                              <div class="display-1 pb-2 grey--text">Graph</div>
+                              <p class="grey--text">This alarm will trigger when the blue line goes above the red line</p>
+                            </v-card>
 
-      </v-tab-item>
-      <v-tab>
+                            <v-card flat>
+                                <v-flex xs5 md6 >
+                                  <div class="title mb-1">4xxErrorRate</div>
+                                    <v-layout column my-1>
+                                      <div class="subheading pt-3"></div>
+                                      <v-img src="https://media.amazonwebservices.com/blog/2014/cloudfront_dist_hourly_4xx_4.png" :aspect-ratio="1" max-width></v-img>
+                                    </v-layout>
+                                </v-flex>
+                            </v-card>
+                          </v-flex>
 
-        2. Define Alarm
-      </v-tab>
-      <v-tab-item >
-        <v-card flat>
-          <v-container>
-              <v-card-text class="display-1 ml-2 pt-3 pb-0">Alarm Threshold</v-card-text>
-              <v-card-text class="mb-0">You can use alarms to be notified automatically whenever metric data reaches a level you define</v-card-text>
+                          <v-divider vertical></v-divider>
+                          <v-flex xs6 md6>
+                              <v-card flat>
+                                <div class="display-1 pl-4 grey--text">Namespace</div>
+                                <div class="pl-4">AWS/Cloudfront</div>
+                              </v-card>
 
-              <v-layout row wrap>
-                   <v-flex xs4 sm3 md2 lg2 xl2>
-                     <v-subheader class="grey--text text--darken-4">Topic name:</v-subheader>
-                   </v-flex>
+                              <v-card flat>
+                                  <div class="pt-4 pl-4">Metric name</div>
+                                  <v-text-field class="pl-4 pr-5 mr-4 pt-2" label="4xxErrorRate" outline block></v-text-field>
+                              </v-card>
 
-                   <v-flex xs4 sm3 md2 lg2 xl2>
-                     <v-text-field
-                       label=""
-                       solo
-                     ></v-text-field>
-                   </v-flex>
-             </v-layout>
-
-            <v-layout row wrap>
-                 <v-flex xs4 sm3 md2 lg2 xl2>
-                   <v-subheader class="grey--text text--darken-4">Recipient:</v-subheader>
-                 </v-flex>
-
-                 <v-flex xs4 sm3 md2 lg2 xl2>
-                   <v-text-field
-                     label=""
-                     solo
-                     class=""
-                   ></v-text-field>
-                 </v-flex>
-           </v-layout>
-
-           <v-layout row wrap>
-                <v-flex xs4 sm3 md2 lg2 xl2>
-                  <v-subheader class="grey--text text--darken-4">Take action:</v-subheader>
-                </v-flex>
-                <v-flex xs4 sm3 md2 lg2 xl2>
-                <v-radio-group v-model="radios" :mandatory="false">
-                     <v-radio label="Recover this instance" value="radio-1" ></v-radio>
-                     <v-radio label="Stop this instance" value="radio-2"></v-radio>
-                     <v-radio label="Terminate this instance" value="radio-3"></v-radio>
-                     <v-radio label="Reboot this instance" value="radio-4"></v-radio>
-                </v-radio-group>
-                </v-flex>
-          </v-layout>
-          </v-container>
-
-          <v-divider></v-divider>
-
-          <v-container>
-            <v-layout row wrap>
-                 <v-flex xs4 sm3 md2 lg2 xl2>
-                   <v-subheader class="grey--text text--darken-4">Whenever:</v-subheader>
-                 </v-flex>
-                 <v-flex xs4 sm3 md2 xl2 lg6 xl2>
-                   <v-select :items="states" label="Status Check Failed" pa-3 mr-4 solo auto></v-select>
-                 </v-flex>
-           </v-layout>
-
-           <v-layout row wrap>
-              <v-flex xs4 sm3 md2 lg2 xl2>
-                <v-subheader class="grey--text text--darken-4">Is:</v-subheader>
-              </v-flex>
-              <v-flex xs4 sm3 md2 lg2 xl2>
-                <v-card-text>Failing</v-card-text>
-              </v-flex>
-          </v-layout>
-
-          <v-layout row wrap>
-             <v-flex xs4 sm3 md2 lg2 xl2>
-               <v-subheader class="grey--text text--darken-4">For atleast:</v-subheader>
-             </v-flex>
-             <v-flex xs4 sm3 md2 lg2 xl2>
-               <v-text-field
-                 label=""
-                 solo
-                 class=""
-               ></v-text-field>
-              </v-flex>
-
-              <v-flex xs4 sm3 md2 lg2 xl2>
-                <v-card-text>consecutive period(s) of</v-card-text>
-              </v-flex>
-
-              <v-flex xs4 sm3 md2 xl2 lg6 xl2>
-                <v-select :items="time" label="1 Minute" class="pr-6" solo auto></v-select>
-              </v-flex>
+                              <v-card flat>
+                                  <div class="pt-1 pl-4">Region</div>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="Global" outline block></v-text-field>
+                              </v-card>
 
 
-         </v-layout>
-         </v-container>
-
-         <v-divider></v-divider>
-
-         <v-container>
-
-           <v-layout row wrap>
-                <v-flex xs4 sm3 md2 lg2 xl2>
-                  <v-subheader class="grey--text text--darken-4">Name of alarm:</v-subheader>
-                </v-flex>
-                <v-flex xs4 sm3 md2 lg2 xl2>
-                  <v-text-field
-                    label=""
-                    solo
-                    class=""
-                  ></v-text-field>
-                </v-flex>
-
-          </v-layout>
+                              <v-card flat>
+                                  <div class="pt-1 pl-4">DistributionId</div>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="E2D5UY2120R4CG" outline block></v-text-field>
+                              </v-card>
 
 
-              <div>
-                <v-btn small color="primary">Create alarm</v-btn>
-              </div>
+                              <v-card flat>
+                                  <div class="pt-1 pl-4">Statistic</div>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="Average" outline block></v-text-field>
+                              </v-card>
 
-              <div>
-                <v-btn flat small color="primary">Cancel</v-btn>
-              </div>
+                              <v-card flat>
+                                  <div class="pt-1 pl-4">Period</div>
+                                  <v-select :items="time" label="" class="pl-4 pr-5 mr-4 pt-1" outline block></v-select>
+                              </v-card>
+
+                          </v-flex>
+                        </v-layout>
+                      </v-card>
+                    </v-container>
+
+                    <v-container>
+                      <v-card flat>
+                        <v-layout row wrap>
+                          <v-flex xs12 md12>
+                                <div class="display-1 pl-4 grey--text">Conditions</div>
+                                <v-divider></v-divider>
+                          </v-flex>
+
+                          <!-- Threshold type -->
+                          <v-flex xs12 md12>
+                            <v-card flat>
+                                <div class="pt-4 pl-4">Threshold type</div>
+                            <v-layout row>
+                              <v-flex xs12 md6>
+                                <v-card color="blue-grey lighten-5 mr-5 ml-4 mt-1 pa-auto">
+                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                     <v-radio label="Static" color="blue" value="radio-1" class="mt-2"></v-radio>
+                                     <div class="grey--text ml-4 pa-auto">Use a value as a threshold</div>
+                                  </v-radio-group>
+                                </v-card>
+                              </v-flex>
+
+                              <v-flex xs12 md6>
+                                <v-card color="blue-grey lighten-5">
+                                  <v-radio-group v-model="ex7" column class="ml-2 pa-auto">
+                                     <v-radio label="Anomaly detection" color="blue" value="" class="mt-2"></v-radio>
+                                     <div class="grey--text ml-4 pa-auto">Use a band as a threshold</div>
+                                  </v-radio-group>
+                                </v-card>
+                              </v-flex>
+                            </v-layout>
+                            </v-card>
+                          </v-flex>
+
+                                      <!-- Whenever -->
+                                          <v-flex xs12 md12>
+                                            <v-card flat>
+                                                <div class="pt-4 pl-4">Whenever DiskReadBytes is...</div>
+
+                                            <v-layout row>
+
+                                              <v-flex xs12 md3>
+                                                <v-card color="blue-grey lighten-5 ml-4 mr-2 pa-auto">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="Greater" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4 pb-1"> >threshold</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <v-flex xs12 md3>
+                                                <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="Greater/Equal" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4 pb-1">>=threshold</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <v-flex xs12 md3>
+                                                <v-card color="blue-grey lighten-5 mr-2 pa-auto">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="Lower/Equal" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4 pb-1"><=threshold</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <v-flex xs12 md3>
+                                                <v-card color="blue-grey lighten-5 ma-auto pa-auto">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="Lower" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4 pb-4"> <threshold</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
+
+                                            </v-layout>
+                                            </v-card>
+                                          </v-flex>
+
+                                          <!-- than... -->
+                                          <v-flex xs12 md6>
+                                            <v-card flat class="mb-2 pb-2">
+                                              <div class="ml-4 mt-2">than...</div>
+                                              <div class="ml-4 mt-2 grey--text">Define the threshold value</div>
+                                              <v-text-field class="pl-4 mr-1 pr-5 mr-4 pt-0 mt-0" label="" outline block></v-text-field>
+                                              <div class="ml-4 grey--text mb-2">Must be a number</div>
+                                            </v-card>
+                                          </v-flex>
+
+                        </v-layout>
+                      </v-card>
+                        <v-divider></v-divider>
+
+                          <v-card flat>
+                            <v-layout row>
+                              <v-flex xs12 md12>
+                                <div class="display-1 pt-3">Additional configuration</div>
+                                <div class="mt-2">Datapoints to alarm</div>
+                                <div class="mt-2 grey--text">Define the number of datapoints within the evaluation period that must be breaching to cause the alarm to go to ALARM state.</div>
+
+                                <v-layout row>
+                                  <v-flex xs12 md1>
+                                    <v-text-field class="" label="" outline block></v-text-field>
+                                  </v-flex>
+                                    <div class="mt-2 grey--text ml-2">out of</div>
+                                  <v-flex xs12 md1 class="ml-2">
+                                    <v-text-field class="" label="" outline block></v-text-field>
+                                  </v-flex>
+                                </v-layout>
+
+                                <v-layout row>
+                                  <v-flex xs12 md6>
+                                      <div class="mt-2">Missing data treatment</div>
+                                      <div class="mt-2 grey--text">How to treat missing data when evaluating the alarm</div>
+                                      <v-select :items="data" label="" class="" outline block></v-select>
+                                  </v-flex>
+                                </v-layout>
+
+                              </v-flex>
+                            </v-layout>
+                          </v-card>
+                    </v-container>
+                </v-card>
+              </v-tab-item>
+
+          <!-- Tab for configuring actions -->
+              <v-tab>
+                2. Configure actions
+              </v-tab>
+              <v-tab-item >
+                <v-card flat>
+                  <v-card-text>  </v-card-text>
+
+                  <!-- Container for headings -->
+                    <v-container class="mb-0">
+                      <v-card flat class="">
+                        <v-layout row wrap>
+                          <v-flex xs12 md12>
+                            <div class="display-2 pb-2">Configure actions</div>
+                            <div class="display-1 pt-3">Notification</div>
+                          </v-flex>
+                        </v-layout >
+                      </v-card>
+                    </v-container>
+                    <v-divider></v-divider>
 
 
-        </v-container>
+                    <v-container class="mt-1 mb-2 pb-2" >
+                      <v-card flat>
+                        <v-layout row wrap>
+                                      <!-- Whenever -->
+                                          <v-flex xs12 md12>
+                                            <v-card flat>
+                                                <v-card flat>
+                                                  <v-btn outline  class="primary right" @click="next" >Remove</v-btn>
+                                                </v-card>
 
-        </v-card>
-      </v-tab-item>
+                                                <div class="pt-4 pl-4">Whenever this alarm state is...</div>
+                                                <div class="grey--text pl-4">Define the alarm state that will trigger this action.</div>
 
-      <v-tab >
-        Step 3
-      </v-tab>
-      <v-tab-item >
-        <v-card flat>
-          <v-card-text></v-card-text>
-        </v-card>
-      </v-tab-item>
+                                                <v-flex xs12 md6>
 
-    </v-tabs>
+                                                </v-flex>
+                                            <v-layout row>
 
-    <div class="text-xs-center mt-3">
-      <v-btn @click="next">next</v-btn>
-    </div>
+                                              <v-flex xs12 md4>
+                                                <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4">The metric or the expression is outside the defined threshold</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
 
+                                              <v-flex xs12 md4>
+                                                <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4 pb-1">The metric or expression is within the defined threshold</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <v-flex xs12 md4>
+                                                <v-card color="blue-grey lighten-5 mr-2 pa-auto">
+                                                  <v-radio-group v-model="ex7" column class="ml-2">
+                                                     <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
+                                                     <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
+                                                  </v-radio-group>
+                                                </v-card>
+                                              </v-flex>
+                                            </v-layout>
+                                           </v-card>
+                                          </v-flex>
+
+                                          <!-- than... -->
+                                          <v-flex xs12 md12>
+                                            <v-card flat class="mb-2 pb-2"  >
+                                              <div class="ml-4 mt-4  ">Select an SNS topic</div>
+                                              <div class="ml-4 grey--text mb-2 ">Define the SNS(Simple Notification Service) topic that will receive the notification</div>
+
+                                              <v-radio-group v-model="ex7" column class="ml-2 pl-4">
+                                                 <v-radio label="Select an existing SNS topic" color="blue" value="" class=""></v-radio>
+                                                 <v-radio label="Create new topic" color="blue" value="" class="mt-2"></v-radio>
+                                                 <v-radio label="Use topic ARN" color="blue" value="" class="mt-2"></v-radio>
+                                              </v-radio-group>
+
+                                              <div class="ml-4 ">Send notification to...</div>
+                                              <v-flex xs12 md5>
+                                                <div class="ml-4 mt-2"><v-text-field outline  v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field></div>
+                                                <div class="ml-4 grey--text ">Only email lists for this account are available </div>
+
+                                                <div class=" ml-3 mt-2 mb-5 pb-2">
+                                                  <v-btn depressed  class="normal left" >Add notification</v-btn>
+                                                </div>
+                                              </v-flex>
+                                            </v-card>
+                                          </v-flex>
+                        </v-layout>
+                      </v-card>
+
+                          <v-card flat>
+                            <v-layout row>
+                              <v-flex xs12 md12>
+                                <div class="display-1 pt-1 ml-4">Auto scaling action</div>
+
+                                <v-card class="mt-2">
+                                  <v-flex xs12 md6>
+                                    <div class="mt-2 ml-3"><v-btn depressed class="normal left" >Add auto scaling action</v-btn></div>
+                                  </v-flex>
+                                </v-card>
+                              </v-flex>
+                            </v-layout>
+                          </v-card>
+
+                          <v-card flat>
+                            <v-layout row>
+                              <v-flex xs12 md12>
+                                  <div class="display-1 ml-4 mt-5 pt-1 ml-2">EC2 action</div>
+                              </v-flex>
+
+
+
+                            </v-layout>
+                          </v-card>
+
+                          <!-- Whenever -->
+                              <v-flex xs12 md12>
+                                <v-card flat>
+                                    <v-card flat>
+                                      <v-btn class="right" color="normal" @click="next" >Remove</v-btn>
+                                    </v-card>
+
+                                    <div class="pt-4 pl-4">Whenever this alarm state is...</div>
+                                    <div class="grey--text pl-4">Define the alarm state that will trigger this action.</div>
+
+                                    <v-flex xs12 md6>
+
+                                    </v-flex>
+                                <v-layout row>
+
+                                  <v-flex xs12 md4>
+                                    <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
+                                      <v-radio-group v-model="ex7" column class="ml-2">
+                                         <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
+                                         <div class="grey--text ml-4">The metric or the expression is outside the defined threshold</div>
+                                      </v-radio-group>
+                                    </v-card>
+                                  </v-flex>
+
+                                  <v-flex xs12 md4>
+                                    <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
+                                      <v-radio-group v-model="ex7" column class="ml-2">
+                                         <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
+                                         <div class="grey--text ml-4 pb-1">The metric or expression is within the defined threshold</div>
+                                      </v-radio-group>
+                                    </v-card>
+                                  </v-flex>
+
+                                  <v-flex xs12 md4>
+                                    <v-card color="blue-grey lighten-5 mr-2 pa-auto">
+                                      <v-radio-group v-model="ex7" column class="ml-2">
+                                         <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
+                                         <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
+                                      </v-radio-group>
+                                    </v-card>
+                                  </v-flex>
+                                </v-layout>
+                               </v-card>
+                              </v-flex>
+
+                              <div class="ml-4 mt-3 pb-1">Take the following action...</div>
+                              <div class="ml-4 grey--text ">Define what will happen to the EC2 instance with ID i-0b9f7f134aab3b6a2</div>
+
+                              <v-radio-group v-model="column" class="ml-5" column>
+                               <v-radio label="Recover this instance" value="radio-1"></v-radio>
+                               <v-radio label="Stop this instance" value="radio-2"></v-radio>
+                               <v-radio label="Terminate this instance" value="radio-2"></v-radio>
+                               <v-radio label="Reboot this instance" value="radio-2"></v-radio>
+                             </v-radio-group>
+
+                             <v-card flat>
+                               <v-flex xs12 md12>
+                                  <v-btn class="ml-4 left" color="normal">Add EC2 action</v-btn>
+                               </v-flex>
+                             </v-card>
+
+                    </v-container>
+                </v-card>
+              </v-tab-item>
+
+
+          <!-- Tab for Add a description -->
+            <v-tab >
+              3. Add a description
+            </v-tab>
+
+            <v-tab-item >
+              <v-card flat>
+                <v-card-text>  </v-card-text>
+
+                <!-- Container for headings -->
+                  <v-container class="mb-0">
+                    <v-card flat class="">
+                      <v-layout row wrap>
+                        <v-flex xs12 md12>
+                          <div class="display-2 pb-2">Add a description</div>
+                          <v-divider></v-divider>
+
+                          <div class="pt-3">Name and description</div>
+                          <div class="pt-3 grey--text">Alarm name</div>
+                            <v-flex xs12 md6>
+                              <v-text-field class="mt-2" placeholder="Alarm name" label="" outline block></v-text-field>
+                            </v-flex>
+                          <div class=" pt-1">Alarm description - optional</div>
+                          <div class="grey--text">Define a description for this alarm. Optionally you can also use markdown</div>
+                          <div class="mt-1">
+                            <v-textarea solo name="input-7-4" label="Alarm description" value=""></v-textarea>
+                            <div class="grey--text">Upto to 1024 characters (0/1024)</div>
+                          </div>
+
+                          <layout row justify-end>
+                            <v-container>
+                              <v-card flat>
+                                  <v-flex xs12 md12>
+                                  <v-btn class="ml-2 right" color="primary"  @click="next">Next</v-btn>
+                                  </v-flex>
+
+                                  <v-flex xs12 md12>
+                                  <v-btn outline  class="normal right" @click="next">Previous</v-btn>
+                                  </v-flex>
+
+                                  <v-flex xs12 md12>
+                                    <v-btn outline  class="primary right" @click="next">Cancel</v-btn>
+                                  </v-flex>
+
+                                </v-card>
+                              </v-container>
+                          </layout>
+                        </v-flex>
+                        <v-divider></v-divider>
+                      </v-layout >
+                    </v-card>
+                  </v-container>
+                  <v-divider></v-divider>
+
+              </v-card>
+            </v-tab-item>
+
+
+
+
+
+
+
+          <!-- Tab for preview and create -->
+            <v-tab >
+              4. Preview and create
+            </v-tab>
+
+            <v-tab-item >
+                    <v-card flat>
+                      <v-card-text>  </v-card-text>
+
+                      <!-- Container for headings -->
+                        <v-container>
+                          <v-card flat class="">
+                            <v-layout row wrap>
+                              <v-flex xs12 md12>
+
+                              <div class="display-2 pb-2">Preview and create</div>
+                              <div class="display-1 pt-4 ">Step 1: Specify conditions</div>
+
+                                    <v-flex xs6 md12>
+                                      <v-card flat>
+                                        <v-card flat>
+                                          <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                        </v-card>
+                                      </v-card>
+                                    </v-flex>
+                              </v-flex>
+
+                            </v-layout >
+                          </v-card>
+                        </v-container>
+                        <v-divider></v-divider>
+
+                        <v-container>
+                          <v-card flat class="">
+                            <v-layout row>
+                              <v-flex xs6 md6>
+                                <v-card flat>
+                                  <div class="display-1 pb-2 grey--text">Graph</div>
+                                  <p class="grey--text">This alarm will trigger when the blue line goes above the red line</p>
+                                </v-card>
+
+                                <v-card flat>
+                                    <v-flex xs5 md6 >
+                                      <div class="title mb-1">4xxErrorRate</div>
+                                        <v-layout column my-1>
+                                          <div class="subheading pt-3"></div>
+                                          <v-img src="https://media.amazonwebservices.com/blog/2014/cloudfront_dist_hourly_4xx_4.png" :aspect-ratio="1" max-width></v-img>
+                                        </v-layout>
+                                    </v-flex>
+                                </v-card>
+                              </v-flex>
+
+                              <v-divider vertical></v-divider>
+                              <v-flex xs6 md6>
+                                  <v-card flat>
+                                    <div class="display-1 pl-4 grey--text">Namespace</div>
+                                    <div class="pl-4">AWS/Cloudfront</div>
+                                  </v-card>
+
+                                  <v-card flat>
+                                      <div class="pl-4 grey--text pt-4 pl-4">Metric name</div>
+                                      <div class="pl-4 pr-5 mr-4  pb-3">4xxErrorRate</div>
+                                  </v-card>
+
+                                  <v-card flat>
+                                      <div class="pl-4 grey--text pt-1 pl-4">Region</div>
+                                      <div class="pl-4 pr-5 mr-4  pb-3" label="Global" outline block>Global</div>
+                                  </v-card>
+
+                                  <v-card flat>
+                                      <div class="pl-4 grey--text pt-1 pl-4">DistributionId</div>
+                                      <div class="pl-4 pr-5 mr-4  pb-3" label="E2D5UY2120R4CG" outline block>E2D5UY2120R4CG</div>
+                                  </v-card>
+
+                                  <v-card flat>
+                                      <div class="pl-4 grey--text pt-1 pl-4">Instance name</div>
+                                      <div class="pl-4 pr-5 mr-4  pb-3" label="" outline block>My Production Workload</div>
+                                  </v-card>
+
+                                  <v-card flat>
+                                      <div class="pl-4 grey--text pt-1 pl-4">Statistic</div>
+                                      <div class="pl-4 pr-5 mr-4  pb-3" label="Average" outline block>Average</div>
+                                  </v-card>
+
+                                  <v-card flat>
+                                      <div class="pl-4 grey--text pt-2 pl-4">Period</div>
+                                      <div class="pl-4 pr-5 mr-4" label="Average" outline block>5 minutes</div>
+                                  </v-card>
+                              </v-flex>
+                            </v-layout>
+                          </v-card>
+                        </v-container>
+
+                        <v-container>
+                          <v-card flat>
+                            <v-layout row wrap>
+                              <v-flex xs12 md12>
+                                    <div class="display-1  grey--text">Conditions</div>
+                                    <v-divider></v-divider>
+                              </v-flex>
+
+                              <!-- Threshold type -->
+                              <v-flex xs12 md12>
+                                <v-card flat>
+                                    <div class="grey--text pt-2 ">Threshold type</div>
+                                    <div class="pr-5 mr-4" label="Static" outline block>Static</div>
+                                </v-card>
+                              </v-flex>
+
+                                          <!-- Whenever -->
+                                              <v-flex xs12 md12>
+                                                <v-card flat>
+                                                    <div class="grey--text pt-4 ">Whenever <span class="font-weight-bold">DiskReadBytes</span> is...</div>
+                                                    <div class="pr-5 mr-4" label="Greater" outline block>Greater(>)</div>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <!-- than... -->
+                                              <v-flex xs12 md6>
+                                                <v-card flat class="mb-2 pb-2">
+                                                  <div class=" mt-2">than...</div>
+                                                 <div class=" mr-1 pr-5 mr-4 pt-0 mt-0" label="" outline block>10000</div>
+                                                </v-card>
+                                              </v-flex>
+                            </v-layout>
+                          </v-card>
+                            <v-divider></v-divider>
+                              <v-card flat>
+                                <v-layout row>
+                                  <v-flex xs12 md12>
+                                      <div class="display-1 pt-3">Additional configuration</div>
+                                      <div class="mt-2">Datapoints to alarm</div>
+
+                                      <v-layout row>
+                                          <div class="grey--text ">1 out of 1</div>
+                                      </v-layout>
+
+                                      <v-layout row>
+                                        <v-flex xs12 md6>
+                                          <v-card flat>
+                                            <div class="mt-3">Missing data treatment</div>
+                                            <div class="grey--text mb-3 ">Treat missing data as missing</div>
+                                            <v-divider></v-divider>
+                                        </v-card>
+                                      </v-flex>
+                                    </v-layout>
+                                  </v-flex>
+                                </v-layout>
+                              </v-card>
+                        </v-container>
+
+                          <divider></divider>
+                        <v-container>
+                          <v-card flat>
+                            <v-layout row>
+                              <v-flex xs12 md12>
+                                <div class="display-2 pt-1 ">Step 2: Configure actions</div>
+                                <div class="display-1 mt-2">Actions</div>
+                                <v-flex xs6 md12>
+                                  <v-card flat>
+                                    <v-card flat>
+                                      <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                    </v-card>
+                                  </v-card>
+                                </v-flex>
+                                <v-divider></v-divider>
+                              </v-flex>
+                            </v-layout>
+
+                            <v-layout>
+                              <v-flex xs12 md12>
+                                <div class="pt-3 grey--text">EC2 action</div>
+                                <div class="pt-1 grey--text">When in Alarm, reboot this instance</div>
+                                <div class="pt-1 pb-4 mb-2 grey--text">(Instance ID: i-0b9f7f134aab3b6a2)</div>
+                                <v-divider></v-divider>
+                              </v-flex>
+                            </v-layout>
+
+                            <v-layout>
+                                <v-flex xs12 md12>
+                                    <div class="display-2 pt-2 mt-3 ">Step 3: Add a description</div>
+                                    <div class="display-1 mt-2">Name and description</div>
+                                    <v-flex xs6 md12>
+                                      <v-card flat>
+                                        <v-card flat>
+                                          <v-btn outline  class="success right" @click="" >edit</v-btn>
+                                        </v-card>
+                                      </v-card>
+                                    </v-flex>
+                                    <v-divider></v-divider>
+                                </v-flex>
+                            </v-layout>
+
+                            <v-layout>
+                              <v-flex xs12 md12>
+                                <div class="grey--text">Name</div>
+                                <div class="">A1</div>
+                              </v-flex>
+
+                              <v-flex xs12 md12>
+                                <div class="grey--text">Description</div>
+                                <div class="">A</div>
+                              </v-flex>
+                            </v-layout>
+
+                            <layout row justify-end>
+                              <v-container>
+                                <v-card flat>
+                                    <v-flex xs12 md12>
+                                    <v-btn class="ml-2 right" color="primary"  @click="next">Next</v-btn>
+                                    </v-flex>
+
+                                    <v-flex xs12 md12>
+                                    <v-btn outline  class="normal right" @click="prev">Previous</v-btn>
+                                    </v-flex>
+
+                                    <v-flex xs12 md12>
+                                      <v-btn outline  class="primary right" @click="next">Cancel</v-btn>
+                                    </v-flex>
+                                  </v-card>
+                                </v-container>
+                            </layout>
+                          </v-card>
+                        </v-container>
+                    </v-card>
+            </v-tab-item>
+      </v-tabs>
+
+      <v-container>
+        <v-layout row>
+          <v-card flat class="mt-3">
+            <v-flex xs12 md2>
+              <v-btn outline  class="primary" @click="next">Cancel</v-btn>
+            </v-flex>
+
+            <v-flex xs12 md2>
+                <v-btn class="ml-2" color="primary"  @click="next">Next</v-btn>
+            </v-flex>
+          </v-card>
+        </v-layout>
+      </v-container>
+    </v-container>
   </div>
 </template>
 
@@ -216,9 +723,9 @@
     data () {
       return {
         active: null,
-        items: ['EC2', 'S3', 'ECR', 'EKS'],
-        states:['CPU Utilization','Disk Reads','Disk Writes','Network In','CPU Credit Usage'],
+        radios:'radio-1',
         time:['1 Minute','5 Minutes','15 Minutes','1 Hour','6 Hours'],
+        data:['Treat missing data as missing','Treat data'],
         headers: [
           {
             text: 'InstanceId',
@@ -268,7 +775,11 @@
     methods: {
       next () {
         const active = parseInt(this.active)
-        this.active = (active < 2 ? active + 1 : 0)
+        this.active = (active < 3 ? active + 1 : 0)
+      },
+      prev(){
+        const active = parseInt(this.active)
+        this.active = (active < 3 ? active - 1 : 0)
       }
     }
   }
@@ -282,6 +793,4 @@ margin:5px;
    padding-right:20px;
    margin:5px;
  }
-
-
 </style>
