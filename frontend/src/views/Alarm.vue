@@ -4,11 +4,116 @@
     <v-spacer></v-spacer>
       <div class="display-2 pt-3 pb-2">Create alarm</div>
 
+
+
+
+
+
     <!-- TAB begins -->
     <v-tabs v-model="active" color="cyan" dark slider-color="yellow">
 
+      <!-- Selecting metrics -->
+      <v-tab>
+        1. Select metric
+      </v-tab>
+        <v-tab-item>
+          <v-card flat>
+            <v-container>
+                <v-layout row wrap>
+                    <div class="display-2 pb-2">Metric</div>
+                </v-layout>
+
+                    <v-divider></v-divider>
+                    <div class="pt-3 ml-2 grey--text">Graph</div>
+                    <div class="grey--text ml-2 mb-2">Preview of the metric or metric expression and the alarm threshold.</div>
+
+
+                    <v-layout row justify-center>
+
+                    <v-btn color="normal" class="right"  @click.stop="dialog = true">Select metric</v-btn>
+
+                    <v-dialog v-model="dialog" max-width="290" fullscreen >
+                      <v-card flat>
+                        <div><v-card-title class="headline grey--text">Select metric</v-card-title></div>
+                        <v-divider></v-divider>
+
+                        <v-container>
+                          <v-layout row>
+                            <v-flex xs12 md12>
+                            <v-card flat left>
+                              <v-tabs  color="grey lighten-2"  slider-color="yellow">
+                              <v-divider></v-divider>
+
+                                <v-tab>All metrics</v-tab>
+                                <v-tab-item>
+
+                                  <v-container>
+                                    <v-card flat>
+                                      <v-layout row>
+                                          <v-flex xs12 md8>
+                                          <div>
+                                            <v-text-field outline  v-model="searc" append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
+                                            </div>
+                                            </v-flex>
+
+                                            <v-flex xs12 md4>
+                                              <v-btn small color="normal" class="mb-4">Graph</v-btn>
+                                            </v-flex>
+                                      </v-layout>
+
+                                      <v-container>
+                                        <v-card flat>
+                                          <v-layout row>
+                                            <v-flex xs12 md12>
+
+                                            </v-flex>
+                                          </v-layout>
+                                        </v-card>
+                                      </v-container>
+                                    </v-card>
+                                  </v-container>
+
+
+                                </v-tab-item>
+
+                                <v-tab>Graphed metrics</v-tab>
+                                <v-tab-item>Musasa</v-tab-item>
+                                
+                                <v-tab>Graph options</v-tab>
+                                <v-tab-item>Musasa</v-tab-item>
+
+                                <v-tab>Source</v-tab>
+                                <v-tab-item>Musasa</v-tab-item>
+
+
+                              </v-tabs>
+
+
+                              </v-card>
+                            </v-flex>
+                          </v-layout>
+                        </v-container>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="green darken-1" flat="flat" @click="dialog = false">
+                            cancel
+                          </v-btn>
+
+                          <v-btn color="green darken-1" flat="flat" @click="dialog = false">
+                            next
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-layout>
+              </v-container>
+            </v-card>
+        </v-tab-item>
+
+
       <v-tab >
-        1. Specify metric and condition
+        2. Specify metric and condition
       </v-tab>
               <v-tab-item >
                 <v-card flat>
@@ -73,12 +178,10 @@
                                   <v-text-field class="pl-4 pr-5 mr-4" label="Global" outline block></v-text-field>
                               </v-card>
 
-
                               <v-card flat>
                                   <div class="pt-1 pl-4">DistributionId</div>
                                   <v-text-field class="pl-4 pr-5 mr-4" label="E2D5UY2120R4CG" outline block></v-text-field>
                               </v-card>
-
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Statistic</div>
@@ -128,14 +231,12 @@
                             </v-layout>
                             </v-card>
                           </v-flex>
-
                                       <!-- Whenever -->
                                           <v-flex xs12 md12>
                                             <v-card flat>
                                                 <div class="pt-4 pl-4">Whenever DiskReadBytes is...</div>
 
                                             <v-layout row>
-
                                               <v-flex xs12 md3>
                                                 <v-card color="blue-grey lighten-5 ml-4 mr-2 pa-auto">
                                                   <v-radio-group v-model="ex7" column class="ml-2">
@@ -172,7 +273,7 @@
                                                 </v-card>
                                               </v-flex>
 
-                                            </v-layout>
+                                              </v-layout>
                                             </v-card>
                                           </v-flex>
 
@@ -224,7 +325,7 @@
 
           <!-- Tab for configuring actions -->
               <v-tab>
-                2. Configure actions
+                3. Configure actions
               </v-tab>
               <v-tab-item >
                 <v-card flat>
@@ -338,8 +439,6 @@
                                   <div class="display-1 ml-4 mt-5 pt-1 ml-2">EC2 action</div>
                               </v-flex>
 
-
-
                             </v-layout>
                           </v-card>
 
@@ -389,21 +488,19 @@
                               </v-flex>
 
                               <div class="ml-4 mt-3 pb-1">Take the following action...</div>
-                              <div class="ml-4 grey--text ">Define what will happen to the EC2 instance with ID i-0b9f7f134aab3b6a2</div>
 
                               <v-radio-group v-model="column" class="ml-5" column>
-                               <v-radio label="Recover this instance" value="radio-1"></v-radio>
-                               <v-radio label="Stop this instance" value="radio-2"></v-radio>
-                               <v-radio label="Terminate this instance" value="radio-2"></v-radio>
-                               <v-radio label="Reboot this instance" value="radio-2"></v-radio>
-                             </v-radio-group>
+                                  <v-radio label="Recover this instance" value="radio-1"></v-radio>
+                                 <v-radio label="Stop this instance" value="radio-2"></v-radio>
+                                 <v-radio label="Terminate this instance" value="radio-2"></v-radio>
+                                 <v-radio class=""label="Reboot this instance" value="radio-2"></v-radio>
+                              </v-radio-group>
 
                              <v-card flat>
                                <v-flex xs12 md12>
-                                  <v-btn class="ml-4 left" color="normal">Add EC2 action</v-btn>
+                                  <v-btn class="ml-5 left" color="normal">Add EC2 action</v-btn>
                                </v-flex>
                              </v-card>
-
                     </v-container>
                 </v-card>
               </v-tab-item>
@@ -411,7 +508,7 @@
 
           <!-- Tab for Add a description -->
             <v-tab >
-              3. Add a description
+              4. Add a description
             </v-tab>
 
             <v-tab-item >
@@ -474,7 +571,7 @@
 
           <!-- Tab for preview and create -->
             <v-tab >
-              4. Preview and create
+              5. Preview and create
             </v-tab>
 
             <v-tab-item >
@@ -582,29 +679,29 @@
                               </v-flex>
 
                                           <!-- Whenever -->
-                                              <v-flex xs12 md12>
-                                                <v-card flat>
-                                                    <div class="grey--text pt-4 ">Whenever <span class="font-weight-bold">DiskReadBytes</span> is...</div>
-                                                    <div class="pr-5 mr-4" label="Greater" outline block>Greater(>)</div>
-                                                </v-card>
-                                              </v-flex>
+                              <v-flex xs12 md12>
+                                <v-card flat>
+                                    <div class="grey--text pt-4 ">Whenever <span class="font-weight-bold">DiskReadBytes</span> is...</div>
+                                    <div class="pr-5 mr-4" label="Greater" outline block>Greater(>)</div>
+                                </v-card>
+                              </v-flex>
 
-                                              <!-- than... -->
-                                              <v-flex xs12 md6>
-                                                <v-card flat class="mb-2 pb-2">
-                                                  <div class=" mt-2">than...</div>
-                                                 <div class=" mr-1 pr-5 mr-4 pt-0 mt-0" label="" outline block>10000</div>
-                                                </v-card>
-                                              </v-flex>
+                              <!-- than... -->
+                              <v-flex xs12 md6>
+                                <v-card flat class="mb-2 pb-2">
+                                  <div class=" mt-2">than...</div>
+                                 <div class=" mr-1 pr-5 mr-4 pt-0 mt-0" label="" outline block>10000</div>
+                                </v-card>
+                              </v-flex>
                             </v-layout>
                           </v-card>
+
                             <v-divider></v-divider>
                               <v-card flat>
                                 <v-layout row>
                                   <v-flex xs12 md12>
                                       <div class="display-1 pt-3">Additional configuration</div>
                                       <div class="mt-2">Datapoints to alarm</div>
-
                                       <v-layout row>
                                           <div class="grey--text ">1 out of 1</div>
                                       </v-layout>
@@ -700,20 +797,21 @@
             </v-tab-item>
       </v-tabs>
 
-      <v-container>
-        <v-layout row>
-          <v-card flat class="mt-3">
-            <v-flex xs12 md2>
-              <v-btn outline  class="primary" @click="next">Cancel</v-btn>
-            </v-flex>
-
-            <v-flex xs12 md2>
-                <v-btn class="ml-2" color="primary"  @click="next">Next</v-btn>
-            </v-flex>
-          </v-card>
-        </v-layout>
-      </v-container>
     </v-container>
+
+          <layout row>
+            <v-container>
+              <v-card flat>
+                  <v-flex xs12 md12>
+                  <v-btn outline  class="normal left" @click="prev">Previous</v-btn>
+                  </v-flex>
+
+                  <v-flex xs12 md12>
+                  <v-btn class="ml-2 left" color="primary"  @click="next">Next</v-btn>
+                  </v-flex>
+                </v-card>
+              </v-container>
+          </layout>
   </div>
 </template>
 
@@ -724,6 +822,7 @@
       return {
         active: null,
         radios:'radio-1',
+        dialog:false,
         time:['1 Minute','5 Minutes','15 Minutes','1 Hour','6 Hours'],
         data:['Treat missing data as missing','Treat data'],
         headers: [
@@ -775,12 +874,9 @@
     methods: {
       next () {
         const active = parseInt(this.active)
-        this.active = (active < 3 ? active + 1 : 0)
+        this.active = (active < 5 ? active + 1 : 0)
       },
-      prev(){
-        const active = parseInt(this.active)
-        this.active = (active < 3 ? active - 1 : 0)
-      }
+
     }
   }
 </script>
