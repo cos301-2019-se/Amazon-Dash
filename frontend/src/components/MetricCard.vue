@@ -24,13 +24,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import {Metric, MetricData, metricOptions} from '@/models/metric'
-import {MetricViewClass} from '@/models/metricView'
+import { Metric, MetricData, metricOptions } from '@/models/metric'
+import { MetricViewClass } from '@/models/metricView'
 
 @Component
 export default class MetricCard extends Vue {
-    @Prop() public metric: MetricViewClass
-    public bounds: any = []
+    @Prop() public metric!: MetricViewClass
+    public bounds: number[] = []
     public mounted() {
         this.bounds = this.getBounds()
         if (this.metric.id === 'cpu') {

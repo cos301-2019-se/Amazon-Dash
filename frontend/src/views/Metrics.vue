@@ -31,8 +31,8 @@ export default class Metrics extends Vue {
             i => i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()),
         )
     }
-    @Prop() public instanceId: string
-    public searchFilter: string = ''
+    @Prop() public instanceId!: string
+    public searchFilter = ''
     private metricPoller = -1
 
     public beforeDestroy() {
@@ -45,7 +45,3 @@ export default class Metrics extends Vue {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

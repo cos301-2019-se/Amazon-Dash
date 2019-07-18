@@ -2,7 +2,7 @@ import { RootState, SnackbarOptions } from './types'
 import { MutationTree } from 'vuex'
 import { InstanceData, Instance } from '@/models/instance'
 import { MetricData, Metric } from '@/models/metric'
-import {MetricView, MetricViewClass} from '@/models/metricView'
+import { MetricView, MetricViewClass } from '@/models/metricView'
 
 const mutations: MutationTree<RootState> = {
     setToken(state, payload: string) {
