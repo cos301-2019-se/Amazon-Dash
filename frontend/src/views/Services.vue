@@ -30,13 +30,13 @@ export default class Services extends Vue {
 
   private instancePoller = -1
   private searchFilter = ''
-  private mounted() {
-    this.$store.dispatch('fetchInstances')
-    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
-  }
 
   public beforeDestroy() {
     clearInterval(this.instancePoller)
+  }
+  private mounted() {
+    this.$store.dispatch('fetchInstances')
+    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
   }
 
 }

@@ -21,7 +21,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import MetricCard from '@/components/MetricCard.vue'
-import {Instance} from "@/models/instance";
+import {Instance} from '@/models/instance'
 
 @Component({
     components: { MetricCard },
@@ -40,14 +40,13 @@ export default class Metrics extends Vue {
 
     public beforeDestroy() {
         clearInterval(this.metricPoller)
-        this.$store.commit('setMetrics', {metrics:[]})
+        this.$store.commit('setMetrics', {metrics: []})
     }
 
     private mounted() {
         this.instanceName = this.$store.state.instances.find((i: Instance) => {
-            console.log(i.id);
             return i.id === this.instanceId
-        }).name;
+        }).name
         this.$store.dispatch('fetchMetrics', this.instanceId)
         this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
     }

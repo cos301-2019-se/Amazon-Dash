@@ -29,11 +29,9 @@ const mutations: MutationTree<RootState> = {
         }
     },
     setMetrics(state, payload) {
-        if(payload.metrics.length)
-        {
+        if (payload.metrics.length) {
             state.metrics = payload.metrics.map((i: MetricView) => new MetricViewClass(i))
-        }
-        else {
+        } else {
             state.metrics = []
         }
     },
@@ -45,5 +43,5 @@ const mutations: MutationTree<RootState> = {
 
         setTimeout(() => state.snackbar.enabled = false, timeout)
     },
-};
+}
 export default mutations

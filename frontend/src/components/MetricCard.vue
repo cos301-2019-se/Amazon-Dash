@@ -45,7 +45,7 @@ export default class MetricCard extends Vue {
     public bounds: number[] = []
     public mounted() {
         this.bounds = this.getBounds()
-        if (this.metric.id == 'cpu') {
+        if (this.metric.id === 'cpu') {
             this.metric.data.map(i => {
                 i.value = i.value * 100
             })

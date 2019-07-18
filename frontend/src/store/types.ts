@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { Instance } from '@/models/instance'
-import { MetricViewClass } from "@/models/metricView";
+import { MetricViewClass } from '@/models/metricView'
 
 export interface Snackbar {
     message: string

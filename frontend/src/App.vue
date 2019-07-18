@@ -44,7 +44,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class App extends Vue {
-  private drawer = this.$vuetify.breakpoint.lgAndUp;
+  private drawer = this.$vuetify.breakpoint.lgAndUp
   private drawerItems: Array<{ title: string, href: string, icon: string }> = [
     { title: 'Dashboard', href: '/', icon: 'home' },
     { title: 'Calculator', href: '/calculator', icon: 'mdi-calculator' },
