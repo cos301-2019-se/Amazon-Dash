@@ -97,5 +97,11 @@ const actions: ActionTree<RootState, RootState> = {
     makeErrorMessage({ dispatch }, { message, timeout }: { message: string, timeout?: number }) {
         dispatch('openSnackbar', { message, colour: 'red', timeout })
     },
+    fetchMetrics({ dispatch, commit, getters }, instanceId: string) {
+        dispatch('checkAuth')
+        dispatch('get', { url: `instances/${instanceId}/metrics` }).then(res => {
+            commit('setMetrics', res)
+        })
+    },
 }
 export default actions

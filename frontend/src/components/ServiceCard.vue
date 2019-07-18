@@ -60,7 +60,7 @@
           <v-list-tile @click="restart">Restart</v-list-tile>
         </v-list>
       </v-menu>
-      <v-btn icon small flat style="float: right"><v-icon>info</v-icon></v-btn>
+      <v-btn icon small flat style="float: right" v-on:click="goToMetricView(instance.id)"><v-icon>info</v-icon></v-btn>
       <v-card-title>
         <span class="headline">{{ instance.name }}</span>
         <v-spacer></v-spacer>
@@ -76,6 +76,9 @@ import { metricOptions } from '@/models/metric'
 
 @Component
 export default class ServiceCard extends Vue {
+  private get metric() {
+    return this.metricOptions[this.metricIndex]
+  }
   @Prop() public instance!: Instance
 
   public metricIndex = 0
@@ -88,6 +91,9 @@ export default class ServiceCard extends Vue {
 
   public beforeDestroy() {
     clearInterval(this.metricPoller)
+  }
+  public goToMetricView(id: string) {
+    this.$router.push({ path: `/instances/${id}` })
   }
 
   private getMetrics() {
@@ -102,9 +108,6 @@ export default class ServiceCard extends Vue {
   }
   private start() {
     this.$store.dispatch('startInstance', this.instance.id)
-  }
-  private get metric() {
-    return this.metricOptions[this.metricIndex]
   }
 }
 </script>

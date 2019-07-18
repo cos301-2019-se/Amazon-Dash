@@ -19,6 +19,7 @@ const backend = new Vuex.Store<RootState>({
     state: {
         token: null,
         instances: [],
+        metrics: [],
         bus: new Vue({}),
         snackbar: {
             enabled: false,

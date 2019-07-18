@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { Instance } from '@/models/instance'
+import { MetricViewClass } from '@/models/metricView'
 
 export interface Snackbar {
     message: string
@@ -19,4 +20,5 @@ export interface RootState {
     instances: Instance[]
     bus: Vue
     snackbar: Snackbar
+    metrics: MetricViewClass[]
 }

@@ -22,20 +22,22 @@ import ServiceCard from '@/components/ServiceCard.vue'
   components: { ServiceCard },
 })
 export default class Services extends Vue {
-  private instancePoller = -1
-  private searchFilter = ''
-  private mounted() {
-    this.$store.dispatch('fetchInstances')
-    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
-  }
-
-  public beforeDestroy() {
-    clearInterval(this.instancePoller)
-  }
 
   private get instances() {
     return this.$store.getters.instances
       .filter(i => i.name.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
   }
+
+  private instancePoller = -1
+  private searchFilter = ''
+
+  public beforeDestroy() {
+    clearInterval(this.instancePoller)
+  }
+  private mounted() {
+    this.$store.dispatch('fetchInstances')
+    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
+  }
+
 }
 </script>
