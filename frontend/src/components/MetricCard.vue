@@ -9,12 +9,24 @@
                 center
                 height="200px"
         >
-            <la-cartesian :data="metric.data" :height="200" :bound="bounds" autoresize>
+            <la-cartesian v-if="metric.data.length" :data="metric.data" :height="200" :bound="bounds" autoresize>
                 <la-line animated :width="2" curve prop="value" color="white"></la-line>
                 <la-x-axis color="white"></la-x-axis>
                 <la-y-axis color="white" prop="value"></la-y-axis>
                 <la-tooltip></la-tooltip>
             </la-cartesian>
+            <v-container v-else fill-height>
+                <v-layout row wrap align-center>
+                    <v-flex class="text-xs-center">
+                        <v-progress-circular
+                                :size="70"
+                                :width="7"
+                                indeterminate
+                                color="purple"
+                        ></v-progress-circular>
+                    </v-flex>
+                </v-layout>
+            </v-container>
         </v-sheet>
         <v-card-title>
             <span class="headline">{{ metric.id }}</span>
@@ -33,7 +45,7 @@ export default class MetricCard extends Vue {
     public bounds: number[] = []
     public mounted() {
         this.bounds = this.getBounds()
-        if (this.metric.id === 'cpu') {
+        if (this.metric.id == 'cpu') {
             this.metric.data.map(i => {
                 i.value = i.value * 100
             })
@@ -41,7 +53,7 @@ export default class MetricCard extends Vue {
     }
 
     private getBounds() {
-        return metricOptions.find((i: any) => {
+        return metricOptions.find((i: object) => {
             return i.id === this.metric.id
         }).bound
     }

@@ -1,5 +1,6 @@
 <template>
     <v-container >
+        <h1 class="text-xs-center">Metrics for {{this.instanceName}}</h1>
         <v-text-field
                 label="Search"
                 v-model="searchFilter"
@@ -20,6 +21,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import MetricCard from '@/components/MetricCard.vue'
+import {Instance} from "@/models/instance";
 
 @Component({
     components: { MetricCard },
@@ -32,14 +34,20 @@ export default class Metrics extends Vue {
         )
     }
     @Prop() public instanceId!: string
+    public instanceName: string = ''
     public searchFilter = ''
     private metricPoller = -1
 
     public beforeDestroy() {
         clearInterval(this.metricPoller)
+        this.$store.commit('setMetrics', {metrics:[]})
     }
 
     private mounted() {
+        this.instanceName = this.$store.state.instances.find((i: Instance) => {
+            console.log(i.id);
+            return i.id === this.instanceId
+        }).name;
         this.$store.dispatch('fetchMetrics', this.instanceId)
         this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
     }

@@ -29,7 +29,13 @@ const mutations: MutationTree<RootState> = {
         }
     },
     setMetrics(state, payload) {
-        state.metrics = payload.metrics.map((i: MetricView) => new MetricViewClass(i))
+        if(payload.metrics.length)
+        {
+            state.metrics = payload.metrics.map((i: MetricView) => new MetricViewClass(i))
+        }
+        else {
+            state.metrics = []
+        }
     },
     openSnackbar(state, { message, colour, timeout = 3000 }: SnackbarOptions) {
         state.snackbar.message = message
@@ -39,5 +45,5 @@ const mutations: MutationTree<RootState> = {
 
         setTimeout(() => state.snackbar.enabled = false, timeout)
     },
-}
+};
 export default mutations
