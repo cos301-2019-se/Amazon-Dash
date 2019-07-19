@@ -1,8 +1,10 @@
 import { GetterTree } from 'vuex'
-import { BackendState } from './types'
+import { RootState } from './types'
 
-const getters: GetterTree<BackendState, any> = {
+const getters: GetterTree<RootState, any> = {
     token: state => state.token,
     instances: state => state.instances,
+    metrics: state => state.metrics,
+    snackbar: state => state.snackbar,
 }
 export default getters
