@@ -43,41 +43,59 @@
                                 <v-tab-item>
 
                                   <v-container>
-                                    <v-card flat>
+                                    <v-card flat color="white">
                                       <v-layout row>
                                           <v-flex xs12 md12>
+
                                             <v-layout row>
+                                              <v-divider></v-divider>
                                                 <v-flex xs12 md8>
                                                   <v-text-field solo  v-model="searc" append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
                                                 </v-flex>
 
-                                                <v-divider vertical></v-divider>
+
                                                 <v-flex xs12 md4>
-                                                  <div class="mt-2">
-                                                    <v-btn small color="normal" class="">Graph</v-btn>
+                                                  <div>
+                                                    <v-btn large solo color="normal" pb-1 class="">Graph</v-btn>
                                                   </div>
                                                 </v-flex>
+
                                             </v-layout>
+
                                           </v-flex>
                                       </v-layout>
+
 
                                       <v-container>
                                         <v-card flat>
                                           <v-layout row>
-                                            <v-flex xs12 md3>
-                                                <div>Hey</div>
+                                            <v-flex xs12 md2>
+                                              <v-card flat color="blue-grey lighten-5 mr-3 ml-1  pa-auto" >
+                                                <v-card-title >
+                                                  <div class="blue--text">EBS</div>
+                                                </v-card-title>
+                                                  <div class="grey--text ml-3 pb-2">5 metrics</div>
+                                              </v-card>
                                             </v-flex>
 
-                                            <v-flex xs12 md3>
-                                                <div>Hey</div>
+                                            <v-flex xs12 md2>
+                                              <v-card flat color="blue-grey lighten-5 mr-2 ml-3  pa-auto">
+                                                <v-card-title >
+                                                  <div class="blue--text">EFS</div>
+                                                </v-card-title>
+                                                  <div class="grey--text ml-3 mr-3 pb-2">18 metrics</div>
+                                              </v-card>
                                             </v-flex>
 
-                                            <v-flex xs12 md3>
-                                                <div>Hey</div>
-                                            </v-flex>
+
 
                                             <v-flex xs12 md3>
-                                                <div>Hey</div>
+                                              <v-card flat color="blue-grey lighten-5 mr-5 ml-4 pa-auto">
+                                                <v-card-title >
+                                                  <div class="blue--text">S3</div>
+                                                </v-card-title>
+                                                  <div class="grey--text ml-3 pb-2">4 metrics</div>
+                                              </v-card>
                                             </v-flex>
                                           </v-layout>
                                         </v-card>
@@ -279,7 +297,7 @@
                                                 <v-card color="blue-grey lighten-5 ma-auto pa-auto">
                                                   <v-radio-group v-model="ex7" column class="ml-2">
                                                      <v-radio label="Lower" color="blue" value="" class="mt-2"></v-radio>
-                                                     <div class="grey--text ml-4 pb-4"> <threshold</div>
+                                                     <div class="grey--text ml-4 pb-4"> <threshold </div>
                                                   </v-radio-group>
                                                 </v-card>
                                               </v-flex>
