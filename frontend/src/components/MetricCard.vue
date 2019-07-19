@@ -42,7 +42,7 @@ import { MetricViewClass } from '@/models/metricView'
 @Component
 export default class MetricCard extends Vue {
     @Prop() public metric!: MetricViewClass
-    public bounds: number[] = []
+  public bounds: Array<number | ((n: number) => number)> = []
     public mounted() {
         this.bounds = this.getBounds()
         if (this.metric.id === 'cpu') {
@@ -53,9 +53,8 @@ export default class MetricCard extends Vue {
     }
 
     private getBounds() {
-        return metricOptions.find((i: object) => {
-            return i.id === this.metric.id
-        }).bound
+      const option = metricOptions.find(m => m.id === this.metric.id) || metricOptions[0]
+      return option.bound
     }
 
 }

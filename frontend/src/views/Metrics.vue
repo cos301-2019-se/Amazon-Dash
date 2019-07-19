@@ -21,7 +21,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import MetricCard from '@/components/MetricCard.vue'
-import {Instance} from '@/models/instance'
+import { Instance } from '@/models/instance'
+import { Metric } from '@/models/metric'
 
 @Component({
     components: { MetricCard },
@@ -29,12 +30,11 @@ import {Instance} from '@/models/instance'
 export default class Metrics extends Vue {
 
     private get metrics() {
-        return this.$store.getters.metrics.filter(
-            i => i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()),
-        )
+        return this.$store.getters.metrics.filter((i: Metric) =>
+          i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
     }
     @Prop() public instanceId!: string
-    public instanceName: string = ''
+    public instanceName = ''
     public searchFilter = ''
     private metricPoller = -1
 
@@ -44,9 +44,7 @@ export default class Metrics extends Vue {
     }
 
     private mounted() {
-        this.instanceName = this.$store.state.instances.find((i: Instance) => {
-            return i.id === this.instanceId
-        }).name
+        this.instanceName = this.$store.state.instances.find((i: Instance) => i.id === this.instanceId).name
         this.$store.dispatch('fetchMetrics', this.instanceId)
         this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
     }

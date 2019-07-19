@@ -16,6 +16,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Instance } from '@/models/instance'
 import ServiceCard from '@/components/ServiceCard.vue'
 
 @Component({
@@ -25,7 +26,7 @@ export default class Services extends Vue {
 
   private get instances() {
     return this.$store.getters.instances
-      .filter(i => i.name.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
+      .filter((i: Instance) => i.name.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
   }
 
   private instancePoller = -1

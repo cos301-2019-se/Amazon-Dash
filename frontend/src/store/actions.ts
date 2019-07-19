@@ -75,6 +75,8 @@ const actions: ActionTree<RootState, RootState> = {
         const instance = getters.instances.find((i: Instance) => i.id === instanceId)
         dispatch('get', { url: `instances/${instanceId}/stop` }).then(res => {
             dispatch('openSnackbar', { message: `Successfully stopped ${instance.name}`, colour: 'green' })
+        }).catch(err => {
+          dispatch('makeErrorMessage', { message: err })
         })
     },
     restartInstance({ dispatch, getters }, instanceId: string) {
@@ -82,6 +84,8 @@ const actions: ActionTree<RootState, RootState> = {
         const instance = getters.instances.find((i: Instance) => i.id === instanceId)
         dispatch('get', { url: `instances/${instanceId}/restart` }).then(res => {
             dispatch('openSnackbar', { message: `Successfully restarted ${instance.name}`, colour: 'green' })
+        }).catch(err => {
+          dispatch('makeErrorMessage', { message: err })
         })
     },
     startInstance({ dispatch, getters }, instanceId: string) {
@@ -89,6 +93,8 @@ const actions: ActionTree<RootState, RootState> = {
         const instance = getters.instances.find((i: Instance) => i.id === instanceId)
         dispatch('get', { url: `instances/${instanceId}/start` }).then(res => {
             dispatch('openSnackbar', { message: `Successfully started ${instance.name}`, colour: 'green' })
+        }).catch(err => {
+          dispatch('makeErrorMessage', { message: err })
         })
     },
     openSnackbar({ commit }, payload: SnackbarOptions) {
