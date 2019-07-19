@@ -40,12 +40,12 @@ self.__precacheManifest = [
     "url": "/static/fonts/materialdesignicons-webfont.f558fb5c.ttf"
   },
   {
-    "revision": "0509ab09c1b0d2200a4135803c91d6ce",
-    "url": "/static/fonts/MaterialIcons-Regular.0509ab09.woff2"
-  },
-  {
     "revision": "96c476804d7a788cc1c05351b287ee41",
     "url": "/static/fonts/MaterialIcons-Regular.96c47680.eot"
+  },
+  {
+    "revision": "0509ab09c1b0d2200a4135803c91d6ce",
+    "url": "/static/fonts/MaterialIcons-Regular.0509ab09.woff2"
   },
   {
     "revision": "29b882f018fa6fe75fd338aaae6235b8",
@@ -108,28 +108,28 @@ self.__precacheManifest = [
     "url": "/static/fonts/Roboto-RegularItalic.f5902d5e.woff"
   },
   {
-    "revision": "13ec0eb5bdb821ff4930237d7c9f943f",
-    "url": "/static/fonts/Roboto-MediumItalic.13ec0eb5.woff2"
-  },
-  {
     "revision": "1d6594826615607f6dc860bb49258acb",
     "url": "/static/fonts/Roboto-Medium.1d659482.woff"
   },
   {
-    "revision": "83e114c316fcc3f23f524ec3e1c65984",
-    "url": "/static/fonts/Roboto-MediumItalic.83e114c3.woff"
+    "revision": "13ec0eb5bdb821ff4930237d7c9f943f",
+    "url": "/static/fonts/Roboto-MediumItalic.13ec0eb5.woff2"
   },
   {
     "revision": "b52fac2bb93c5858f3f2675e4b52e1de",
     "url": "/static/fonts/Roboto-Bold.b52fac2b.woff2"
   },
   {
-    "revision": "94008e69aaf05da75c0bbf8f8bb0db41",
-    "url": "/static/fonts/Roboto-BoldItalic.94008e69.woff2"
+    "revision": "83e114c316fcc3f23f524ec3e1c65984",
+    "url": "/static/fonts/Roboto-MediumItalic.83e114c3.woff"
   },
   {
     "revision": "50d75e48e0a3ddab1dd15d6bfb9d3700",
     "url": "/static/fonts/Roboto-Bold.50d75e48.woff"
+  },
+  {
+    "revision": "94008e69aaf05da75c0bbf8f8bb0db41",
+    "url": "/static/fonts/Roboto-BoldItalic.94008e69.woff2"
   },
   {
     "revision": "59eb3601394dd87f30f82433fb39dd94",
