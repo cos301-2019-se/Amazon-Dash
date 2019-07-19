@@ -24,7 +24,6 @@
 
 
                     <v-layout row justify-center>
-
                     <v-btn color="normal" class="right"  @click.stop="dialog = true">Select metric</v-btn>
 
                     <v-dialog v-model="dialog" max-width="290" fullscreen >
@@ -33,71 +32,64 @@
                         <v-divider></v-divider>
 
                         <v-container>
-                          <v-layout row>
-                            <v-flex xs12 md12>
-                            <v-card flat left>
-                              <v-tabs  color="grey lighten-2"  slider-color="yellow">
-                              <v-divider></v-divider>
+                          <v-card class="">
+                            <v-layout row>
+                              <v-flex xs12 md12>
+                                <v-card flat left>
+                                  <v-tabs  color="grey lighten-2"  slider-color="yellow">
+                                    <v-divider></v-divider>
+                                      <v-tab>All metrics</v-tab>
+                                        <v-tab-item>
 
-                                <v-tab>All metrics</v-tab>
-                                <v-tab-item>
+                                    <v-container>
+                                      <v-card flat color="white">
+                                        <v-layout row>
+                                            <v-flex xs12 md12>
+                                              <v-layout row>
+                                                <v-divider></v-divider>
+                                                  <v-flex xs12 md8>
+                                                    <v-text-field solo  v-model="searc" append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
+                                                  </v-flex>
 
-                                  <v-container>
-                                    <v-card flat color="white">
-                                      <v-layout row>
-                                          <v-flex xs12 md12>
-
-                                            <v-layout row>
-                                              <v-divider></v-divider>
-                                                <v-flex xs12 md8>
-                                                  <v-text-field solo  v-model="searc" append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
-                                                </v-flex>
-
-
-                                                <v-flex xs12 md4>
-                                                  <div>
-                                                    <v-btn large solo color="normal" pb-1 class="">Graph</v-btn>
-                                                  </div>
-                                                </v-flex>
-
-                                            </v-layout>
-
-                                          </v-flex>
-                                      </v-layout>
-
-
-                                      <v-container>
-                                        <v-card flat>
-                                          <v-layout row>
-                                            <v-flex xs12 md2>
-                                              <v-card flat color="blue-grey lighten-5 mr-3 ml-1  pa-auto" >
-                                                <v-card-title >
-                                                  <div class="blue--text">EBS</div>
-                                                </v-card-title>
-                                                  <div class="grey--text ml-3 pb-2">5 metrics</div>
-                                              </v-card>
-                                            </v-flex>
-
-                                            <v-flex xs12 md2>
-                                              <v-card flat color="blue-grey lighten-5 mr-2 ml-3  pa-auto">
-                                                <v-card-title >
-                                                  <div class="blue--text">EFS</div>
-                                                </v-card-title>
-                                                  <div class="grey--text ml-3 mr-3 pb-2">18 metrics</div>
-                                              </v-card>
-                                            </v-flex>
-
-
-
-                                            <v-flex xs12 md3>
-                                              <v-card flat color="blue-grey lighten-5 mr-5 ml-4 pa-auto">
-                                                <v-card-title >
-                                                  <div class="blue--text">S3</div>
-                                                </v-card-title>
-                                                  <div class="grey--text ml-3 pb-2">4 metrics</div>
-                                              </v-card>
+                                                  <v-flex xs12 md4>
+                                                    <div>
+                                                      <v-btn large solo color="normal" pb-1 class="">Graph</v-btn>
+                                                    </div>
+                                                  </v-flex>
+                                              </v-layout>
                                             </v-flex>
                                           </v-layout>
+
+                                        <v-container>
+                                          <v-card flat>
+                                            <v-layout row>
+                                              <v-flex xs12 md2>
+                                                <v-card flat color="blue-grey lighten-5 mr-3 ml-1  pa-auto" >
+                                                  <v-card-title >
+                                                    <div class="blue--text">EBS</div>
+                                                  </v-card-title>
+                                                    <div class="grey--text ml-3 pb-2">5 metrics</div>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <v-flex xs12 md2>
+                                                <v-card flat color="blue-grey lighten-5 mr-2 ml-3  pa-auto">
+                                                  <v-card-title >
+                                                    <div class="blue--text">EFS</div>
+                                                  </v-card-title>
+                                                    <div class="grey--text ml-3 mr-3 pb-2">18 metrics</div>
+                                                </v-card>
+                                              </v-flex>
+
+                                              <v-flex xs12 md3>
+                                                <v-card flat color="blue-grey lighten-5 mr-5 ml-4 pa-auto">
+                                                  <v-card-title >
+                                                    <div class="blue--text">S3</div>
+                                                  </v-card-title>
+                                                    <div class="grey--text ml-3 pb-2">4 metrics</div>
+                                                </v-card>
+                                              </v-flex>
+                                            </v-layout>
                                         </v-card>
                                       </v-container>
                                     </v-card>
@@ -106,32 +98,36 @@
                                 </v-tab-item>
 
                                 <v-tab>Graphed metrics</v-tab>
-                                <v-tab-item>Musasa</v-tab-item>
+                                <v-tab-item>In progress</v-tab-item>
 
                                 <v-tab>Graph options</v-tab>
-                                <v-tab-item>Musasa</v-tab-item>
+                                <v-tab-item>In progress</v-tab-item>
 
                                 <v-tab>Source</v-tab>
-                                <v-tab-item>Musasa</v-tab-item>
-
+                                <v-tab-item>In progress</v-tab-item>
 
                               </v-tabs>
-
 
                               </v-card>
                             </v-flex>
                           </v-layout>
+
+                          </v-card>
                         </v-container>
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="green darken-1" flat="flat" @click="dialog = false">
-                            cancel
-                          </v-btn>
+                        <v-card-actions class="ml-5">
+                          <v-container>
+                            <v-layout row>
+                                <v-btn solo color="primary left"  @click="dialog = false">
+                                  Cancel
+                                </v-btn>
 
-                          <v-btn color="green darken-1" flat="flat" @click="dialog = false">
-                            next
-                          </v-btn>
+                                <v-btn solo color="primary left"  @click="dialog = false">
+                                  Select metric
+                                </v-btn>
+                            </v-layout>
+
+                          </v-container>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
@@ -467,7 +463,6 @@
                               <v-flex xs12 md12>
                                   <div class="display-1 ml-4 mt-5 pt-1 ml-2">EC2 action</div>
                               </v-flex>
-
                             </v-layout>
                           </v-card>
 
@@ -533,7 +528,6 @@
                     </v-container>
                 </v-card>
               </v-tab-item>
-
 
           <!-- Tab for Add a description -->
             <v-tab >
