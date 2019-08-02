@@ -4,9 +4,8 @@
     <v-spacer></v-spacer>
       <div class="display-2 pt-3 pb-2">Create alarm</div>
 
-    <!-- TAB begins -->
+<!------------------------------------- First Tab begins ------------------------------------------------->
     <v-tabs v-model="active" color="primary" dark slider-color="yellow">
-
       <!-- Selecting metrics -->
       <v-tab>
         1. Select metric
@@ -135,8 +134,9 @@
               </v-container>
             </v-card>
         </v-tab-item>
+<!-------------------------------------------------END OF FIRST TAB ---------------------------------------------->
 
-
+<!-------------------------------------------------Second Tab begins---------------------------------------------->
       <v-tab >
         2. Specify metric and condition
       </v-tab>
@@ -347,8 +347,9 @@
                     </v-container>
                 </v-card>
               </v-tab-item>
+<!-------------------------------------------Second Tab ENDS --------------------------------------------------------------------------------->
 
-          <!-- Tab for configuring actions -->
+<!----------------------------------------- Third Tab begins---------------------------------------------------------------------------------->
               <v-tab>
                 3. Configure actions
               </v-tab>
@@ -529,7 +530,9 @@
                 </v-card>
               </v-tab-item>
 
-          <!-- Tab for Add a description -->
+<!----------------------------------------------Third Tab ENDS --------------------------------------------------------------------------------------->
+    
+<!--------------------------------------------- Fourth Tab Begins------------------------------------------------------------------------------------->
             <v-tab >
               4. Add a description
             </v-tab>
@@ -585,14 +588,9 @@
 
               </v-card>
             </v-tab-item>
+<!---------------------------------------------------------------Fourth Tab ENDS ------------------------------------------------------------------------------>
 
-
-
-
-
-
-
-          <!-- Tab for preview and create -->
+<!-------------------------------------------------------------- Fifth Tab BEGINS  ---------------------------------------------------------------------------->
             <v-tab >
               5. Preview and create
             </v-tab>
@@ -777,7 +775,7 @@
                                     <v-flex xs6 md12>
                                       <v-card flat>
                                         <v-card flat>
-                                          <v-btn solo  class="success right"  >edit</v-btn>
+                                          <v-btn solo  class="success right" >edit</v-btn>
                                         </v-card>
                                       </v-card>
                                     </v-flex>
@@ -818,10 +816,11 @@
                         </v-container>
                     </v-card>
             </v-tab-item>
+<!--------------------------------------------Fifth Tab ENDS------------------------------------------------------------------------------------------------>
         </v-tabs>
 
-    </v-container>
 
+    </v-container>
           <layout row>
             <v-container>
               <v-card flat>
@@ -839,69 +838,16 @@
 </template>
 
 
-<script>
-  export default {
-    data () {
-      return {
-        active: null,
-        radios:'radio-1',
-        dialog:false,
-        time:['1 Minute','5 Minutes','15 Minutes','1 Hour','6 Hours'],
-        data:['Treat missing data as missing','Treat data'],
-        headers: [
-          {
-            text: 'InstanceId',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          }
-          ,
-          {
-            text: 'InstanceName',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          }
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import ServiceCard from '@/components/Alarm.vue'
 
-          ,
-          {
-            text: 'Metric Name',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          }
-        ],
-
-        instances: [
-          {
-            instanceId: 'i-092ed4e40aec56ff1',
-            instanceName: 'CloudWatch-Event1',
-            metricName: 'CPUBalance',
-          },
-          {
-            instanceId: 'i-423434ed4e40aec56ff1',
-            instanceName: 'CloudWatch-Event2',
-            metricName: 'CPUUsage',
-          },
-          {
-            instanceId: 'i-5034e43e40aec56ff1',
-            instanceName: 'CloudWatch-Event3',
-            metricName: 'CPUSurplus',
-          },
-
-          ],
-
-           checkbox: false,
-      }
-    },
-    methods: {
-      next () {
-        const active = parseInt(this.active)
-        this.active = (active < 5 ? active + 1 : 0)
-      },
-
-    }
-  }
+@Component({
+  components: { Alarm },
+})
+export default class Alarm extends Vue {
+  
+}
 </script>
 
 <style>
