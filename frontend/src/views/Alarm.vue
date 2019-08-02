@@ -156,7 +156,7 @@
                             <v-flex xs6 md12>
                               <v-card flat>
                                 <v-card flat>
-                                  <v-btn solo  class="primary right" @click="" >edit</v-btn>
+                                  <v-btn solo  class="primary right"  >edit</v-btn>
                                 </v-card>
                               </v-card>
                             </v-flex>
@@ -284,7 +284,7 @@
                                                 <v-card color="blue-grey lighten-5 mr-2 pa-auto">
                                                   <v-radio-group v-model="ex7" column class="ml-2">
                                                      <v-radio label="Lower/Equal" color="blue" value="" class="mt-2"></v-radio>
-                                                     <div class="grey--text ml-4 pb-1"><=threshold</div>
+                                                     <div class="grey--text ml-4 pb-1">&#60;=threshold</div>
                                                   </v-radio-group>
                                                 </v-card>
                                               </v-flex>
@@ -293,7 +293,7 @@
                                                 <v-card color="blue-grey lighten-5 ma-auto pa-auto">
                                                   <v-radio-group v-model="ex7" column class="ml-2">
                                                      <v-radio label="Lower" color="blue" value="" class="mt-2"></v-radio>
-                                                     <div class="grey--text ml-4 pb-4"> <threshold </div>
+                                                     <div class="grey--text ml-4 pb-4"> &#60;threshold </div>
                                                   </v-radio-group>
                                                 </v-card>
                                               </v-flex>
@@ -517,7 +517,7 @@
                                    <v-radio label="Recover this instance" value="radio-1"></v-radio>
                                    <v-radio label="Stop this instance" value="radio-2"></v-radio>
                                    <v-radio label="Terminate this instance" value="radio-2"></v-radio>
-                                   <v-radio class=""label="Reboot this instance" value="radio-2"></v-radio>
+                                   <v-radio class="" label="Reboot this instance" value="radio-2"></v-radio>
                               </v-radio-group>
 
                              <v-card flat>
@@ -613,7 +613,7 @@
                                     <v-flex xs6 md12>
                                       <v-card flat>
                                         <v-card flat>
-                                          <v-btn solo  class="success right" @click="" >edit</v-btn>
+                                          <v-btn solo  class="success right"  >edit</v-btn>
                                         </v-card>
                                       </v-card>
                                     </v-flex>
@@ -753,7 +753,7 @@
                                 <v-flex xs6 md12>
                                   <v-card flat>
                                     <v-card flat>
-                                      <v-btn solo  class="success right" @click="" >edit</v-btn>
+                                      <v-btn solo  class="success right"  >edit</v-btn>
                                     </v-card>
                                   </v-card>
                                 </v-flex>
@@ -777,7 +777,7 @@
                                     <v-flex xs6 md12>
                                       <v-card flat>
                                         <v-card flat>
-                                          <v-btn solo  class="success right" @click="" >edit</v-btn>
+                                          <v-btn solo  class="success right"  >edit</v-btn>
                                         </v-card>
                                       </v-card>
                                     </v-flex>
@@ -818,7 +818,7 @@
                         </v-container>
                     </v-card>
             </v-tab-item>
-      </v-tabs>
+        </v-tabs>
 
     </v-container>
 
