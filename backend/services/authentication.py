@@ -1,8 +1,20 @@
 from flask import request, Response
-from lib.db import MongoClient
+from backend.lib.db import MongoClient
 from datetime import datetime
 from functools import wraps
 from bson.objectid import ObjectId
+
+
+def check_auth(token):
+    if not token:
+        return {'result': False, 'message': 'No token provided'}
+    tokens = list(MongoClient.find('access', {'token': token}))
+    token = tokens[0] if tokens else None
+    if not token:
+        return {'result': False, 'message': 'Invalid token'}
+    elif token['expires'] <= datetime.now():
+        return {'result': False, 'message': 'Token has expired'}
+    return {'result': True, 'message': 'Authenticated'}
 
 
 def require_auth(func):

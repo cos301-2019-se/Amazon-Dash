@@ -3,6 +3,7 @@ import Router, { NavigationGuard } from 'vue-router'
 import Services from './views/Services.vue'
 import Login from './views/Login.vue'
 import store from '@/store'
+import Metrics from './views/Metrics.vue'
 
 Vue.use(Router)
 
@@ -32,10 +33,12 @@ export default new Router({
       name: 'register',
       component: () => import(/* webpackChunkName: "register" */ './views/Register.vue'),
     },
-    {
-      path:'/alarm',
-      name:'alarm',
-      component: () => import(/* webpackChunkName: "register" */ './views/Alarm.vue'),
-    }
+      {
+          path: '/instances/:instanceId',
+          name: 'metrics',
+          component: Metrics,
+          props: true,
+          beforeEnter: requireAuth,
+      },
   ],
 })

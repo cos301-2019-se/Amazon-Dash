@@ -1,72 +1,74 @@
+<style lang="scss">
+.register-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+</style>
+
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-card>
-          <v-card-title>
-            <v-toolbar-title>Create account</v-toolbar-title>
-          </v-card-title>
-          <v-card-text>
-              <v-form @submit.prevent="register()" v-model="valid">
+        <v-form @submit.prevent="register()" v-model="valid">
+          <v-card>
+            <v-card-title>
+              <v-toolbar-title>Create account</v-toolbar-title>
+            </v-card-title>
+            <v-card-text>
 
-                  <v-text-field class="username"
-                    label="Username"
-                    prepend-icon="person"
-                    required
-                    v-model="username"
-                    :rules="[(v => !!v || 'Username is required')]"
-                  ></v-text-field>
-
-                  <v-text-field class="password"
-                    label="Password"
-                    :type="passwordShow ? 'text' : 'password'"
-                    prepend-icon="lock"
-                    :append-icon="passwordShow ? 'visibility_off' : 'visibility'"
-                    @click:append="passwordShow = !passwordShow"
-                    required
-                    v-model="password"
-                    :rules="[(v => !!v || 'Password is required')]"
-                 ></v-text-field>
-
-                 <v-text-field class="password"
-                   label="Confirm Password"
-                   :type="cPasswordShow ? 'text' : 'password'"
-                   prepend-icon="lock"
-                   :append-icon="cPasswordShow ? 'visibility_off' : 'visibility'"
-                   @click:append="cPasswordShow = !cPasswordShow"
-                   required
-                   v-model="cPassword"
-                   :rules="[(v => !!v || 'Password is required')]"
-                ></v-text-field>
-
-                  <v-text-field
-                       v-model="accessKey"
-                       prepend-icon="vpn_key"
-                       label="Access Key"
-                       required
+                    <v-text-field class="username"
+                      label="Username"
+                      prepend-icon="person"
+                      required
+                      v-model="username"
+                      :rules="[(v => !!v || 'Username is required')]"
                     ></v-text-field>
 
+                    <v-text-field class="password"
+                      label="Password"
+                      :type="passwordShow ? 'text' : 'password'"
+                      prepend-icon="lock"
+                      :append-icon="passwordShow ? 'visibility_off' : 'visibility'"
+                      @click:append="passwordShow = !passwordShow"
+                      required
+                      v-model="password"
+                      :rules="[(v => !!v || 'Password is required')]"
+                   ></v-text-field>
+
+                   <v-text-field class="password"
+                     label="Confirm Password"
+                     :type="cPasswordShow ? 'text' : 'password'"
+                     prepend-icon="lock"
+                     :append-icon="cPasswordShow ? 'visibility_off' : 'visibility'"
+                     @click:append="cPasswordShow = !cPasswordShow"
+                     required
+                     v-model="cPassword"
+                     :rules="[(v => !!v || 'Password is required')]"
+                  ></v-text-field>
+
                     <v-text-field
-                         v-model="secretKey"
+                         v-model="accessKey"
                          prepend-icon="vpn_key"
-                         label="Secret Key"
+                         label="Access Key"
                          required
                       ></v-text-field>
-              </v-form>
-              <v-layout align-center justify-center>
-                <v-btn class="green" type="submit">Submit</v-btn>
-              </v-layout>
-          </v-card-text>
-          <v-card-actions>
-            <v-layout align-center>
-              <v-subheader  class="pa-0">Already have an account?
-                <v-btn @click="$router.push('/login')">
-                      Login
-                  </v-btn>
-              </v-subheader>
-            </v-layout>
-          </v-card-actions>
-        </v-card>
+
+                      <v-text-field
+                           v-model="secretKey"
+                           prepend-icon="vpn_key"
+                           label="Secret Key"
+                           required
+                        ></v-text-field>
+            </v-card-text>
+            <v-card-actions class="register-actions">
+              <v-btn color="green" type="submit">Submit</v-btn>
+              <v-btn flat @click="$router.push('/login')" class="login-button">
+                Back To Login
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
       </v-flex>
     </v-layout>
   </v-container>

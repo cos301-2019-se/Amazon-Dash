@@ -22,7 +22,6 @@ jobs:
       language: python
       python:
         - "3.6"
-      before_install: cd backend
       script: make lint
     - name: "Frontend Unit Tests"
       before_install: cd frontend
@@ -32,7 +31,6 @@ jobs:
       language: python
       python:
         - "3.6"
-      before_install: cd backend
       script:
         - make unit
     - name: "E2E Tests"
@@ -41,9 +39,3 @@ jobs:
         - cd frontend
       script:
         - npm run test:e2e:ci
-    # - stage: build
-    #   script:
-    #     - echo Coming soon...
-    # - stage: deploy
-    #   script:
-    #     - echo Coming soon...
