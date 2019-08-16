@@ -839,6 +839,7 @@
 
 
 <script lang="ts">
+import axios from 'axios'
 import { Component, Vue } from 'vue-property-decorator'
 import ServiceCard from '@/components/Alarm.vue'
 
@@ -846,7 +847,23 @@ import ServiceCard from '@/components/Alarm.vue'
   components: { Alarm },
 })
 export default class Alarm extends Vue {
-  
+     private getMessage(){
+          const path='/api/ping';
+          axios.get(path).then((res)=>{
+            console.log(res);
+          }).catch((error)=>{
+            console.error(error);
+          });
+     
+    }
+    private created(){
+      /*this.$store.dispatch('pong').then((res)=>{
+        console.log(res);
+      }).catch((error)=>{
+        console.error(error);
+      });*/
+      this.getMessage();
+    }
 }
 </script>
 

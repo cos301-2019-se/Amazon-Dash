@@ -39,5 +39,17 @@ const actions = {
             commit('setInstances', res)
         })
     },
+
+    pong(): void {
+        fetch(config.apiUrl + '/pong', {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            
+        }).then(response => response.json()).then(res => {
+        })
+    }
 }
 export default actions
