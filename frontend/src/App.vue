@@ -7,6 +7,10 @@
       <v-toolbar-title class="headline">
         <span>Amazon Dash</span>
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="$store.dispatch('logout')">
+        <v-icon>logout</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-navigation-drawer
       :clipped="$vuetify.breakpoint.lgAndUp"
