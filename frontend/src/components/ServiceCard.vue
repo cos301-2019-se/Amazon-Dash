@@ -60,7 +60,12 @@
           <v-list-tile @click="restart">Restart</v-list-tile>
         </v-list>
       </v-menu>
-      <v-btn icon small flat style="float: right" v-on:click="goToMetricView(instance.id)"><v-icon>info</v-icon></v-btn>
+      <v-tooltip left>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon small flat style="float: right" v-on:click="goToMetricView(instance.id)"><v-icon>info</v-icon></v-btn>
+        </template>
+        <span>View Service Details</span>
+      </v-tooltip>
       <v-card-title>
         <span class="headline">{{ instance.name }}</span>
         <v-spacer></v-spacer>

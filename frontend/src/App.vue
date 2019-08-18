@@ -1,27 +1,44 @@
+<style lang="scss">
+.toolbar-title {
+  margin-right: 2rem;
+}
+</style>
+
 <template>
   <v-app>
-    <v-toolbar app clipped-left color="primary">
-      <v-btn icon flat @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown && authenticated">
+    <v-toolbar app color="primary" dark>
+      <v-btn icon flat @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.smAndDown && authenticated">
         <v-icon>menu</v-icon>
       </v-btn>
-      <v-toolbar-title class="headline">
-        <span>Amazon Dash</span>
+      <v-toolbar-title class="toolbar-title">
+        Amazon Dash
       </v-toolbar-title>
+      <v-toolbar-items class="hidden-sm-and-down" v-if="$store.getters.authenticated">
+        <v-btn flat
+               v-for="(item, i) in drawerItems"
+               :key="i"
+               @click="$router.push(item.href)">
+          {{ item.title }}
+        </v-btn>
+      </v-toolbar-items>
       <v-spacer></v-spacer>
-      <v-btn icon @click="$store.dispatch('logout')">
-        <v-icon>logout</v-icon>
-      </v-btn>
+      <v-tooltip bottom v-if="$store.getters.authenticated">
+        <template v-slot:activator="{ on }">
+          <v-btn icon @click="$store.dispatch('logout')" v-on="on">
+            <v-icon>logout</v-icon>
+          </v-btn>
+        </template>
+        <span>Log Out</span>
+      </v-tooltip>
     </v-toolbar>
     <v-navigation-drawer
-      :clipped="$vuetify.breakpoint.lgAndUp"
       v-model="drawer"
-      v-if="authenticated"
+      v-if="$vuetify.breakpoint.smAndDown && authenticated"
       app
-      :permanent="$vuetify.breakpoint.lgAndUp"
-    >
+      >
       <v-list>
         <v-list-tile v-for="(item, i) in drawerItems" :key="i" @click="$router.push(item.href); drawer = false"
-          :color="isCurrentRoute(item.href) ? 'accent' : undefined">
+                     :color="isCurrentRoute(item.href) ? 'accent' : undefined">
           <v-list-tile-action>
             <v-icon :color="isCurrentRoute(item.href) ? 'accent' : undefined">{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -36,7 +53,7 @@
       <router-view/>
     </v-content>
     <v-snackbar v-model="snackbar.enabled"
-                top
+                bottom right
                 :timeout="snackbar.timeout"
                 :color="snackbar.colour">
       {{ snackbar.message }}
@@ -49,7 +66,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class App extends Vue {
-  private drawer = this.$vuetify.breakpoint.lgAndUp
+  private drawer = false
   private drawerItems: Array<{ title: string, href: string, icon: string }> = [
     { title: 'Dashboard', href: '/', icon: 'home' },
   ]
@@ -62,7 +79,7 @@ export default class App extends Vue {
   }
 
   private isCurrentRoute(route: string) {
-    return this.$router.currentRoute.path.endsWith(route);
+    return this.$router.currentRoute.path.endsWith(route)
   }
 }
 </script>

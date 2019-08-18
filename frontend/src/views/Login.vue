@@ -1,25 +1,37 @@
-<style>
+<style lang="scss">
 .form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
-.title {
+.heading {
   width: 100%;
   text-align: center;
+}
+.buttons {
+  display: flex;
+  .register-button {
+    flex-grow: 1;
+  }
+  .login-button {
+    flex-grow: 1;
+  }
+}
+
+.card-text {
+  margin-bottom: 2rem;
 }
 </style>
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <h3 class="headline">Amazon Dash</h3>
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="login()" v-model="valid" class="form">
-
+        <v-form @submit.prevent="login()" v-model="valid" class="form">
+          <v-card>
+            <v-card-title primary-title class="heading">
+              <h3 class="headline heading">Amazon Dash</h3>
+            </v-card-title>
+            <v-card-text class="card-text">
               <v-text-field class="username"
                             label="Username"
                             prepend-icon="person"
@@ -37,13 +49,15 @@
                                         v-model="password"
                                         :rules="[(v => !!v || 'Password is required')]"
                                         ></v-text-field>
-                                      <v-btn type="submit" color="accent">Login</v-btn>
-                                      <v-btn @click="$router.push('/register')">
-                                        Create account
-                                      </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
+            </v-card-text>
+            <v-card-actions class="buttons">
+              <v-btn @click="$router.push('/register')" flat class="register-button">
+                Create account
+              </v-btn>
+              <v-btn type="submit" color="accent" class="login-button">Login</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
       </v-flex>
     </v-layout>
   </v-container>
