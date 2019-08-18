@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-toolbar app clipped-left>
-      <v-btn icon flat @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown">
+    <v-toolbar app clipped-left color="primary">
+      <v-btn icon flat @click.stop="drawer = !drawer" v-if="$vuetify.breakpoint.mdAndDown && authenticated">
         <v-icon>menu</v-icon>
       </v-btn>
       <v-toolbar-title class="headline">
@@ -15,14 +15,15 @@
     <v-navigation-drawer
       :clipped="$vuetify.breakpoint.lgAndUp"
       v-model="drawer"
+      v-if="authenticated"
       app
       :permanent="$vuetify.breakpoint.lgAndUp"
-      class="blue"
     >
       <v-list>
-        <v-list-tile v-for="(item, i) in drawerItems" :key="i" @click="$router.push(item.href); drawer = false">
+        <v-list-tile v-for="(item, i) in drawerItems" :key="i" @click="$router.push(item.href); drawer = false"
+          :color="isCurrentRoute(item.href) ? 'accent' : undefined">
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon :color="isCurrentRoute(item.href) ? 'accent' : undefined">{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
@@ -51,10 +52,17 @@ export default class App extends Vue {
   private drawer = this.$vuetify.breakpoint.lgAndUp
   private drawerItems: Array<{ title: string, href: string, icon: string }> = [
     { title: 'Dashboard', href: '/', icon: 'home' },
-    { title: 'Calculator', href: '/calculator', icon: 'mdi-calculator' },
   ]
   private get snackbar() {
     return this.$store.getters.snackbar
+  }
+
+  private get authenticated() {
+    return !!this.$store.getters.token
+  }
+
+  private isCurrentRoute(route: string) {
+    return this.$router.currentRoute.path.endsWith(route);
   }
 }
 </script>
