@@ -1,8 +1,10 @@
 <style lang="scss">
 .register-actions {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+
+  > * {
+    flex-grow: 1;
+  }
 }
 </style>
 
@@ -58,14 +60,17 @@
                            v-model="secretKey"
                            prepend-icon="vpn_key"
                            label="Secret Key"
+                           :append-icon="secretKeyShow ? 'visibility_off' : 'visibility'"
+                           @click:append="secretKeyShow = !secretKeyShow"
+                           :type="secretKeyShow ? 'text' : 'password'"
                            required
                         ></v-text-field>
             </v-card-text>
             <v-card-actions class="register-actions">
-              <v-btn color="green" type="submit">Submit</v-btn>
               <v-btn flat @click="$router.push('/login')" class="login-button">
                 Back To Login
               </v-btn>
+              <v-btn color="accent" type="submit">Submit</v-btn>
             </v-card-actions>
           </v-card>
         </v-form>
@@ -87,6 +92,7 @@ export default class Register extends Vue {
   private password: string = ''
   private cPassword: string = ''
   private secretKey: string = ''
+  private secretKeyShow = false
   private accessKey: string = ''
   private register() {
     if (this.password === this.cPassword) {
