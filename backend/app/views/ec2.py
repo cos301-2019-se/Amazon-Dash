@@ -4,7 +4,7 @@ from backend.services import aws
 from backend.lib.util import json_serialize
 from botocore.exceptions import ClientError
 import json
-
+from flask import Flask,jsonify
 
 ec2 = Blueprint('ec2', __name__)
 
@@ -77,3 +77,32 @@ def get_instance_metrics(user, client, instance_id):
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
+ALARMS=[
+    {
+    "Namespace": "AWS/EC2",
+    "MetricName": "CPUUtilization",
+    "Dimensions": [
+        {
+            "Name": "InstanceId",
+            "Value": "i-1234567890abcdef0"
+        }
+    ],
+    "AlarmActions": [
+        "arn:aws:sns:us-west-1:123456789012:my_sns_topic"
+    ],
+    "ComparisonOperator": "GreaterThanThreshold",
+    "DatapointsToAlarm": 3,
+    "EvaluationPeriods": 4,
+    "Period": 60,
+    "Statistic": "Average",
+    "Threshold": 40,
+    "AlarmDescription": "CPU Utilization of i-1234567890abcdef0 with 40% as threshold",
+    "AlarmName": "Instance i-1234567890abcdef0 CPU Utilization"
+}
+]
+@ec2.route('/api/alarms',methods=['GET'])
+def get_alarms():
+    return jsonify({
+        'status':'success',
+        'alarms':ALARMS
+    })

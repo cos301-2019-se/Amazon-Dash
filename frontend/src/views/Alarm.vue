@@ -848,7 +848,7 @@ import ServiceCard from '@/components/Alarm.vue'
 })
 export default class Alarm extends Vue {
      private getMessage(){
-          const path='/api/ping';
+          const path='http://127.0.0.1:5000/api/alarms';
           axios.get(path).then((res)=>{
             console.log(res);
           }).catch((error)=>{
@@ -857,11 +857,6 @@ export default class Alarm extends Vue {
      
     }
     private created(){
-      /*this.$store.dispatch('pong').then((res)=>{
-        console.log(res);
-      }).catch((error)=>{
-        console.error(error);
-      });*/
       this.getMessage();
     }
 }

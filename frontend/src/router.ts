@@ -4,7 +4,7 @@ import Services from './views/Services.vue'
 import Login from './views/Login.vue'
 import store from '@/store'
 import Metrics from './views/Metrics.vue'
-
+import Alarm from './views/Alarm.vue'
 Vue.use(Router)
 
 const requireAuth: NavigationGuard = (to, from, next) => {
@@ -27,6 +27,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path:'/alarm',
+      name:'alarm',
+      component: Alarm,
     },
     {
       path: '/register',
