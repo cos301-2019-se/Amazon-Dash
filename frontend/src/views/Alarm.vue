@@ -5,10 +5,10 @@
       <div class="display-2 pt-3 pb-2">Create alarm</div>
 
 <!------------------------------------- First Tab begins ------------------------------------------------->
-    <v-tabs v-model="active" color="primary" dark slider-color="yellow">
+    <v-tabs v-model="active" color="#52c7b8"  slider-color="#b0003a">
       <!-- Selecting metrics -->
       <v-tab>
-        1. Select metric
+        <v-text color="white">1. Select metric</v-text>
       </v-tab>
         <v-tab-item>
           <v-card flat>
@@ -22,7 +22,7 @@
                     <div class="grey--text ml-2 mb-2">Preview of the metric or metric expression and the alarm threshold.</div>
 
                     <v-layout row justify-center>
-                    <v-btn color="normal" class="right"  @click.stop="dialog = true">Select metric</v-btn>
+                    <v-btn color="#b0003a" class="right"  @click.stop="dialog = true">Select metric</v-btn>
 
                     <v-dialog v-model="dialog" max-width="290" fullscreen >
                       <v-card flat>
@@ -113,11 +113,11 @@
                         <v-card-actions class="ml-5">
                           <v-container>
                             <v-layout row>
-                                <v-btn solo color="primary left"  @click="dialog = false">
+                                <v-btn solo color="#b0003a left"  @click="dialog = false">
                                   Cancel
                                 </v-btn>
 
-                                <v-btn solo color="primary left"  @click="dialog = false">
+                                <v-btn solo color="#b0003a left"  @click="dialog = false">
                                   Select metric
                                 </v-btn>
                             </v-layout>
@@ -152,7 +152,7 @@
                             <v-flex xs6 md12>
                               <v-card flat>
                                 <v-card flat>
-                                  <v-btn solo  class="primary right"  >edit</v-btn>
+                                  <v-btn solo  class="right"  >edit</v-btn>
                                 </v-card>
                               </v-card>
                             </v-flex>
@@ -372,7 +372,7 @@
                                 <v-flex xs12 md12>
                                   <v-card flat>
                                       <v-card flat>
-                                        <v-btn solo  class="primary right" @click="next" >Remove</v-btn>
+                                        <v-btn solo  class="right" @click="next" >Remove</v-btn>
                                       </v-card>
 
                                           <div class="pt-4 pl-4">Whenever this alarm state is...</div>
@@ -547,7 +547,7 @@
 
                                   <layout row justify-end>
                                     <v-container>
-                                        <v-card flat>
+                                        <!--<v-card flat>
                                             <v-flex xs12 md12>
                                               <v-btn class="ml-2 right" color="primary" solo  @click="next">Next</v-btn>
                                             </v-flex>
@@ -559,7 +559,7 @@
                                             <v-flex xs12 md12>
                                               <v-btn solo  class="primary right" @click="next">Cancel</v-btn>
                                             </v-flex>
-                                        </v-card>
+                                        </v-card>-->
                                     </v-container>
                                   </layout>
                               </v-flex>
@@ -586,13 +586,17 @@
                             <v-card flat class="">
                               <v-layout row wrap>
                                 <v-flex xs12 md12>
-                                    <div class="display-2 pb-2">Preview and create</div>
-                                    <div class="display-1 pt-4 ">Step 1: Specify conditions</div>
+                                    <div class="display-2 pb-2">
+                                      <v-text>Preview and create</v-text>
+                                    </div>
+                                    <div class="display-1 pt-4 ">
+                                      <v-text>Step 1: Specify conditions</v-text>
+                                    </div>
                                       
                                       <v-flex xs6 md12>
                                         <v-card flat>
                                           <v-card flat>
-                                            <v-btn solo  class="success right"  >edit</v-btn>
+                                            <v-btn solo  class=" right"  >edit</v-btn>
                                           </v-card>
                                         </v-card>
                                       </v-flex>
@@ -608,8 +612,12 @@
                             <v-layout row>
                               <v-flex xs6 md6>
                                   <v-card flat>
-                                    <div class="display-1 pb-2 grey--text">Graph</div>
-                                    <p class="grey--text">This alarm will trigger when the blue line goes above the red line</p>
+                                    <div class="display-1 pb-2 grey--text">
+                                      <v-text>Graph</v-text>
+                                    </div>
+                                    <p class="grey--text">
+                                      <v-text>This alarm will trigger when the blue line goes above the red line.</v-text>
+                                    </p>
                                   </v-card>
 
                                   <v-card flat>
@@ -630,7 +638,9 @@
                               <v-divider vertical></v-divider>
                                 <v-flex xs6 md6>
                                     <v-card flat>
-                                      <div class="display-1 pl-4 grey--text">Namespace</div>
+                                      <div class="display-1 pl-4 grey--text">
+                                        <v-text>Namespace</v-text>
+                                      </div>
                                       <div class="pl-4">
                                           <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                               {{alarm.Namespace}}
@@ -639,7 +649,9 @@
                                     </v-card>
 
                                     <v-card flat>
-                                        <div class="pl-4 grey--text pt-4 pl-4">Metric name</div>
+                                        <div class="pl-4 grey--text pt-4 pl-4">
+                                          <v-text>Metric name</v-text>
+                                        </div>
                                         <div class="pl-4 pr-5 mr-4  pb-3">
                                           <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                               {{alarm.MetricName}}
@@ -648,22 +660,30 @@
                                     </v-card>
 
                                     <v-card flat>
-                                        <div class="pl-4 grey--text pt-1 pl-4">Region</div>
+                                        <div class="pl-4 grey--text pt-1 pl-4">
+                                          <v-text>Region</v-text>
+                                        </div>
                                         <div class="pl-4 pr-5 mr-4  pb-3" label="Global" outline block>(Not defined)</div>
                                     </v-card>
 
                                     <v-card flat>
-                                        <div class="pl-4 grey--text pt-1 pl-4">DistributionId</div>
+                                        <div class="pl-4 grey--text pt-1 pl-4">
+                                          <v-text>DistributionId</v-text>
+                                        </div>
                                         <div class="pl-4 pr-5 mr-4  pb-3" label="E2D5UY2120R4CG" outline block>(Not defined)</div>
                                     </v-card>
 
                                     <v-card flat>
-                                        <div class="pl-4 grey--text pt-1 pl-4">Instance name</div>
+                                        <div class="pl-4 grey--text pt-1 pl-4">
+                                          <v-text>Instance name</v-text>
+                                        </div>
                                         <div class="pl-4 pr-5 mr-4  pb-3" label="" outline block>(Not defined)</div>
                                     </v-card>
 
                                     <v-card flat>
-                                        <div class="pl-4 grey--text pt-1 pl-4">Statistic</div>
+                                        <div class="pl-4 grey--text pt-1 pl-4">
+                                          <v-text>Statistic</v-text>
+                                        </div>
                                         <div class="pl-4 pr-5 mr-4  pb-3" label="Average" outline block>
                                           <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                               {{alarm.Statistic}}
@@ -672,7 +692,9 @@
                                     </v-card>
 
                                     <v-card flat>
-                                        <div class="pl-4 grey--text pt-2 pl-4">Period</div>
+                                        <div class="pl-4 grey--text pt-2 pl-4">
+                                          <v-text>Period</v-text>
+                                        </div>
                                         <div class="pl-4 pr-5 mr-4" label="Average" outline block>
                                           <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                               {{alarm.Period}}
@@ -688,15 +710,21 @@
                           <v-card flat>
                             <v-layout row wrap>
                                 <v-flex xs12 md12>
-                                      <div class="display-1  grey--text">Conditions</div>
+                                      <div class="display-1  grey--text">
+                                        <v-text>Conditions</v-text>
+                                      </div>
                                       <v-divider></v-divider>
                                 </v-flex>
 
                                 <!-- Threshold type -->
                                 <v-flex xs12 md12>
                                   <v-card flat>
-                                      <div class="grey--text pt-2 ">Threshold type</div>
-                                      <div class="pr-5 mr-4" label="Static" solo block>Static</div>
+                                      <div class="grey--text pt-2 ">
+                                        <v-text>Threshold type</v-text>
+                                      </div>
+                                      <div class="pr-5 mr-4" label="Static" solo block>
+                                        <v-text>Static</v-text>
+                                      </div>
                                   </v-card>
                                 </v-flex>
 
@@ -704,21 +732,18 @@
                                 <v-flex xs12 md12>
                                   <v-card flat>
                                       <div class="grey--text pt-4 ">
-                                         <span class="font-weight-bold">
-                                             
+                                         <span class="font-weight-bold">     
                                              <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                               <v-text>Whenever</v-text> {{alarm.MetricName}} <v-text>is</v-text>
                                             </v-flex> 
                                         </span>
                                         
-                                            
                                             <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                               {{alarm.ComparisonOperator}}
                                                 <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                                 {{alarm.Threshold}}
                                                 </v-flex>
                                             </v-flex>
-                                            
                                       </div>
                                   </v-card>
                                 </v-flex>
@@ -730,8 +755,12 @@
                               <v-card flat>
                                   <v-layout row>
                                     <v-flex xs12 md12>
-                                        <div class="display-1 pt-3">Additional configuration</div>
-                                        <div class="mt-2">Datapoints to alarm</div>
+                                        <div class="display-1 pt-3">
+                                          <v-text>Additional configuration</v-text>
+                                        </div>
+                                        <div class="mt-2">
+                                          <v-text>Datapoints to alarm</v-text>
+                                        </div>
                                         <v-layout row>
                                             <div class="grey--text ">
                                               <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
@@ -743,8 +772,12 @@
                                         <v-layout row>
                                           <v-flex xs12 md6>
                                             <v-card flat>
-                                              <div class="mt-3">Missing data treatment</div>
-                                              <div class="grey--text mb-3 ">Treat missing data as missing</div>
+                                              <div class="mt-3">
+                                                <v-text>Missing data treatment</v-text>
+                                              </div>
+                                              <div class="grey--text mb-3 ">
+                                                <v-text>Treat missing data as missing</v-text>
+                                              </div>
                                               <v-divider></v-divider>
                                             </v-card>
                                           </v-flex>
@@ -760,12 +793,16 @@
                           <v-card flat>                          
                             <v-layout row>
                               <v-flex xs12 md12>
-                                <div class="display-2 pt-1 ">Step 2: Configure actions</div>
-                                <div class="display-1 mt-2">Actions</div>
+                                <div class="display-2 pt-1 ">
+                                  <v-text>Step 2: Configure actions</v-text>
+                                </div>
+                                <div class="display-1 mt-2">
+                                  <v-text>Actions</v-text>
+                                </div>
                                 <v-flex xs6 md12>
                                   <v-card flat>
                                     <v-card flat>
-                                      <v-btn solo  class="success right"  >edit</v-btn>
+                                      <v-btn solo  class=" right"  >edit</v-btn>
                                     </v-card>
                                   </v-card>
                                 </v-flex>
@@ -782,7 +819,9 @@
                                   </v-flex>
                                   
                                 </div>
-                                <div class="pt-1 grey--text">When in Alarm, (action) this instance</div>
+                                <div class="pt-1 grey--text">
+                                  <v-text>When in Alarm, (action) this instance</v-text>
+                                </div>
                                 <div class="pt-1 pb-4 mb-2 grey--text">
                                     <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                       {{alarm.Dimensions[0]}}
@@ -794,12 +833,16 @@
 
                             <v-layout>
                                 <v-flex xs12 md12>
-                                    <div class="display-2 pt-2 mt-3 ">Step 3: Add a description</div>
-                                    <div class="display-1 mt-2">Name and description</div>
+                                    <div class="display-2 pt-2 mt-3 ">
+                                      <v-text>Step 3: Add a description</v-text>
+                                    </div>
+                                    <div class="display-1 mt-2">
+                                      <v-text>Name and description</v-text>
+                                    </div>
                                     <v-flex xs6 md12>
                                       <v-card flat>
                                         <v-card flat>
-                                          <v-btn solo  class="success right" >edit</v-btn>
+                                          <v-btn solo  class="right" >edit</v-btn>
                                         </v-card>
                                       </v-card>
                                     </v-flex>
@@ -809,7 +852,9 @@
 
                             <v-layout>
                               <v-flex xs12 md12>
-                                <div class="grey--text">Name</div>
+                                <div class="grey--text">
+                                  <v-text>Name</v-text>
+                                </div>
                                 <div class="">
                                     <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                       {{alarm.AlarmName}}
@@ -818,7 +863,9 @@
                               </v-flex>
 
                               <v-flex xs12 md12>
-                                <div class="grey--text">Description</div>
+                                <div class="grey--text">
+                                  <v-text>Description</v-text>
+                                </div>
                                 <div class="">
                                     <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
                                       {{alarm.AlarmDescription}}
@@ -831,15 +878,15 @@
                                 <v-container class="pt-3">
                                   <v-card flat>
                                       <v-flex xs12 md12>
-                                      <v-btn class="ml-2 right" solo color="primary"  @click="next">Next</v-btn>
+                                      <v-btn class="ml-2 right" solo color="#b0003a"  @click="next">Continue</v-btn>
                                       </v-flex>
 
                                       <v-flex xs12 md12>
-                                      <v-btn solo class="normal right" @click="prev">Previous</v-btn>
+                                      <v-btn solo class="right" @click="prev">Previous</v-btn>
                                       </v-flex>
 
                                       <v-flex xs12 md12>
-                                        <v-btn solo class="primary right" @click="next">Cancel</v-btn>
+                                        <v-btn solo class="right" @click="next">Cancel</v-btn>
                                       </v-flex>
                                   </v-card>
                                 </v-container>
@@ -855,11 +902,11 @@
         <v-container>
           <v-card flat>
               <v-flex xs12 md12>
-              <v-btn solo class="normal left" @click="prev">Previous</v-btn>
+              <v-btn solo class="normal left" @click="previous()">Previous</v-btn>
               </v-flex>
 
               <v-flex xs12 md12>
-              <v-btn class="ml-2 left" solo color="primary"  @click="next">Next</v-btn>
+              <v-btn class="ml-2 left" solo color="#b0003a"  @click="next()">Next</v-btn>
               </v-flex>
             </v-card>
           </v-container>
@@ -893,8 +940,18 @@ export default class Alarm extends Vue {
       
     }
     @Prop()
+    public active: null;
     public alarms=[];
-    
+    public time=['1 Minute','5 Minutes','15 Minutes','1 Hour','6 Hours']
+    public data=['Treat missing data as missing','Treat data'];
+    public next=function() {
+        const active = parseInt(this.active)
+        this.active = (active < 5 ? active + 1 : 0)
+    };
+    public previous=function() {
+        const active = parseInt(this.active)
+        this.active = (active > 5 ? active - 1 : 0)
+    };
 }
 </script>
 
