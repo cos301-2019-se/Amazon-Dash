@@ -614,7 +614,11 @@
 
                                   <v-card flat>
                                       <v-flex xs5 md6 >
-                                        <div class="title mb-1">4xxErrorRate</div>
+                                        <div class="title mb-1">
+                                          <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.MetricName}}
+                                          </v-flex>
+                                        </div>
                                           <v-layout column my-1>
                                             <div class="subheading pt-3"></div>
                                             <v-img src="https://media.amazonwebservices.com/blog/2014/cloudfront_dist_hourly_4xx_4.png" :aspect-ratio="1" max-width></v-img>
@@ -627,37 +631,53 @@
                                 <v-flex xs6 md6>
                                     <v-card flat>
                                       <div class="display-1 pl-4 grey--text">Namespace</div>
-                                      <div class="pl-4">AWS/Cloudfront</div>
+                                      <div class="pl-4">
+                                          <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.Namespace}}
+                                          </v-flex>
+                                      </div>
                                     </v-card>
 
                                     <v-card flat>
                                         <div class="pl-4 grey--text pt-4 pl-4">Metric name</div>
-                                        <div class="pl-4 pr-5 mr-4  pb-3">4xxErrorRate</div>
+                                        <div class="pl-4 pr-5 mr-4  pb-3">
+                                          <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.MetricName}}
+                                          </v-flex>
+                                        </div>
                                     </v-card>
 
                                     <v-card flat>
                                         <div class="pl-4 grey--text pt-1 pl-4">Region</div>
-                                        <div class="pl-4 pr-5 mr-4  pb-3" label="Global" outline block>Global</div>
+                                        <div class="pl-4 pr-5 mr-4  pb-3" label="Global" outline block>(Not defined)</div>
                                     </v-card>
 
                                     <v-card flat>
                                         <div class="pl-4 grey--text pt-1 pl-4">DistributionId</div>
-                                        <div class="pl-4 pr-5 mr-4  pb-3" label="E2D5UY2120R4CG" outline block>E2D5UY2120R4CG</div>
+                                        <div class="pl-4 pr-5 mr-4  pb-3" label="E2D5UY2120R4CG" outline block>(Not defined)</div>
                                     </v-card>
 
                                     <v-card flat>
                                         <div class="pl-4 grey--text pt-1 pl-4">Instance name</div>
-                                        <div class="pl-4 pr-5 mr-4  pb-3" label="" outline block>My Production Workload</div>
+                                        <div class="pl-4 pr-5 mr-4  pb-3" label="" outline block>(Not defined)</div>
                                     </v-card>
 
                                     <v-card flat>
                                         <div class="pl-4 grey--text pt-1 pl-4">Statistic</div>
-                                        <div class="pl-4 pr-5 mr-4  pb-3" label="Average" outline block>Average</div>
+                                        <div class="pl-4 pr-5 mr-4  pb-3" label="Average" outline block>
+                                          <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.Statistic}}
+                                          </v-flex>
+                                        </div>
                                     </v-card>
 
                                     <v-card flat>
                                         <div class="pl-4 grey--text pt-2 pl-4">Period</div>
-                                        <div class="pl-4 pr-5 mr-4" label="Average" outline block>5 minutes</div>
+                                        <div class="pl-4 pr-5 mr-4" label="Average" outline block>
+                                          <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.Period}}
+                                          </v-flex>
+                                        </div>
                                     </v-card>
                                 </v-flex>
                               </v-layout>
@@ -683,18 +703,26 @@
                                             <!-- Whenever -->
                                 <v-flex xs12 md12>
                                   <v-card flat>
-                                      <div class="grey--text pt-4 ">Whenever <span class="font-weight-bold">DiskReadBytes</span> is...</div>
-                                      <div class="pr-5 mr-4" label="Greater" solo block>Greater(>)</div>
+                                      <div class="grey--text pt-4 ">
+                                         <span class="font-weight-bold">
+                                             
+                                             <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              <v-text>Whenever</v-text> {{alarm.MetricName}} <v-text>is</v-text>
+                                            </v-flex> 
+                                        </span>
+                                        
+                                            
+                                            <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.ComparisonOperator}}
+                                                <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                                {{alarm.Threshold}}
+                                                </v-flex>
+                                            </v-flex>
+                                            
+                                      </div>
                                   </v-card>
                                 </v-flex>
-
-                                <!-- than... -->
-                                <v-flex xs12 md6>
-                                  <v-card flat class="mb-2 pb-2">
-                                    <div class=" mt-2">than...</div>
-                                  <div class=" mr-1 pr-5 mr-4 pt-0 mt-0" label="" solo block>10000</div>
-                                  </v-card>
-                                </v-flex>
+                                
                             </v-layout>
                           </v-card>
 
@@ -705,7 +733,11 @@
                                         <div class="display-1 pt-3">Additional configuration</div>
                                         <div class="mt-2">Datapoints to alarm</div>
                                         <v-layout row>
-                                            <div class="grey--text ">1 out of 1</div>
+                                            <div class="grey--text ">
+                                              <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                              {{alarm.DatapointsToAlarm}}
+                                              </v-flex>
+                                            </div>
                                         </v-layout>
 
                                         <v-layout row>
@@ -743,9 +775,19 @@
 
                             <v-layout>
                               <v-flex xs12 md12>
-                                <div class="pt-3 grey--text">EC2 action</div>
-                                <div class="pt-1 grey--text">When in Alarm, reboot this instance</div>
-                                <div class="pt-1 pb-4 mb-2 grey--text">(Instance ID: i-0b9f7f134aab3b6a2)</div>
+                                <div class="pt-3 grey--text"> 
+                                  <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                      {{alarm.Namespace}}
+                                      <v-text>action</v-text>
+                                  </v-flex>
+                                  
+                                </div>
+                                <div class="pt-1 grey--text">When in Alarm, (action) this instance</div>
+                                <div class="pt-1 pb-4 mb-2 grey--text">
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                      {{alarm.Dimensions[0]}}
+                                    </v-flex>    
+                                </div>
                                 <v-divider></v-divider>
                               </v-flex>
                             </v-layout>
@@ -768,17 +810,25 @@
                             <v-layout>
                               <v-flex xs12 md12>
                                 <div class="grey--text">Name</div>
-                                <div class="">A1</div>
+                                <div class="">
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                      {{alarm.AlarmName}}
+                                    </v-flex>
+                                </div>
                               </v-flex>
 
                               <v-flex xs12 md12>
                                 <div class="grey--text">Description</div>
-                                <div class="">A</div>
+                                <div class="">
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                      {{alarm.AlarmDescription}}
+                                    </v-flex>
+                                </div>
                               </v-flex>
                             </v-layout>
 
                             <layout row justify-end>
-                                <v-container>
+                                <v-container class="pt-3">
                                   <v-card flat>
                                       <v-flex xs12 md12>
                                       <v-btn class="ml-2 right" solo color="primary"  @click="next">Next</v-btn>
