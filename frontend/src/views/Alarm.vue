@@ -131,11 +131,11 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                    <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()"><v-text>Next</v-text></v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
-                    <v-btn solo text class="normal right " @click="prev"><v-text class=""><v-text>Cancel</v-text></v-text></v-btn>
+                    <v-btn solo text class="normal right " @click="cancel()"><v-text class=""><v-text>Cancel</v-text></v-text></v-btn>
                 </v-flex>    
               </v-card>
         </v-container>
@@ -159,7 +159,7 @@
                             <v-flex xs6 md12>
                                 <v-card flat>
                                     <v-card flat>
-                                      <v-btn solo  class="right"   >edit</v-btn>
+                                      <v-btn solo  class="right">edit</v-btn>
                                     </v-card>
                                 </v-card>
                             </v-flex>
@@ -347,11 +347,11 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                    <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()"><v-text>Next</v-text></v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
-                    <v-btn solo class="normal right" @click="prev"><v-text>Cancel</v-text></v-btn>
+                    <v-btn solo class="normal right" @click="cancel()"><v-text>Cancel</v-text></v-btn>
                 </v-flex>
             </v-card>
         </v-container>
@@ -529,11 +529,11 @@
         <v-container>
                 <v-card flat>
                     <v-flex xs12 md12>
-                        <v-btn class="ml-2 right" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                        <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()"><v-text>Next</v-text></v-btn>
                     </v-flex>
                     
                     <v-flex xs12 md12>
-                        <v-btn solo class="normal right" @click="prev"><v-text>Cancel</v-text></v-btn>
+                        <v-btn solo class="normal right" @click="cancel()"><v-text>Cancel</v-text></v-btn>
                     </v-flex>
                 </v-card>
         </v-container>
@@ -600,7 +600,7 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right " solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                    <v-btn class="ml-2 right " solo color="#b0003a"  @click="next()"><v-text>Next</v-text></v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
@@ -608,7 +608,7 @@
                 </v-flex>
 
                 <v-flex xs12 md12>
-                    <v-btn solo class="normal right blue--text" @click="prev"><v-text>Cancel</v-text></v-btn>
+                    <v-btn solo class="normal right blue--text" @click="cancel()"><v-text>Cancel</v-text></v-btn>
                 </v-flex>
 
               </v-card>
@@ -633,7 +633,7 @@
                                 <v-flex xs6 md12>
                                     <v-card flat>
                                       <v-card flat>
-                                        <v-btn solo  class="normal right"  >edit</v-btn>
+                                        <v-btn solo  class="normal right">edit</v-btn>
                                       </v-card>
                                     </v-card>
                                 </v-flex>
@@ -732,8 +732,7 @@
                                 <div class="display-1  grey--text"><v-text>Conditions</v-text></div>
                                 <v-divider></v-divider>
                             </v-flex>
-
-                                <!-- Threshold type -->
+                            <!-- Threshold type -->
                             <v-flex xs12 md12>
                                 <v-card flat>
                                     <div class="grey--text pt-2 ">Threshold type</div>
@@ -885,7 +884,7 @@
                 <v-container>
                         <v-card flat>
                             <v-flex xs12 md12>
-                                <v-btn class="ml-2 right" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                                <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()"><v-text>Next</v-text></v-btn>
                             </v-flex>
 
                             <v-flex xs12 md12>
@@ -893,7 +892,7 @@
                             </v-flex>
 
                             <v-flex xs12 md12>
-                                <v-btn solo class="normal right blue--text" @click="prev"><v-text>Cancel</v-text></v-btn>
+                                <v-btn solo class="normal right blue--text" @click="cancel()"><v-text>Cancel</v-text></v-btn>
                             </v-flex>
                           </v-card>
                 </v-container>
@@ -927,13 +926,20 @@ export default class Alarm extends Vue {
             console.error(error);
           });
     }
-    private created(){
+    private mounted(){
       this.getMessage();
       
     }
     @Prop()
     public alarms=[];
     public active=null;
+    public dialog=false;
+    public next=function(){
+        const active=parseInt(this.active)
+        this.active=(active<5 ?active + 1 :0)
+    }
+    
+    
     
 }
 </script>
