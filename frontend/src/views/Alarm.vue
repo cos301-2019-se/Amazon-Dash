@@ -127,6 +127,19 @@
             </v-layout>
         </v-container>
     </v-card>
+    <layout row>
+        <v-container>
+            <v-card flat>
+                <v-flex xs12 md12>
+                <v-btn solo text class="normal left " @click="prev"><v-text class=""><v-text>Cancel</v-text></v-text></v-btn>
+                </v-flex>
+
+                <v-flex xs12 md12>
+                <v-btn class="ml-2 left" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                </v-flex>
+              </v-card>
+        </v-container>
+    </layout>
 </v-tab-item>
 <!-------------------------------------------------END OF FIRST TAB ---------------------------------------------->
 
@@ -146,7 +159,7 @@
                             <v-flex xs6 md12>
                                 <v-card flat>
                                     <v-card flat>
-                                      <v-btn solo  class="primary right"  >edit</v-btn>
+                                      <v-btn solo  class="right"   >edit</v-btn>
                                     </v-card>
                                 </v-card>
                             </v-flex>
@@ -330,6 +343,19 @@
                 </v-card>
             </v-container>
     </v-card>
+    <layout row>
+        <v-container>
+            <v-card flat>
+                <v-flex xs12 md12>
+                <v-btn solo class="normal left" @click="prev"><v-text>Cancel</v-text></v-btn>
+                </v-flex>
+
+                <v-flex xs12 md12>
+                <v-btn class="ml-2 left" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                </v-flex>
+            </v-card>
+        </v-container>
+    </layout>
 </v-tab-item>
 <!-------------------------------------------Second Tab ENDS --------------------------------------------------------------------------------->
 
@@ -360,7 +386,7 @@
                     <v-flex xs12 md12>
                         <v-card flat>
                             <v-card flat>
-                              <v-btn solo  class="primary right" @click="next" >Remove</v-btn>
+                              <v-btn solo  class="right" @click="next" >Remove</v-btn>
                             </v-card>
 
                             <div class="pt-4 pl-4">Whenever this alarm state is...</div>
@@ -491,13 +517,28 @@
                 <v-radio class="" label="Reboot this instance" value="radio-2"></v-radio>
             </v-radio-group>
 
-            <v-card flat>
+            <!--<v-card flat>
               <v-flex xs12 md12>
                   <v-btn class="ml-5 solo left" color="normal">Add EC2 action</v-btn>
               </v-flex>
-            </v-card>
+            </v-card>-->
         </v-container>
     </v-card>
+
+    <layout row>
+        <v-container>
+                <v-card flat>
+                    <v-flex xs12 md12>
+                    <v-btn solo class="normal left" @click="prev"><v-text>Cancel</v-text></v-btn>
+                    </v-flex>
+
+                    <v-flex xs12 md12>
+                    <v-btn class="ml-2 left" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                    </v-flex>
+                </v-card>
+        </v-container>
+    </layout>
+
 </v-tab-item>
 
 <!----------------------------------------------Third Tab ENDS --------------------------------------------------------------------------------------->
@@ -555,6 +596,20 @@
         </v-container>
         <v-divider></v-divider>
     </v-card>
+
+    <layout row>
+        <v-container>
+            <v-card flat>
+                <v-flex xs12 md12>
+                <v-btn solo class="normal left" @click="prev"><v-text>Cancel</v-text></v-btn>
+                </v-flex>
+
+                <v-flex xs12 md12>
+                <v-btn class="ml-2 left" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                </v-flex>
+              </v-card>
+        </v-container>
+      </layout>
 </v-tab-item>
 <!---------------------------------------------------------------Fourth Tab ENDS ------------------------------------------------------------------------------>
 
@@ -821,23 +876,25 @@
                     </v-card>
                 </v-container>
             </v-card>
+           
+            <layout row>
+                <v-container>
+                        <v-card flat>
+                            <v-flex xs12 md12>
+                            <v-btn solo class="normal left" @click="prev"><v-text>Cancel</v-text></v-btn>
+                            </v-flex>
+
+                            <v-flex xs12 md12>
+                            <v-btn class="ml-2 left" solo color="#b0003a"  @click="next"><v-text>Next</v-text></v-btn>
+                            </v-flex>
+                          </v-card>
+                </v-container>
+            </layout>
         </v-tab-item>
     </v-tabs>
 </v-container>
 <!--------------------------------------------Fifth Tab ENDS------------------------------------------------------------------------------------------------>
-      <layout row>
-          <v-container>
-              <v-card flat>
-                  <v-flex xs12 md12>
-                  <v-btn solo class="normal left" @click="prev">Previous</v-btn>
-                  </v-flex>
-
-                  <v-flex xs12 md12>
-                  <v-btn class="ml-2 left" solo color="primary"  @click="next">Next</v-btn>
-                  </v-flex>
-                </v-card>
-            </v-container>
-      </layout>
+      
   </div>
 </template>
 
