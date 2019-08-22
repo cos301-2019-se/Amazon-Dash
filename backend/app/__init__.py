@@ -22,6 +22,7 @@ else:
 app = Flask(__name__, instance_relative_config=True,
             static_folder='./dist/static', template_folder='./dist')
 # ensure the instance folder exists
+app.config.from_object('config')
 if not os.path.isdir(app.instance_path):
     os.makedirs(app.instance_path)
 if os.path.exists(os.path.join(app.instance_path, 'config.py')):

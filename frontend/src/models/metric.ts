@@ -25,3 +25,20 @@ export const metricOptions = [
     { id: 'diskreadops', name: 'Disk Read Ops', unit: 'Operations', bound: defaultBounds },
     { id: 'diskwriteops', name: 'Disk Write Ops', unit: 'Operations', bound: defaultBounds },
 ]
+
+export const metricDescriptions: { [key: string]: string } = {
+    cpu: 'The CPU usage of the service in percent',
+    netin: 'The average network input in bytes',
+    netout: 'The average network output in bytes',
+    netpacketin: 'The average number of packets incoming',
+    netpacketout: 'The average number of packets outgoing',
+    diskread: 'The average number of bytes read from the disk',
+    diskwrite: 'The average number of bytes written to the disk',
+    diskreadops: 'The average number of disk read operations',
+    diskwriteops: 'The average number of disk write operations',
+}
+
+export const getMetricBounds = (metricId: string) =>
+    (metricOptions.find(m => m.id === metricId) || { bound: undefined }).bound
+export const getMetricName = (metricId: string) =>
+    (metricOptions.find(m => m.id === metricId) || { name: 'Unknown' }).name

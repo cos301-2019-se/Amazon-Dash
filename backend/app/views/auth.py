@@ -3,7 +3,6 @@ from backend.lib.db import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
 from backend.services.authentication import check_auth
-import requests
 import bcrypt
 import json
 import uuid
@@ -92,7 +91,7 @@ def register():
         return Response("Request body missing", status=400, mimetype='application/text')
 
 
-@auth.route('/api/google_authentication', methods=["POST"])
+@auth.route('/api/register/google', methods=["POST"])
 def google_authentication() -> Response:
     """
     A method to authenticate with google.
@@ -103,47 +102,67 @@ def google_authentication() -> Response:
         an http response
     """
 
-    check_endpoint = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="
-
     body = request.get_json()
-
-    if body:
-        auth_email = body.get("email")
-        auth_token = body.get("token")
-        access_key = body.get("access_key")
-        secret_key = body.get("secret_key")
-
-        if all((auth_email, auth_token, access_key, secret_key)):
-            try:
-                r = requests.get(check_endpoint + auth_token)
-                data = r.json()
-
-                if data.get("issued_to") and data.get("issued_to") == auth_email:
-                    token = str(uuid.uuid4())
-
-                    MongoClient.insert('users', {
-                        'email': auth_email,
-                        'google_token': auth_token,
-                        'access_key': access_key,
-                        'secret_key': secret_key,
-                    })
-
-                    MongoClient.insert('access', {
-                        'user_id': auth_email,
-                        'token': token,
-                        'expires': datetime.now() + timedelta(seconds=128000),
-                    })
-                    res = {'token': token, 'ttl': 128000}
-                    return Response(json.dumps(res), status=200, mimetype='application/json')
-            except Exception as e:
-                res = {'error': e}
-                return Response(json.dumps(res), status=400, mimetype='application/json')
-        else:
-            return Response(json.dumps({
-                'message': "Missing fields: email, token, access_key, or secret_key"
-            }), status=401, mimetype='application/text')
+    if not body:
+        return Response("Request body missing", status=400, mimetype='application/text')
+    access_token = body.get('accessToken')
+    email = body.get('email')
+    user_id = body.get('userId')
+    aws_access_key = body.get('accessKey')
+    aws_secret_key = body.get('secretKey')
+    if not all((access_token, email, user_id, aws_access_key, aws_secret_key)):
+        missing_fields = ', '.join([x for x in ['access_token', 'email', 'user_id', 'aws_access_key', 'aws_secret_key']
+                                    if not body.get(x)])
+        return Response(f"Missing fields: {missing_fields}", status=401, mimetype='application/text')
+    if MongoClient.count('google_users', {'userId': user_id}):
+        MongoClient.update('google_users', {'userId': user_id}, {
+            'access_token': access_token,
+            'access_key': aws_access_key,
+            'secret_key': aws_secret_key,
+        })
     else:
-        return Response("Request body missing", status=401, mimetype='application/text')
+        MongoClient.insert('google_users', {
+            'email': email,
+            'user_id': user_id,
+            'access_token': access_token,
+            'access_key': aws_access_key,
+            'secret_key': aws_secret_key,
+        })
+    try:
+        res = login_with_google(email, user_id)
+    except Exception as ex:
+        return Response(str(ex), status=400, mimetype='application/text')
+    return Response(json.dumps(res), status=201, mimetype='application/json')
+
+
+@auth.route('/api/login/google', methods=['POST'])
+def google_login() -> Response:
+    body = request.get_json()
+    if not body:
+        return Response("Request body missing", status=400, mimetype='application/text')
+    email = body.get('email')
+    user_id = body.get('userId')
+    if not all((email, user_id)):
+        missing_fields = ', '.join([x for x in ['email', 'user_id'] if not body.get(x)])
+        return Response(f"Missing fields: {missing_fields}", status=401, mimetype='application/text')
+    try:
+        res = login_with_google(email, user_id)
+    except Exception as ex:
+        return Response(str(ex), status=400, mimetype='application/text')
+    return Response(json.dumps(res), status=200, mimetype='application/json')
+
+
+def login_with_google(email, user_id):
+    if not MongoClient.count('google_users', {'user_id': user_id, 'email': email}):
+        raise Exception('User not found, please register first')
+    token = str(uuid.uuid4())
+    MongoClient.insert('access', {
+        'user_id': user_id,
+        'token': token,
+        'google': True,
+        'expires': datetime.now() + timedelta(seconds=128000),
+    })
+    return {'token': token, 'ttl': 128000}
 
 
 @auth.route('/api/authenticated')
