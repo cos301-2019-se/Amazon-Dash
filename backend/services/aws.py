@@ -1,4 +1,7 @@
+import json
+
 import boto3
+import botocore
 import itertools
 from functools import wraps
 from flask import request
@@ -56,11 +59,11 @@ def get_client(access_key, secret_key, region='eu-west-1', service='ec2'):
         The client to interact with
     """
     return boto3.client(
-            service,
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key,
-            region_name=region
-            )
+        service,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key,
+        region_name=region
+    )
 
 
 def boto3_client(service='ec2'):
@@ -78,6 +81,7 @@ def boto3_client(service='ec2'):
     Function
         The wrapped function.
     """
+
     def wrapper(func):
         @wraps(func)
         def wrapped_func(user, *args, **kwargs):
@@ -85,7 +89,9 @@ def boto3_client(service='ec2'):
             client = get_client(user['access_key'], user['secret_key'],
                                 region=region, service=service)
             return func(user, client, *args, **kwargs)
+
         return wrapped_func
+
     return wrapper
 
 
@@ -272,3 +278,19 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
             enumerate(met['Timestamps']),
         ))
     }, response['MetricDataResults']))
+
+
+def create_instance(client, args):
+    response = client.run_instances(
+        BlockDeviceMappings=args.get('block_device_mappings'),
+        ImageId=args.get('image_id'),
+        InstanceType=args.get('instance_type'),
+        Ipv6AddressCount=args.get('ip_v6_address_count'),
+        Ipv6Addresses=args.get('ip_v6_addresses'),
+        KernelId=args.get('kernel_id'),
+        KeyName=args.get('key_name'),
+        MaxCount=args.get('max_count'),
+        MinCount=args.get('min_count'),
+    )
+    return response
+
