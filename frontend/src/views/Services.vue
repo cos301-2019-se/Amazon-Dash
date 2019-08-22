@@ -1,6 +1,21 @@
+<style>
+.progress {
+    margin: auto;
+}
+.progress-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
 <template>
   <v-container grid-list-xl fluid fill-height>
-    <v-layout row wrap align-content-start justify-center>
+    <div v-if="!$store.getters.instances.length" class="progress-container">
+        <v-progress-circular indeterminate color="accent" :size="80"></v-progress-circular>
+    </div>
+    <v-layout v-if="$store.getters.instances.length" row wrap align-content-start justify-center>
       <v-flex sm12 md6 lg4>
         <h1 class="heading">Dashboard</h1>
       </v-flex>
