@@ -57,6 +57,18 @@ const actions: ActionTree<RootState, RootState> = {
             dispatch('login', details)
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
+    googleRegister({ dispatch, commit }, details): void {
+        dispatch('post', { url: 'register/google', body: details }).then((res: any) => {
+            commit('setToken', res.token)
+            router.push('/')
+        }).catch(err => dispatch('makeErrorMessage', { message: err }))
+    },
+    googleLogin({ dispatch, commit }, details): void {
+        dispatch('post', { url: 'login/google', body: details }).then(res => {
+            commit('setToken', res.token)
+            router.push('/')
+        }).catch(err => dispatch('makeErrorMessage', { message: err }))
+    },
     fetchInstances({ dispatch, commit, getters }) {
         dispatch('checkAuth').then(authenticated => {
             if (authenticated) {
