@@ -77,4 +77,3 @@ def create_instance(user, client):
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
-

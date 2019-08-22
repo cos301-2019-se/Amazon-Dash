@@ -1,7 +1,4 @@
-import json
-
 import boto3
-import botocore
 import itertools
 from functools import wraps
 from flask import request
@@ -289,4 +286,3 @@ def create_instance(client, args):
         MinCount=args.get('min_count'),
     )
     return response
-
