@@ -282,13 +282,9 @@ def get_ec2_instance_metrics(client, instance_id, metric='CPUUtilization'):
 
 def create_instance(client, args):
     response = client.run_instances(
-        BlockDeviceMappings=args.get('block_device_mappings'),
         ImageId=args.get('image_id'),
         InstanceType=args.get('instance_type'),
-        Ipv6AddressCount=args.get('ip_v6_address_count'),
-        Ipv6Addresses=args.get('ip_v6_addresses'),
         KernelId=args.get('kernel_id'),
-        KeyName=args.get('key_name'),
         MaxCount=args.get('max_count'),
         MinCount=args.get('min_count'),
     )

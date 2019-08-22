@@ -125,5 +125,9 @@ const actions: ActionTree<RootState, RootState> = {
             commit('setMetrics', res)
         })
     },
+    createInstance({ dispatch, commit, getters }, details) {
+        dispatch('post', { url: 'create_instance', body: details })
+            .catch(err => dispatch('makeErrorMessage', { message: err }))
+    },
 }
 export default actions
