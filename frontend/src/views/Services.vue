@@ -11,6 +11,20 @@
       <v-flex xs12 md6 lg4 v-for="instance in instances" :key="instance.id">
         <ServiceCard :instance="instance"></ServiceCard>
       </v-flex>
+      <v-footer
+      app>
+        <v-btn
+                v-show="!hidden"
+                primary
+                dark
+                absolute
+                top
+                right
+                fab
+        >
+          <v-icon>add</v-icon>
+        </v-btn>
+      </v-footer>
     </v-layout>
   </v-container>
 </template>
