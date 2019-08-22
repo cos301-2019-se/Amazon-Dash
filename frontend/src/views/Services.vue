@@ -29,7 +29,7 @@
       app>
         <v-btn
                 v-show="!hidden"
-                primary
+                color="accent"
                 dark
                 absolute
                 top
