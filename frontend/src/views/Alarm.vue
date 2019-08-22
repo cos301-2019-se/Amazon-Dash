@@ -553,11 +553,11 @@
         <v-container>
                 <v-card flat>
                     <v-flex xs12 md12>
-                        <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()"><v-text name="nextT">Next</v-text></v-btn>
+                        <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()">Next></v-btn>
                     </v-flex>
                     
                     <v-flex xs12 md12>
-                        <v-btn solo class="normal right" @click="cancel()"><v-text name="cancelL">Cancel</v-text></v-btn>
+                        <v-btn solo class="normal right" @click="cancel()">Cancel</v-btn>
                     </v-flex>
                 </v-card>
         </v-container>
@@ -569,7 +569,7 @@
     
 <!--------------------------------------------- Fourth Tab Begins------------------------------------------------------------------------------------->
 <v-tab >
-    <v-text name="4">4. Add a description</v-text>
+    4. Add a description
 </v-tab>
 <v-tab-item >
     <v-card flat>
@@ -624,7 +624,7 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right " solo color="#b0003a"  @click="next()"><v-text name="nextt">Next</v-text></v-btn>
+                    <v-btn class="ml-2 right " solo color="#b0003a"  @click="next()">Next</v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
@@ -632,7 +632,7 @@
                 </v-flex>
 
                 <v-flex xs12 md12>
-                    <v-btn solo class="normal right blue--text" @click="cancel()"><v-text name="cancelLL">Cancel</v-text></v-btn>
+                    <v-btn solo class="normal right blue--text" @click="cancel()">Cancel</v-btn>
                 </v-flex>
 
               </v-card>
@@ -769,7 +769,7 @@
                                     <div class="grey--text pt-4 ">
                                         <span class="font-weight-bold">
                                             <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
-                                            Whenever</v-text> {{alarm.MetricName}} is
+                                            Whenever{{alarm.MetricName}} is
                                           </v-flex> 
                                         </span>
                                           
