@@ -7,6 +7,7 @@ from backend.app.views.ec2 import ec2
 
 app = Flask(__name__, instance_relative_config=True)
 # ensure the instance folder exists
+app.config.from_object('config')
 if not os.path.isdir(app.instance_path):
     os.makedirs(app.instance_path)
 if os.path.exists(os.path.join(app.instance_path, 'config.py')):
