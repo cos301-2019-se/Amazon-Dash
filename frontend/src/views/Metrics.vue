@@ -1,21 +1,32 @@
 <template>
-    <v-container >
-        <h1 class="text-xs-center">Metrics for {{this.instanceName}}</h1>
+  <v-container fluid fill-height grid-list-xl>
+    <v-layout row wrap justify-center>
+      <v-flex xs1>
+        <v-btn flat @click="$router.push('/')">
+          <v-icon>arrow_back</v-icon>
+          &nbsp;
+          Back
+        </v-btn>
+      </v-flex>
+      <v-flex sm11 md5 lg3>
+        <h1 class="heading">Metrics for {{ instance ? instance.name : '' }}</h1>
+      </v-flex>
+      <v-flex sm12 md6 lg8>
         <v-text-field
-                label="Search"
-                v-model="searchFilter"
-                append-icon="search"
-                clearable
-                type="text"
-        ></v-text-field>
-        <v-container grid-list-md fluid fill-height>
-            <v-layout row wrap justify-center>
-                <v-flex xl1 lg3 md4 sm6 xs12 v-for="metric in metrics" :key="metric.id" column>
-                    <MetricCard :metric="metric"></MetricCard>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </v-container>
+          class="search-bar"
+          label="Filter Metrics"
+          v-model="searchFilter"
+          prepend-inner-icon="search"
+          solo
+          clearable
+          type="text"
+          ></v-text-field>
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-for="metric in metrics" :key="metric.id" column>
+        <MetricCard :metric="metric"></MetricCard>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -25,28 +36,31 @@ import { Instance } from '@/models/instance'
 import { Metric } from '@/models/metric'
 
 @Component({
-    components: { MetricCard },
+  components: { MetricCard },
 })
 export default class Metrics extends Vue {
 
-    private get metrics() {
-        return this.$store.getters.metrics.filter((i: Metric) =>
-          i.id.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
-    }
-    @Prop() public instanceId!: string
-    public instanceName = ''
-    public searchFilter = ''
-    private metricPoller = -1
+  @Prop() public instanceId!: string
+  public searchFilter = ''
+  private metricPoller = -1
 
-    public beforeDestroy() {
-        clearInterval(this.metricPoller)
-        this.$store.commit('setMetrics', {metrics: []})
-    }
+  public beforeDestroy() {
+    clearInterval(this.metricPoller)
+    this.$store.commit('setMetrics', {metrics: []})
+  }
 
-    private mounted() {
-        this.instanceName = this.$store.state.instances.find((i: Instance) => i.id === this.instanceId).name
-        this.$store.dispatch('fetchMetrics', this.instanceId)
-        this.metricPoller = setInterval(() => this.$store.dispatch('fetchMetrics', this.instanceId), 5000)
-    }
+  private mounted() {
+    this.$store.dispatch('fetchInstances')
+    this.$store.dispatch('getInstanceMetrics', this.instanceId)
+    this.metricPoller = setInterval(() => this.$store.dispatch('getInstanceMetrics', this.instanceId), 5000)
+  }
+
+  private get instance(): Instance {
+    return this.$store.getters.instances.find((i: Instance) => i.id === this.instanceId)
+  }
+
+  private get metrics() {
+    return this.instance ? this.instance.getMetrics(this.searchFilter) : []
+  }
 }
 </script>

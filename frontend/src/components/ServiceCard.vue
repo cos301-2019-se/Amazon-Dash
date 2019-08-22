@@ -20,6 +20,7 @@
 }
 </style>
 <template>
+<div>
   <v-hover>
     <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="mx-auto">
       <v-sheet :color="instance.stateColour" elevation="12" height="200px">
@@ -58,9 +59,15 @@
           <v-list-tile @click="stop" v-if="instance.running">Stop</v-list-tile>
           <v-list-tile @click="start" v-else>Start</v-list-tile>
           <v-list-tile @click="restart">Restart</v-list-tile>
+          <v-list-tile @click.stop="dialog=true">Shell</v-list-tile>
         </v-list>
       </v-menu>
-      <v-btn icon small flat style="float: right" v-on:click="goToMetricView(instance.id)"><v-icon>info</v-icon></v-btn>
+      <v-tooltip left>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon small flat style="float: right" v-on:click="goToMetricView(instance.id)"><v-icon>info</v-icon></v-btn>
+        </template>
+        <span>View Service Details</span>
+      </v-tooltip>
       <v-card-title>
         <span class="headline">{{ instance.name }}</span>
         <v-spacer></v-spacer>
@@ -68,6 +75,16 @@
       </v-card-title>
     </v-card>
   </v-hover>
+    <v-dialog v-model="dialog" max-width="290">
+    <v-card>
+      <v-card-title class="headline">Command to launch instance in shell</v-card-title>
+      <v-card-text>
+         <p>Copy and paste the following command into your shell:</p>
+         <p>mssh {{ instance.id }}</p>
+      </v-card-text>
+    </v-card>
+    </v-dialog>
+</div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
@@ -84,6 +101,7 @@ export default class ServiceCard extends Vue {
   public metricIndex = 0
   public metricOptions = metricOptions
   private metricPoller = -1
+  private dialog = false
 
   public mounted() {
     this.metricPoller = setInterval(() => this.getMetrics(), 5000)

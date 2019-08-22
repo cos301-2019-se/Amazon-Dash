@@ -1,12 +1,26 @@
+<style>
+.progress {
+    margin: auto;
+}
+.progress-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
 <template>
-  <v-container grid-list-md fluid fill-height>
-    <v-layout row wrap align-content-start justify-center>
-      <v-flex xs12>
-        <v-layout row justify-center>
-          <v-flex xs12 md6>
-            <v-text-field solo clearable v-model="searchFilter" prepend-inner-icon="search" placeholder="Filter Instances"></v-text-field>
-          </v-flex>
-        </v-layout>
+  <v-container grid-list-xl fluid fill-height>
+    <div v-if="!$store.getters.instances.length" class="progress-container">
+        <v-progress-circular indeterminate color="accent" :size="80"></v-progress-circular>
+    </div>
+    <v-layout v-if="$store.getters.instances.length" row wrap align-content-start justify-center>
+      <v-flex sm12 md6 lg4>
+        <h1 class="heading">Dashboard</h1>
+      </v-flex>
+      <v-flex sm12 md6 lg8>
+        <v-text-field solo clearable v-model="searchFilter" prepend-inner-icon="search" placeholder="Filter Instances" class="search-bar"></v-text-field>
       </v-flex>
       <v-flex xs12 md6 lg4 v-for="instance in instances" :key="instance.id">
         <ServiceCard :instance="instance"></ServiceCard>
