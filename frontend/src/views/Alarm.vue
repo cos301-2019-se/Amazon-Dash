@@ -24,10 +24,10 @@
 
             <v-layout row justify-center>
                 <v-btn color="#b0003a" class="right"  @click.stop="dialog = true">Select metric</v-btn>
-
-                    <v-dialog v-model="dialog" max-width="290" fullscreen >
+<!-- Selecting a metric model ------------------------------------------------------------------------------------------------------------------------>
+                    <v-dialog v-model="dialog" max-width="1000"  >
                         <v-card flat>
-                          <div><v-card-title class="headline grey--text">Select metric</v-card-title></div>
+                          <div style="background-color:#009688"><v-card-title class="headline black--text" color="blue">Select metric</v-card-title></div>
                           <v-divider></v-divider>
 
                           <v-container>
@@ -35,7 +35,7 @@
                                   <v-layout row>
                                       <v-flex xs12 md12>
                                           <v-card flat left>
-                                              <v-tabs  color="grey lighten-2"  slider-color="yellow">
+                                              <v-tabs  color="#009688"  slider-color="#b0003a">
                                                   <v-divider></v-divider>
                                                   <v-tab><v-text>All metrics</v-text></v-tab>
                                                  
@@ -60,33 +60,26 @@
                                                               </v-layout>
 
                                                                 <v-container>
-                                                                    <v-card flat>
-                                                                        <v-layout row>
-                                                                            <v-flex xs12 md2>
-                                                                                <v-card flat color="blue-grey lighten-5 mr-3 ml-1  pa-auto" >
-                                                                                    <v-card-title >
-                                                                                      <div class="blue--text">EBS</div>
-                                                                                    </v-card-title>
-                                                                                      <div class="grey--text ml-3 pb-2">5 metrics</div>
-                                                                                </v-card>
+                                                                    <v-card flat>                                                
+                                                                        <v-layout>
+                                                                            <v-flex xs12 md12>
+                                                                                <div class="grey--text" >Id</div>
+                                                                                <div class="">
+                                                                                    <a href="#">
+                                                                                        <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                                                                        {{alarm.AlarmName}}
+                                                                                        </v-flex>
+                                                                                    </a>
+                                                                                </div>
                                                                             </v-flex>
 
-                                                                            <v-flex xs12 md2>
-                                                                                <v-card flat color="blue-grey lighten-5 mr-2 ml-3  pa-auto">
-                                                                                    <v-card-title >
-                                                                                      <div class="blue--text">EFS</div>
-                                                                                    </v-card-title>
-                                                                                       <div class="grey--text ml-3 mr-3 pb-2">18 metrics</div>
-                                                                                </v-card>
-                                                                            </v-flex>
-
-                                                                            <v-flex xs12 md3>
-                                                                                <v-card flat color="blue-grey lighten-5 mr-5 ml-4 pa-auto">
-                                                                                    <v-card-title >
-                                                                                      <div class="blue--text">S3</div>
-                                                                                    </v-card-title>
-                                                                                        <div class="grey--text ml-3 pb-2">4 metrics</div>
-                                                                                </v-card>
+                                                                            <v-flex xs12 md12>
+                                                                                <div class="grey--text" >Metric name</div>
+                                                                                <div class="">
+                                                                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                                                                    {{alarm.MetricName}}
+                                                                                    </v-flex>
+                                                                                </div>
                                                                             </v-flex>
                                                                         </v-layout>
                                                                     </v-card>
@@ -95,13 +88,13 @@
                                                     </v-container>
                                                 </v-tab-item>
 
-                                                  <v-tab>Graphed metrics</v-tab>
+                                                  <v-tab class="left">Graphed metrics</v-tab>
                                                   <v-tab-item>In progress</v-tab-item>
 
-                                                  <v-tab>Graph options</v-tab>
+                                                  <v-tab class="left">Graph options</v-tab>
                                                   <v-tab-item>In progress</v-tab-item>
 
-                                                  <v-tab>Source</v-tab>
+                                                  <v-tab class="left">Source</v-tab>
                                                   <v-tab-item>In progress</v-tab-item>
                                             </v-tabs>
                                         </v-card>
@@ -113,17 +106,18 @@
                             <v-card-actions class="ml-5">
                                 <v-container>
                                     <v-layout row>
-                                        <v-btn solo color="primary left"  @click="dialog = false">
-                                          Cancel
+                                        <v-btn solo color="normal left"  @click="dialog = false">
+                                          <v-text>Cancel</v-text>
                                         </v-btn>
-                                        <v-btn solo color="primary left"  @click="dialog = false">
-                                          Select metric
+                                        <v-btn solo color="#b0003a"  @click="dialog = false">
+                                          <v-text>Select metric</v-text>
                                         </v-btn>
                                     </v-layout>
                                 </v-container>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
+<!------------------------------------------------------------------------Model ends here ----------------------------------------------------->
             </v-layout>
         </v-container>
     </v-card>
@@ -154,8 +148,8 @@
               <v-card flat class="">
                       <v-layout row wrap>
                           <v-flex xs12 md12>
-                            <div class="display-2 pb-2">Specify metric and conditions</div>
-                            <div class="display-1 pt-3">Metric</div>
+                            <div class="display-2 pb-2"><v-text>Specify metric and conditions</v-text></div>
+                            <div class="display-1 pt-3"><v-text>Metric</v-text></div>
                             <v-flex xs6 md12>
                                 <v-card flat>
                                     <v-card flat>
@@ -180,7 +174,11 @@
 
                             <v-card flat>
                                 <v-flex xs5 md6 >
-                                     <div class="title mb-1">4xxErrorRate</div>
+                                     <div class="title mb-1">
+                                        <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                                {{alarm.MetricName}}
+                                        </v-flex>
+                                     </div>
                                         <v-layout column my-1>
                                           <div class="subheading pt-3"></div>
                                           <v-img src="https://media.amazonwebservices.com/blog/2014/cloudfront_dist_hourly_4xx_4.png" :aspect-ratio="1" max-width></v-img>
@@ -193,32 +191,42 @@
                           <v-flex xs6 md6>
                               <v-card flat>
                                 <div class="display-1 pl-4 grey--text">Namespace</div>
-                                <div class="pl-4">AWS/Cloudfront</div>
+                                <div class="pl-4">
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                                {{alarm.Namespace}}
+                                    </v-flex>
+                                </div>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-4 pl-4">Metric name</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4 pt-2" label="4xxErrorRate" solo block></v-text-field>
+                                      <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                            <v-text-field class="pl-4 pr-5 mr-4 pt-2" v-model="alarm.MetricName"  label="alarm.MetricName" solo block></v-text-field>    
+                                      </v-flex>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Region</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="Global" solo block></v-text-field>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="Unavailable" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">DistributionId</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="E2D5UY2120R4CG" solo block></v-text-field>
+                                  <v-text-field class="pl-4 pr-5 mr-4" label="Unavailable" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Statistic</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="Average" solo block></v-text-field>
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                        <v-text-field class="pl-4 pr-5 mr-4" v-model="alarm.Statistic" label="alarm.Statistic" solo block></v-text-field>
+                                    </v-flex>
                               </v-card>
 
                               <v-card flat>
                                   <div class="pt-1 pl-4">Period</div>
-                                  <v-select :items="time" label="" class="pl-4 pr-5 mr-4 pt-1" solo block></v-select>
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                        <v-select :items="time" v-model="alarm.Period" label="alarm.Period" class="pl-4 pr-5 mr-4 pt-1" solo block></v-select>
+                                    </v-flex>
                               </v-card>
                           </v-flex>
                     </v-layout>
