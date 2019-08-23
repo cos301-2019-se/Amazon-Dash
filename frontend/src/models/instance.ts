@@ -1,4 +1,4 @@
-import { Metric } from '@/models/metric'
+import { Metric, getMetricName } from '@/models/metric'
 
 export interface InstanceData {
     id: string
@@ -59,5 +59,12 @@ export class Instance {
             return metric.data.map(m => ({ value: m.value * multiplier }))
         }
         return []
+    }
+
+    public getMetrics(filter?: string) {
+        const search = (filter || '').toLowerCase()
+        return this.metrics.filter(m =>
+            m.id.toLowerCase().includes(search) ||
+            getMetricName(m.id).toLowerCase().includes(search))
     }
 }
