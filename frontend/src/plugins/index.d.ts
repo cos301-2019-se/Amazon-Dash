@@ -10,10 +10,10 @@ declare global {
 declare module 'vue/types/vue' {
   interface Vue {
     $axios: AxiosInstance
-    $gAuth: any;
+    $gAuth: any
   }
   interface VueConstructor {
     $axios: AxiosInstance
-    $gAuth: any;
+    $gAuth: any
   }
 }

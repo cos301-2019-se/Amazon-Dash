@@ -1,4 +1,4 @@
-from flask import Blueprint, Response
+from flask import Blueprint, request, Response
 from backend.services.authentication import require_auth
 from backend.services import aws
 from backend.lib.util import json_serialize
@@ -67,13 +67,13 @@ def restart_instance(user, client, instance_id):
         return Response(message, status=status, mimetype='application/text')
 
 
-@ec2.route('/api/instances/<instance_id>/metrics', methods=['GET'])
+@ec2.route('/api/create_instance', methods=['POST'])
 @require_auth
-@aws.boto3_client(service='cloudwatch')
-def get_instance_metrics(user, client, instance_id):
+@aws.boto3_client()
+def create_instance(user, client):
     try:
-        metrics = aws.get_ec2_instance_metrics(client, instance_id)
-        return json.dumps({'instance_id': instance_id, 'metrics': metrics})
+        value = aws.create_instance(client, request.get_json())
+        return Response(value, status=200, mimetype='application/json')
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
