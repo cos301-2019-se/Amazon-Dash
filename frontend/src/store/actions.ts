@@ -109,5 +109,5 @@ const actions: ActionTree<RootState, RootState> = {
             commit('setMetrics', res)
         })
     },
-
+}
 export default actions
