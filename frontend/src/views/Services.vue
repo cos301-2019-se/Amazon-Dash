@@ -25,6 +25,71 @@
       <v-flex xs12 md6 lg4 v-for="instance in instances" :key="instance.id">
         <ServiceCard :instance="instance"></ServiceCard>
       </v-flex>
+      <v-footer
+      app>
+        <v-dialog v-model="dialog" max-width="700" class="ma-5">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="!hidden"
+              color="accent"
+              dark
+              absolute
+              top
+              right
+              fab
+              v-on="on"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title class="headline">Add a service</v-card-title>
+            <v-form
+              ref="form"
+              lazy-validation
+            >
+              <v-text-field
+                label="Image Id"
+                v-model="imageId"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                label="Instance Type"
+                v-model="instanceType"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                label="Kernel Id"
+                v-model="kernelId"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                label="Max Count"
+                v-model="maxCount"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                label="Min Count"
+                v-model="minCount"
+                required
+              ></v-text-field>
+
+              <v-btn
+                color="accent"
+                class="mr-4"
+                @click="submitCreateInstance"
+                right
+              >
+                Submit
+              </v-btn>
+            </v-form>
+          </v-card>
+        </v-dialog>
+      </v-footer>
     </v-layout>
   </v-container>
 </template>
@@ -45,6 +110,12 @@ export default class Services extends Vue {
 
   private instancePoller = -1
   private searchFilter = ''
+  private dialog = false
+  private imageId = ''
+  private instanceType = ''
+  private kernelId = ''
+  private maxCount = 1
+  private minCount = 1
 
   public beforeDestroy() {
     clearInterval(this.instancePoller)
@@ -52,6 +123,23 @@ export default class Services extends Vue {
   private mounted() {
     this.$store.dispatch('fetchInstances')
     this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
+  }
+
+  private submitCreateInstance() {
+    const body = {
+      image_id: this.imageId,
+      instance_type: this.instanceType,
+      kernel_id: this.kernelId,
+      max_count: this.maxCount,
+      min_count: this.minCount,
+    }
+    this.$store.dispatch('createInstance', body)
+    this.dialog = false
+    this.imageId = ''
+    this.instanceType = ''
+    this.kernelId = ''
+    this.maxCount = 1
+    this.minCount = 1
   }
 
 }
