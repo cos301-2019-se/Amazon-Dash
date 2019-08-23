@@ -48,9 +48,25 @@ const actions: ActionTree<RootState, RootState> = {
             router.push({ name: 'home' })
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
+    logout({ commit }): void {
+        commit('setToken', null)
+        router.push({ name: 'login' })
+    },
     register({ commit, dispatch }, details): void {
         dispatch('post', { url: 'register', body: details }).then(res => {
             dispatch('login', details)
+        }).catch(err => dispatch('makeErrorMessage', { message: err }))
+    },
+    googleRegister({ dispatch, commit }, details): void {
+        dispatch('post', { url: 'register/google', body: details }).then((res: any) => {
+            commit('setToken', res.token)
+            router.push('/')
+        }).catch(err => dispatch('makeErrorMessage', { message: err }))
+    },
+    googleLogin({ dispatch, commit }, details): void {
+        dispatch('post', { url: 'login/google', body: details }).then(res => {
+            commit('setToken', res.token)
+            router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
     fetchInstances({ dispatch, commit, getters }) {
@@ -108,6 +124,10 @@ const actions: ActionTree<RootState, RootState> = {
         dispatch('get', { url: `instances/${instanceId}/metrics` }).then(res => {
             commit('setMetrics', res)
         })
+    },
+    createInstance({ dispatch, commit, getters }, details) {
+        dispatch('post', { url: 'create_instance', body: details })
+            .catch(err => dispatch('makeErrorMessage', { message: err }))
     },
 }
 export default actions

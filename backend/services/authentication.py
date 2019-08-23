@@ -25,7 +25,10 @@ def require_auth(func):
             tokens = list(MongoClient.find('access', {'token': token}))
             token = tokens[0] if tokens and tokens[0]['expires'] > datetime.now() else None
             if token:
-                user = list(MongoClient.find('users', {'_id': ObjectId(token['user_id'])}))[0]
+                if token.get('google'):
+                    user = list(MongoClient.find('google_users', {'user_id': token['user_id']}))[0]
+                else:
+                    user = list(MongoClient.find('users', {'_id': ObjectId(token['user_id'])}))[0]
                 return func(user, *args, **kwargs)
             else:
                 return Response('Invalid token', status=403, mimetype='application/text')
