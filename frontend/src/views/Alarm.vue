@@ -635,7 +635,7 @@
                     <v-btn solo class="normal right blue--text" @click="cancel()">Cancel</v-btn>
                 </v-flex>
 
-              </v-card>
+            </v-card>
         </v-container>
       </layout>
 </v-tab-item>
