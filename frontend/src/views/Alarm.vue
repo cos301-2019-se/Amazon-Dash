@@ -5,7 +5,7 @@
         <div class="display-2 pt-3 pb-2">Create alarm</div>
 
 <!------------------------------------- First Tab begins ------------------------------------------------->
-<v-tabs v-model="active" color="primary"  slider-color="accent">
+<v-tabs v-model="active" color="primary" dark  slider-color="accent">
       <!-- Selecting metrics -->
 <v-tab>
     1. Select metric
@@ -553,7 +553,7 @@
         <v-container>
                 <v-card flat>
                     <v-flex xs12 md12>
-                        <v-btn class="ml-2 right" solo color="accent"  @click="next()">Next></v-btn>
+                        <v-btn class="ml-2 right" solo color="accent"  @click="next()">Next</v-btn>
                     </v-flex>
                     
                     <v-flex xs12 md12>
