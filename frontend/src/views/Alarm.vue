@@ -5,7 +5,7 @@
         <div class="display-2 pt-3 pb-2">Create alarm</div>
 
 <!------------------------------------- First Tab begins ------------------------------------------------->
-<v-tabs v-model="active" color="#009688"  slider-color="#b0003a">
+<v-tabs v-model="active" color="primary"  slider-color="accent">
       <!-- Selecting metrics -->
 <v-tab>
     1. Select metric
@@ -23,7 +23,7 @@
             <div class="grey--text ml-2 mb-2">Preview of the metric or metric expression and the alarm threshold.</div>
 
             <v-layout row justify-center>
-                <v-btn color="#b0003a" class="right"  @click.stop="dialog = true">Select metric</v-btn>
+                <v-btn color="accent" class="right"  @click.stop="dialog = true">Select metric</v-btn>
 <!-- Selecting a metric model ------------------------------------------------------------------------------------------------------------------------>
                     <v-dialog v-model="dialog" max-width="1000"  >
                         <v-card flat>
@@ -35,7 +35,7 @@
                                   <v-layout row>
                                       <v-flex xs12 md12>
                                           <v-card flat left>
-                                              <v-tabs  color="#009688"  slider-color="#b0003a">
+                                              <v-tabs  color="primary"  slider-color="accent">
                                                   <v-divider></v-divider>
                                                   <v-tab>All metrics</v-tab>
                                                  
@@ -111,7 +111,7 @@
                                         <v-btn solo color="normal left"  @click="dialog = false">
                                           Cancel
                                         </v-btn>
-                                        <v-btn solo color="#b0003a"  @click="dialog = false">
+                                        <v-btn solo color="accent"   @click="dialog = false">
                                           Select metric
                                         </v-btn>
                                     </v-layout>
@@ -127,7 +127,7 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()">Next</v-btn>
+                    <v-btn class="ml-2 right" solo color="accent"  @click="next()">Next</v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
@@ -371,7 +371,7 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()">Next</v-btn>
+                    <v-btn class="ml-2 right" solo color="accent"  @click="next()">Next</v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
@@ -553,7 +553,7 @@
         <v-container>
                 <v-card flat>
                     <v-flex xs12 md12>
-                        <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()">Next></v-btn>
+                        <v-btn class="ml-2 right" solo color="accent"  @click="next()">Next></v-btn>
                     </v-flex>
                     
                     <v-flex xs12 md12>
@@ -624,7 +624,7 @@
         <v-container>
             <v-card flat>
                 <v-flex xs12 md12>
-                    <v-btn class="ml-2 right " solo color="#b0003a"  @click="next()">Next</v-btn>
+                    <v-btn class="ml-2 right " solo color="accent"  @click="next()">Next</v-btn>
                 </v-flex>
 
                 <v-flex xs12 md12>
@@ -908,7 +908,7 @@
                 <v-container>
                         <v-card flat>
                             <v-flex xs12 md12>
-                                <v-btn class="ml-2 right" solo color="#b0003a"  @click="next()">Next></v-btn>
+                                <v-btn class="ml-2 right" solo color="accent"  @click="next()">Next</v-btn>
                             </v-flex>
 
                             <v-flex xs12 md12>
