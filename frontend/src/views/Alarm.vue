@@ -24,12 +24,42 @@
 
             <v-layout row justify-center>
                 <v-btn color="accent" class="right"  @click.stop="dialog = true">Select metric</v-btn>
-<!-- Selecting a metric model ------------------------------------------------------------------------------------------------------------------------>
+
+
+<!------------------------------------------------------------------------ Selecting a metric model ------------------------------------------------------------------------------------------------------------------------>
                     <v-dialog v-model="dialog" max-width="1000"  >
                         <v-card flat>
                           <div style="background-color:#009688"><v-card-title class="headline black--text" color="blue">Select metric</v-card-title></div>
                           <v-divider></v-divider>
 
+                            <!-- Top section ------------------------------------------------------------------------------->
+                                <v-container>
+                                    <v-layout row>
+                                        <v-col >
+                                            <v-text-field  label="Untitled graph"  type="text"  ></v-text-field>
+                                        </v-col>
+                                        <v-col class="ml-3" cols="" sm="" md="" lg="" xl="" >
+                                            <v-select :items="graphType" label="" class="" solo block></v-select>
+                                        </v-col>
+
+                                        <v-col class="ml-2"  >
+                                             <v-text-field prepend-icon="refresh">
+                                                 <v-select :items="refreshInterval" label="" class="" solo block></v-select>
+                                             </v-text-field>
+                                              
+                                        </v-col>
+
+                                    </v-layout>
+                                </v-container>
+                                    
+
+                               
+                            
+                            <!-------Top section ends --------------------------------------------------------------------->
+
+                        
+                          <v-divider></v-divider>
+                          
                           <v-container>
                               <v-card class="">
                                   <v-layout row>
@@ -59,7 +89,7 @@
                                                                   </v-flex>
                                                               </v-layout>
 
-                                                                <v-container>
+                                                                
                                                                     <v-card flat>                                                
                                                                         <v-layout>
                                                                             <v-flex xs12 md12>
@@ -85,7 +115,7 @@
                                                                             </v-flex>
                                                                         </v-layout>
                                                                     </v-card>
-                                                                </v-container>
+                                                            
                                                         </v-card>
                                                     </v-container>
                                                 </v-tab-item>
@@ -958,6 +988,8 @@ export default class Alarm extends Vue {
     public alarms=[];
     public active=null;
     public dialog=false;
+    public refreshInterval=['10 Seconds','1 minute','2 minutes','5 minutes','15 minutes'];
+    public graphType=['Number','Line','Stacked area'];
     public missingData=['Treat missing data as missing','Treat missing data as good(not breaching threshold)','Treat missing data as ignore(maintain the alarm state','Treat missing data as bad(breaching threshold'];
     public time=['1 Minute','5 Minutes','15 Minutes','1 Hour','6 Hours'];
     public next=function(){
