@@ -15,19 +15,19 @@
     <v-card flat>
         <v-container>
             <v-layout row wrap>
-                <div class="display-2 pb-2">Metric</div>
+                <div class="display-1 pb-2">Metric</div>
             </v-layout>
 
             <v-divider></v-divider>
-            <div class="pt-3 ml-2 grey--text">Graph</div>
-            <div class="grey--text ml-2 mb-2">Preview of the metric or metric expression and the alarm threshold.</div>
+            <div class="grey--text  mb-2">Preview of the metric or metric expression and the alarm threshold.</div>
 
             <v-layout row justify-center>
                 <v-btn color="accent" class="right"  @click.stop="dialog = true">Select metric</v-btn>
 
 
 <!------------------------------------------------------------------------ Selecting a metric model ------------------------------------------------------------------------------------------------------------------------>
-                    <v-dialog v-model="dialog" max-width="1000"  >
+                <div class="mt-5">
+                    <v-dialog v-model="dialog" class="mt-4" max-width="1000"  >
                         <v-card flat>
                           <div style="background-color:#009688"><v-card-title class="headline black--text" color="blue">Select metric</v-card-title></div>
                           <v-divider></v-divider>
@@ -65,7 +65,7 @@
                                   <v-layout row>
                                       <v-flex xs12 md12>
                                           <v-card flat left>
-                                              <v-tabs  color="primary"  slider-color="accent">
+                                              <v-tabs  color="primary" dark slider-color="accent">
                                                   <v-divider></v-divider>
                                                   <v-tab>All metrics</v-tab>
                                                  
@@ -149,6 +149,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
+                </div>
 <!------------------------------------------------------------------------Model ends here ----------------------------------------------------->
             </v-layout>
         </v-container>
@@ -238,13 +239,16 @@
                               </v-card>
 
                               <v-card flat>
-                                  <div class="pt-1 pl-4">Region</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="Unavailable" solo block></v-text-field>
+                                  <div class="pt-1 pl-4">InstanceId</div>
+                                    <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                        <v-text-field class="pl-4 pr-5 mr-4" v-model="alarm.Dimensions"  label="alarm.Dimensions" solo block></v-text-field>
+                                    </v-flex>
                               </v-card>
 
                               <v-card flat>
-                                  <div class="pt-1 pl-4">DistributionId</div>
-                                  <v-text-field class="pl-4 pr-5 mr-4" label="Unavailable" solo block></v-text-field>
+                                  <div class="pt-1 pl-4">Instance Name</div>
+
+                                         <v-text-field class="pl-4 pr-5 mr-4" label="No name specified" solo block></v-text-field>
                               </v-card>
 
                               <v-card flat>
@@ -277,20 +281,20 @@
                             <v-card flat>
                                 <div class="pt-4 pl-4">Threshold type</div>
                                     <v-layout row>
-                                        <v-flex xs12 md6>
-                                            <v-card active-class="blue" color="blue-grey lighten-5 mr-5 ml-4 mt-1 pa-auto">
+                                        <v-flex xs12 md6 lg4>
+                                            <v-card active-class="blue" color="blue-grey lighten-5 mr-5 pr-1 ml-4 mt-1 pa-auto">
                                                 <v-radio-group column class="ml-2">
                                                   <v-radio label="Static" color="blue" value="radio-1" class="mt-2"></v-radio>
-                                                  <div class="grey--text ml-4 pa-auto">Use a value as a threshold</div>
+                                                  <div class="grey--text ml-4 pl-2">Use a value as a threshold</div>
                                                 </v-radio-group>
                                             </v-card>
                                         </v-flex>
 
-                                        <v-flex xs12 md6>
+                                        <v-flex xs12 md6 lg3>
                                             <v-card color="blue-grey lighten-5">
                                                 <v-radio-group column class="ml-2 pa-auto">
                                                   <v-radio label="Anomaly detection" color="blue" class="mt-2"></v-radio>
-                                                  <div class="grey--text ml-4 pa-auto">Use a band as a threshold</div>
+                                                  <div class="grey--text ml-4 pl-2">Use a band as a threshold</div>
                                                 </v-radio-group>
                                             </v-card>
                                         </v-flex>
@@ -298,7 +302,7 @@
                             </v-card>
                         </v-flex>
                                       <!-- Whenever -->
-                        <v-flex xs12 md12>
+                        <v-flex xs12 md12 lg12>
                             <v-card flat>
                                <div class="pt-4 pl-4">
                                      <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
@@ -310,52 +314,54 @@
                                      </v-flex>   
                                 </div>
                                   <v-layout row>
-                                      <v-flex xs12 md3>
-                                            <v-card color="blue-grey lighten-5 ml-4 mr-2 pa-auto">
-                                                <v-radio-group column class="ml-2">
-                                                    <v-radio label="Greater" color="blue" class="mt-2"></v-radio>
-                                                        <div class="grey--text ml-4 pb-1"> >threshold</div>
+                                      
+                                        <v-flex xs12 md3 lg2>
+                                                <v-card color="blue-grey lighten-5 ml-4 mr-2 pa-auto">
+                                                    <v-radio-group column class="ml-2">
+                                                        <v-radio label="Greater" color="blue" class="mt-2"></v-radio>
+                                                            <div class="grey--text ml-4 pl-1 pb-1"> >threshold</div>
+                                                    </v-radio-group>
+                                                </v-card>
+                                        </v-flex>
+
+                                        <v-flex xs12 md3 lg2>
+                                            <v-card color="blue-grey lighten-5  ml-2 mr-2 pa-auto">
+                                                    <v-radio-group column class="ml-2">
+                                                        <v-radio label="Greater/Equal" color="blue" value="" class="mt-2"></v-radio>
+                                                        <div class="grey--text ml-4 pl-1 pb-1">>=threshold</div>
                                                     </v-radio-group>
                                             </v-card>
-                                      </v-flex>
+                                        </v-flex>
 
-                                      <v-flex xs12 md3>
-                                          <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
-                                                  <v-radio-group column class="ml-2">
-                                                     <v-radio label="Greater/Equal" color="blue" value="" class="mt-2"></v-radio>
-                                                     <div class="grey--text ml-4 pb-1">>=threshold</div>
-                                                  </v-radio-group>
-                                          </v-card>
-                                      </v-flex>
+                                        <v-flex xs12 md3 lg2>
+                                            <v-card color="blue-grey lighten-5 ml-2 mr-2 pa-auto">
+                                                <v-radio-group column class="ml-2">
+                                                    <v-radio label="Lower/Equal" color="blue" value="" class="mt-2"></v-radio>
+                                                        <div class="grey--text ml-4 pl-1 pb-1">&#60;=threshold</div>
+                                                </v-radio-group>
+                                            </v-card>
+                                        </v-flex>
 
-                                      <v-flex xs12 md3>
-                                          <v-card color="blue-grey lighten-5 mr-2 pa-auto">
-                                              <v-radio-group column class="ml-2">
-                                                  <v-radio label="Lower/Equal" color="blue" value="" class="mt-2"></v-radio>
-                                                      <div class="grey--text ml-4 pb-1">&#60;=threshold</div>
-                                              </v-radio-group>
-                                          </v-card>
-                                      </v-flex>
-
-                                      <v-flex xs12 md3>
-                                          <v-card color="blue-grey lighten-5 mr-2 pa-auto">
-                                              <v-radio-group column class="ml-2">
-                                                     <v-radio label="Lower" color="blue"  class="mt-2"></v-radio>
-                                                     <div class="grey--text ml-4 pb-4"> &#60;threshold </div>
-                                              </v-radio-group>
-                                          </v-card>
-                                      </v-flex>
+                                        <v-flex xs12 md3 lg2>
+                                            <v-card color="blue-grey lighten-5 mr-2 ml-2 pa-auto">
+                                                <v-radio-group column class="ml-2">
+                                                        <v-radio label="Lower" color="blue"  class="mt-2"></v-radio>
+                                                        <div class="grey--text ml-4 pl-1 pb-1"> &#60;threshold </div>
+                                                </v-radio-group>
+                                            </v-card>
+                                        </v-flex>
                                   </v-layout>
                               </v-card>
                         </v-flex>
 
                                           <!-- than... -->
-                        <v-flex xs12 md6>
+                        <v-flex xs12 md6 lg4>
                             <v-card flat class="mb-2 pb-2">
-                                <div class="ml-4 mt-2">than...</div>
-                                <div class="ml-4 mt-2 grey--text">Define the threshold value</div>
-                                <v-text-field class="pl-4 mr-1 pr-5 mr-4 pt-0 mt-0" label="" solo block></v-text-field>
-                                <div class="ml-4 grey--text mb-2">Must be a number</div>
+                                    <div class="ml-4 mt-2">than...</div>
+                                    <div class="ml-4 mt-2 grey--text">Define the threshold value
+                                        <v-text-field class="mr-1 pr-5 mr-5 pt-0 mt-1" label="" solo block></v-text-field>
+                                    </div>
+                                    <div class="grey--text ml-4">Must be a number</div>
                             </v-card>
                         </v-flex>
                     </v-layout>
@@ -367,10 +373,9 @@
 
                 </v-card>
 
-
-                <v-card flat>
+            <v-card flat class="ml-2">
                     <v-layout row>
-                        <v-flex xs12 md12>
+                        <v-flex xs12 md12 lg10>
                             <div class="display-1 pt-3">Additional configuration</div>
                             <div class="mt-2">Datapoints to alarm</div>
                             <div class="mt-2 grey--text">Define the number of datapoints within the evaluation period that must be breaching to cause the alarm to go to ALARM state.</div>
