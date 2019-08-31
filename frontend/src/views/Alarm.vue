@@ -29,7 +29,13 @@
                 <div class="mt-5">
                     <v-dialog v-model="dialog" class="mt-4" max-width="1000"  >
                         <v-card flat>
-                          <div style="background-color:#009688"><v-card-title class="headline black--text" color="blue">Select metric</v-card-title></div>
+                            <div class="primary">
+                                <v-card-title class="headline white--text" color="blue">Select metric
+                                <v-btn icon dark class="dismiss" @click="dialog = false">
+                                    <v-icon >mdi-close</v-icon>
+                                </v-btn>
+                                </v-card-title>
+                            </div>
                           <v-divider></v-divider>
 
                             <!-- Top section ------------------------------------------------------------------------------->
@@ -186,7 +192,7 @@
                             <v-flex xs6 md12>
                                 <v-card flat>
                                     <v-card flat>
-                                      <v-btn solo  class="right">edit</v-btn>
+                                      <v-btn solo @click.stop="dialog = true" class="right">edit</v-btn>
                                     </v-card>
                                 </v-card>
                             </v-flex>
@@ -254,7 +260,7 @@
                               <v-card flat>
                                   <div class="pt-1 pl-4">Statistic</div>
                                     <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
-                                        <v-text-field class="pl-4 pr-5 mr-4" v-model="alarm.Statistic" label="alarm.Statistic" solo block></v-text-field>
+                                        <v-text-field class="pl-4 pr-5 mr-4" :item="statistics" append-icon="search" v-model="alarm.Statistic" label="alarm.Statistic" solo block></v-text-field>
                                     </v-flex>
                               </v-card>
 
@@ -451,7 +457,7 @@
                             <div class="pt-4 pl-4">Whenever this alarm state is...</div>
                             <div class="grey--text pl-4">Define the alarm state that will trigger this action.</div>
                                 <v-layout row>
-                                    <v-flex xs12 md4>
+                                    <v-flex xs12 md4 lg4>
                                         <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
                                             <v-radio-group  column class="ml-2">
                                                 <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
@@ -460,7 +466,7 @@
                                         </v-card>
                                     </v-flex>
 
-                                    <v-flex xs12 md4>
+                                    <v-flex xs12 md4 lg4>
                                         <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
                                             <v-radio-group  column class="ml-2">
                                                 <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
@@ -469,7 +475,7 @@
                                         </v-card>
                                     </v-flex>
 
-                                    <v-flex xs12 md4>
+                                    <v-flex xs12 md4 lg4>
                                         <v-card color="blue-grey lighten-5 mr-2 pa-auto">
                                             <v-radio-group column class="ml-2">
                                                 <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
@@ -997,6 +1003,7 @@ export default class Alarm extends Vue {
     public graphType=['Number','Line','Stacked area'];
     public missingData=['Treat missing data as missing','Treat missing data as good(not breaching threshold)','Treat missing data as ignore(maintain the alarm state','Treat missing data as bad(breaching threshold'];
     public time=['1 Minute','5 Minutes','15 Minutes','1 Hour','6 Hours'];
+    public statistics=['Average','Sum','Maximum','Minimum','Sample count','p90'];
     public next=function(){
         const active=parseInt(this.active)
         this.active=(active<5 ?active + 1 :0)
@@ -1016,4 +1023,7 @@ margin:5px;
    padding-right:20px;
    margin:5px;
  }
+.dismiss{
+    margin-left:775px;
+}
 </style>
