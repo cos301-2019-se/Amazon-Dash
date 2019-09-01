@@ -89,3 +89,23 @@ def get_instance_metrics(user, client, instance_id):
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
+
+
+@ec2.route('/api/costs', methods=['GET'])
+@require_auth
+@aws.boto3_client(service='ce')
+def get_cost_and_usage(user, client):
+    try:
+        response = client.get_cost_and_usage(
+            TimePeriod = {
+                'Start' : '2019-01-01',
+                'End' : '2019-10-01'
+            },
+            Granularity = 'MONTHLY',
+            Metrics=[
+                'BlendedCost',
+            ],
+        )
+    except ClientError as ex:
+        message, status = aws.boto3_errors(ex)
+        return Response(message, status=status, mimetype='application/text')
