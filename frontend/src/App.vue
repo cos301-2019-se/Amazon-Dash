@@ -69,6 +69,7 @@ export default class App extends Vue {
   private drawer = false
   private drawerItems: Array<{ title: string, href: string, icon: string }> = [
     { title: 'Dashboard', href: '/', icon: 'home' },
+    { title: 'Costs', href: '/costs', icon: 'home' },
   ]
   private get snackbar() {
     return this.$store.getters.snackbar
