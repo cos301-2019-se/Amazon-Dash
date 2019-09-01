@@ -24,7 +24,7 @@
       <v-spacer></v-spacer>
       <v-tooltip bottom v-if="$store.getters.authenticated">
         <template v-slot:activator="{ on }">
-          <v-btn icon @click="$store.dispatch('logout')" v-on="on">
+          <v-btn icon @click="$store.dispatch('logout')" v-on="on" class="logout-button">
             <v-icon>logout</v-icon>
           </v-btn>
         </template>
