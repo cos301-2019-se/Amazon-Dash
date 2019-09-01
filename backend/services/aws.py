@@ -3,6 +3,10 @@ import itertools
 from functools import wraps
 from flask import request
 from datetime import datetime, timedelta
+import time
+import json
+import gevent
+from backend.lib.sse import SubscriptionDoesNotExistException
 
 
 def boto3_errors(exception):
@@ -286,3 +290,14 @@ def create_instance(client, args):
         MinCount=args.get('min_count'),
     )
     return response
+
+def start_instance_polling(channel, client, sub_id):
+    def poll():
+        try:
+            while True:
+                instances = get_ec2_instances(client)
+                channel.publish(sub_id, json.dumps(instances), "instances")
+                gevent.sleep(1)
+        except SubscriptionDoesNotExistException:
+            print(sub_id, "ended")
+    gevent.spawn(poll)
