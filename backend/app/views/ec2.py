@@ -97,15 +97,16 @@ def get_instance_metrics(user, client, instance_id):
 def get_cost_and_usage(user, client):
     try:
         response = client.get_cost_and_usage(
-            TimePeriod = {
-                'Start' : '2019-01-01',
-                'End' : '2019-10-01'
+            TimePeriod={
+                'Start': '2019-01-01',
+                'End': '2019-10-01'
             },
-            Granularity = 'MONTHLY',
+            Granularity='MONTHLY',
             Metrics=[
                 'BlendedCost',
             ],
         )
+        return Response(json.dumps(response), status=200, mimetype='applcation/json')
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
