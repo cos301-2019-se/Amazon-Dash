@@ -382,28 +382,31 @@
             <v-card flat class="ml-2">
                     <v-layout row>
                         <v-flex xs12 md12 lg10>
-                            <div class="display-1 pt-3">Additional configuration</div>
-                            <div class="mt-2">Datapoints to alarm</div>
-                            <div class="mt-2 grey--text">Define the number of datapoints within the evaluation period that must be breaching to cause the alarm to go to ALARM state.</div>
+                           
+                            <v-btn @click="isShowing ^= true" class="mt-3 mb-1 ml-3" >Additional configuration</v-btn>
+                                    <div v-show="isShowing" class="ml-2">    
+                                            <div class="mt-2">Datapoints to alarm</div>
+                                            <div class="mt-2 grey--text">Define the number of datapoints within the evaluation period that must be breaching to cause the alarm to go to ALARM state.</div>
 
-                            <v-layout row>
-                                <v-flex xs12 md1>
-                                  <v-text-field class="" label="" solo block></v-text-field>
-                                </v-flex>
-                                    <div class="mt-2 grey--text ml-2">out of</div>
-                                <v-flex xs12 md1 class="ml-2">
-                                  <v-text-field class="" label="" solo block></v-text-field>
-                                </v-flex>
-                            </v-layout>
+                                                <v-layout row>
+                                                    <v-flex xs12 md1>
+                                                    <v-text-field class="" label="" solo block></v-text-field>
+                                                    </v-flex>
+                                                        <div class="mt-2 grey--text ml-2">out of</div>
+                                                    <v-flex xs12 md1 class="ml-2">
+                                                    <v-text-field class="" label="" solo block></v-text-field>
+                                                    </v-flex>
+                                                </v-layout>
 
-                                <v-layout row>
-                                  <v-flex xs12 md6>
-                                      <div class="mt-2">Missing data treatment</div>
-                                      <div class="mt-2 grey--text">How to treat missing data when evaluating the alarm</div>
-                                      <v-select :items="missingData" label="" class="" solo block></v-select>
-                                  </v-flex>
-                                </v-layout>
-                        </v-flex>
+                                                <v-layout row>
+                                                    <v-flex xs12 md6>
+                                                        <div class="mt-2">Missing data treatment</div>
+                                                        <div class="mt-2 grey--text">How to treat missing data when evaluating the alarm</div>
+                                                        <v-select :items="missingData" label="" class="" solo block></v-select>
+                                                    </v-flex>
+                                                </v-layout>
+                                    </div>
+                                </v-flex>
                     </v-layout>
                 </v-card>
             </v-container>
@@ -436,157 +439,164 @@
                 <v-layout row wrap>
                       <v-flex xs12 md12>
                             <div class="display-2 pb-2">Configure actions</div>
-                            <div class="display-1 pt-3">Notification</div>
+                            <div class="display-1 ml-2 pt-3">Notification</div>
                       </v-flex>
-                  </v-layout >
+                      
+                  </v-layout>
+                  <v-divider></v-divider>
             </v-card>
         </v-container>
 
-        <v-divider></v-divider>
+        
+        <div class="ml-4"><v-btn class="ml-3" @click="isShowingNotification ^= true" >Add notification</v-btn></div>
 
         <v-container class="mt-1 mb-2 pb-2" >
-            <v-card flat>
-                <v-layout row wrap>
-                              <!-- Whenever -->
-                    <v-flex xs12 md12>
-                        <v-card flat>
+            <div v-show="isShowingNotification">
+                <v-card flat>
+                    <v-layout row wrap>
+                                <!-- Whenever -->
+                        <v-flex xs12 md12>
                             <v-card flat>
-                              <v-btn solo  class="right" @click="next" >Remove</v-btn>
-                            </v-card>
+                                <v-card flat>
+                                    <v-btn solo  class="right" @click="isShowingNotification ^= true" >Remove</v-btn>
+                                </v-card>
 
+                                <div class="pt-4 pl-4">Whenever this alarm state is...</div>
+                                <div class="grey--text pl-4">Define the alarm state that will trigger this action.</div>
+                                    <v-layout row>
+                                        <v-flex xs12 md4 lg4>
+                                            <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
+                                                <v-radio-group  column class="ml-2">
+                                                    <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
+                                                    <div class="grey--text ml-4">The metric or the expression is outside the defined threshold</div>
+                                                </v-radio-group>
+                                            </v-card>
+                                        </v-flex>
+
+                                        <v-flex xs12 md4 lg4>
+                                            <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
+                                                <v-radio-group  column class="ml-2">
+                                                    <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
+                                                    <div class="grey--text ml-4 pb-1">The metric or expression is within the defined threshold</div>
+                                                </v-radio-group>
+                                            </v-card>
+                                        </v-flex>
+
+                                        <v-flex xs12 md4 lg4>
+                                            <v-card color="blue-grey lighten-5 mr-2 pa-auto">
+                                                <v-radio-group column class="ml-2">
+                                                    <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
+                                                    <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
+                                                </v-radio-group>
+                                            </v-card>
+                                        </v-flex>
+                                    </v-layout>
+                            </v-card>
+                        </v-flex>
+
+                                                    <!-- than... -->
+                        <v-flex xs12 md12>
+                            <v-card flat class="mb-2 pb-2"  >
+                                <div class="ml-4 mt-4  ">Select an SNS topic</div>
+                                <div class="ml-4 grey--text mb-2 ">Define the SNS(Simple Notification Service) topic that will receive the notification</div>
+
+                                    <v-radio-group column class="ml-2 pl-4">
+                                        <v-radio label="Select an existing SNS topic" color="blue" value="" class=""></v-radio>
+                                        <v-radio label="Create new topic" color="blue" value="" class="mt-2"></v-radio>
+                                        <v-radio label="Use topic ARN" color="blue" value="" class="mt-2"></v-radio>
+                                    </v-radio-group>
+
+                                    <div class="ml-4 ">Send notification to...</div>
+
+                                    <v-flex xs12 md5>
+                                        <div class="ml-4 mt-2"><v-text-field solo  append-icon="search" label="Search" single-line hide-details></v-text-field></div>
+                                        <div class="ml-4 grey--text ">Only email lists for this account are available </div>
+                                        <div class=" ml-3 mt-2 mb-5 pb-2">
+                                        </div>
+                                    </v-flex>
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
+                </v-card>
+            </div>
+            
+            <v-divider></v-divider>
+            <v-card flat>
+                <v-layout row>
+                    <v-flex xs12 md12>
+                        <div class="display-1 pt-1 ml-2">Auto scaling action</div>
+                            <v-card flat class="mt-2 mb-3">
+                                <v-flex xs12 md12>
+                                    <div class="mt-2 ml-2 mb-2"><v-btn solo class="normal left mb-4" >Add auto scaling action</v-btn></div>
+                                </v-flex>
+                             
+                            </v-card>
+                    </v-flex>
+                </v-layout>
+                <v-divider></v-divider>
+            </v-card>
+
+            <v-card flat>
+                <v-layout row>
+                    <v-flex xs12 md12 >
+                        <div class="display-1  mt-2 pt-1 ml-2">EC2 action</div>
+                    </v-flex>
+                </v-layout>
+                <v-layout row>
+                    <div class="ml-2"><v-btn class="mb-2 ml-2" @click="isShowingEC2 ^= true" >Add EC2 action</v-btn></div>
+                </v-layout>
+            </v-card>
+
+                              <!-- Whenever -->
+        
+            <div v-show="isShowingEC2">
+                <v-flex xs12 md12>
+                    <v-card flat>
+                        <v-card flat>
+                            <v-btn class="right" solo color="normal" @click="isShowingEC2 ^= true" >Remove</v-btn>
+                        </v-card>
                             <div class="pt-4 pl-4">Whenever this alarm state is...</div>
                             <div class="grey--text pl-4">Define the alarm state that will trigger this action.</div>
+
                                 <v-layout row>
-                                    <v-flex xs12 md4 lg4>
+                                    <v-flex xs12 md4>
                                         <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
-                                            <v-radio-group  column class="ml-2">
+                                            <v-radio-group column class="ml-2">
                                                 <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
                                                 <div class="grey--text ml-4">The metric or the expression is outside the defined threshold</div>
                                             </v-radio-group>
                                         </v-card>
                                     </v-flex>
 
-                                    <v-flex xs12 md4 lg4>
+                                    <v-flex xs12 md4>
                                         <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
-                                            <v-radio-group  column class="ml-2">
+                                            <v-radio-group column class="ml-2">
                                                 <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
                                                 <div class="grey--text ml-4 pb-1">The metric or expression is within the defined threshold</div>
                                             </v-radio-group>
                                         </v-card>
                                     </v-flex>
 
-                                    <v-flex xs12 md4 lg4>
+                                    <v-flex xs12 md4>
                                         <v-card color="blue-grey lighten-5 mr-2 pa-auto">
                                             <v-radio-group column class="ml-2">
-                                                <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
-                                                <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
+                                            <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
+                                            <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
                                             </v-radio-group>
                                         </v-card>
                                     </v-flex>
                                 </v-layout>
-                        </v-card>
-                    </v-flex>
 
-                                                <!-- than... -->
-                    <v-flex xs12 md12>
-                        <v-card flat class="mb-2 pb-2"  >
-                            <div class="ml-4 mt-4  ">Select an SNS topic</div>
-                            <div class="ml-4 grey--text mb-2 ">Define the SNS(Simple Notification Service) topic that will receive the notification</div>
-
-                                <v-radio-group column class="ml-2 pl-4">
-                                    <v-radio label="Select an existing SNS topic" color="blue" value="" class=""></v-radio>
-                                    <v-radio label="Create new topic" color="blue" value="" class="mt-2"></v-radio>
-                                    <v-radio label="Use topic ARN" color="blue" value="" class="mt-2"></v-radio>
+                                <div class="ml-4 mt-3 pb-1">Take the following action...</div>            
+                                <v-radio-group class="ml-5" column>
+                                    <v-radio label="Recover this instance" value="radio-1"></v-radio>
+                                    <v-radio label="Stop this instance" value="radio-2"></v-radio>
+                                    <v-radio label="Terminate this instance" value="radio-2"></v-radio>
+                                    <v-radio class="" label="Reboot this instance" value="radio-2"></v-radio>
                                 </v-radio-group>
-
-                                <div class="ml-4 ">Send notification to...</div>
-
-                                <v-flex xs12 md5>
-                                    <div class="ml-4 mt-2"><v-text-field solo  append-icon="search" label="Search" single-line hide-details></v-text-field></div>
-                                    <div class="ml-4 grey--text ">Only email lists for this account are available </div>
-                                    <div class=" ml-3 mt-2 mb-5 pb-2">
-                                      <v-btn depressed solo  class="normal left" >Add notification</v-btn>
-                                    </div>
-                                </v-flex>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-card>
-
-            <v-card flat>
-                <v-layout row>
-                    <v-flex xs12 md12>
-                        <div class="display-1 pt-1 ml-4">Auto scaling action</div>
-                            <v-card class="mt-2">
-                                <v-flex xs12 md6>
-                                    <div class="mt-2 ml-3"><v-btn depressed solo class="normal left" >Add auto scaling action</v-btn></div>
-                                </v-flex>
-                            </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-card>
-
-            <v-card flat>
-                <v-layout row>
-                    <v-flex xs12 md12>
-                        <div class="display-1 ml-4 mt-5 pt-1 ml-2">EC2 action</div>
-                    </v-flex>
-                </v-layout>
-            </v-card>
-
-                              <!-- Whenever -->
-            <v-flex xs12 md12>
-                <v-card flat>
-                    <v-card flat>
-                      <v-btn class="right" solo color="normal" @click="next" >Remove</v-btn>
                     </v-card>
-                        <div class="pt-4 pl-4">Whenever this alarm state is...</div>
-                        <div class="grey--text pl-4">Define the alarm state that will trigger this action.</div>
-
-                            <v-layout row>
-                                <v-flex xs12 md4>
-                                    <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
-                                        <v-radio-group column class="ml-2">
-                                            <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
-                                            <div class="grey--text ml-4">The metric or the expression is outside the defined threshold</div>
-                                        </v-radio-group>
-                                    </v-card>
-                                </v-flex>
-
-                                <v-flex xs12 md4>
-                                    <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
-                                        <v-radio-group column class="ml-2">
-                                            <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
-                                            <div class="grey--text ml-4 pb-1">The metric or expression is within the defined threshold</div>
-                                        </v-radio-group>
-                                    </v-card>
-                                </v-flex>
-
-                                <v-flex xs12 md4>
-                                    <v-card color="blue-grey lighten-5 mr-2 pa-auto">
-                                        <v-radio-group column class="ml-2">
-                                          <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
-                                          <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
-                                        </v-radio-group>
-                                    </v-card>
-                                </v-flex>
-                            </v-layout>
-                </v-card>
-            </v-flex>
-            <div class="ml-4 mt-3 pb-1">Take the following action...</div>
-            
-            <v-radio-group class="ml-5" column>
-                <v-radio label="Recover this instance" value="radio-1"></v-radio>
-                <v-radio label="Stop this instance" value="radio-2"></v-radio>
-                <v-radio label="Terminate this instance" value="radio-2"></v-radio>
-                <v-radio class="" label="Reboot this instance" value="radio-2"></v-radio>
-            </v-radio-group>
-
-            <!--<v-card flat>
-              <v-flex xs12 md12>
-                  <v-btn class="ml-5 solo left" color="normal">Add EC2 action</v-btn>
-              </v-flex>
-            </v-card>-->
+                </v-flex>
+            </div>
         </v-container>
     </v-card>
 
@@ -1008,6 +1018,9 @@ export default class Alarm extends Vue {
         const active=parseInt(this.active)
         this.active=(active<5 ?active + 1 :0)
     }
+    public isShowing=false;
+    public isShowingEC2=false;
+    public isShowingNotification=false;
     
     
     
