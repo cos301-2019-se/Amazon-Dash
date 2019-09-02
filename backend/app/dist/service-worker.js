@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.4615bff44fc33c140e3d68945400eee1.js"
+  "/precache-manifest.4108407d2781fab6b9f26bb28bd2e2ba.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "amazon-dash"});
