@@ -23,7 +23,7 @@
           ></v-text-field>
       </v-flex>
       <v-flex xs12 md6 lg4 v-for="metric in metrics" :key="metric.id" column>
-        <MetricCard :metric="metric"></MetricCard>
+        <MetricCard :metric="metric" class="metric-card"></MetricCard>
       </v-flex>
     </v-layout>
   </v-container>

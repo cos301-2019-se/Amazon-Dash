@@ -12,4 +12,16 @@ describe('Login Screen', () => {
     cy.get('.register-button').click()
     cy.url().should('contain', '/register')
   })
+  it('should login successfully', () => {
+    cy.visit('/#/login')
+    cy.get('input[type="text"]').type('testuser@amazon-dash.herokuapp.com')
+    cy.get('input[type="password"]').type('testpassword')
+    cy.get('button[type="submit"]').click()
+    cy.url().should('not.contain', '/login')
+  })
+
+  it('should logout', () => {
+    cy.get('.logout-button').click()
+    cy.url().should('contain', '/login')
+  })
 })
