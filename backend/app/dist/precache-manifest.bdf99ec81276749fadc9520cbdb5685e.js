@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "f496c5c4a7473bf16516",
+    "revision": "5483bf0aa6540fde75a2",
     "url": "/static/css/app.5650d57e.css"
   },
   {
-    "revision": "f496c5c4a7473bf16516",
-    "url": "/static/js/app.34840fa4.js"
+    "revision": "5483bf0aa6540fde75a2",
+    "url": "/static/js/app.9878a28b.js"
   },
   {
     "revision": "1fc7e60d9d9c0b8d7aaf",
@@ -14,6 +14,10 @@ self.__precacheManifest = [
   {
     "revision": "1fc7e60d9d9c0b8d7aaf",
     "url": "/static/js/chunk-vendors.a4936861.js"
+  },
+  {
+    "revision": "667d3a39712203c5a933",
+    "url": "/static/js/costs.c43bc80b.js"
   },
   {
     "revision": "16f0655a732756195278",
@@ -36,28 +40,24 @@ self.__precacheManifest = [
     "url": "/static/fonts/materialdesignicons-webfont.875141d9.woff"
   },
   {
-    "revision": "f558fb5cc12a31989a7e4048b4fba71a",
-    "url": "/static/fonts/materialdesignicons-webfont.f558fb5c.ttf"
-  },
-  {
     "revision": "666e135393ac4ac62ae551b9fb0985ae",
     "url": "/static/fonts/materialdesignicons-webfont.666e1353.eot"
   },
   {
-    "revision": "d88019ea8d2eae876150d6ece7eb7082",
-    "url": "/static/img/btn_google_signin_dark_pressed_web.d88019ea.png"
+    "revision": "f558fb5cc12a31989a7e4048b4fba71a",
+    "url": "/static/fonts/materialdesignicons-webfont.f558fb5c.ttf"
   },
   {
     "revision": "852a96b2d3c8c22423ed60e98a8047e0",
     "url": "/static/img/btn_google_signin_dark_focus_web.852a96b2.png"
   },
   {
-    "revision": "96c476804d7a788cc1c05351b287ee41",
-    "url": "/static/fonts/MaterialIcons-Regular.96c47680.eot"
+    "revision": "d88019ea8d2eae876150d6ece7eb7082",
+    "url": "/static/img/btn_google_signin_dark_pressed_web.d88019ea.png"
   },
   {
-    "revision": "da4ea5cdfca6b3baab285741f5ccb59f",
-    "url": "/static/fonts/MaterialIcons-Regular.da4ea5cd.ttf"
+    "revision": "96c476804d7a788cc1c05351b287ee41",
+    "url": "/static/fonts/MaterialIcons-Regular.96c47680.eot"
   },
   {
     "revision": "0509ab09c1b0d2200a4135803c91d6ce",
@@ -68,12 +68,16 @@ self.__precacheManifest = [
     "url": "/static/fonts/MaterialIcons-Regular.29b882f0.woff"
   },
   {
-    "revision": "d3b47375afd904983d9be8d6e239a949",
-    "url": "/static/fonts/Roboto-Thin.d3b47375.woff"
+    "revision": "da4ea5cdfca6b3baab285741f5ccb59f",
+    "url": "/static/fonts/MaterialIcons-Regular.da4ea5cd.ttf"
   },
   {
-    "revision": "8a96edbbcd9a6991d79371aed0b0288e",
-    "url": "/static/fonts/Roboto-ThinItalic.8a96edbb.woff"
+    "revision": "ad538a69b0e8615ed0419c4529344ffc",
+    "url": "/static/fonts/Roboto-Thin.ad538a69.woff2"
+  },
+  {
+    "revision": "d3b47375afd904983d9be8d6e239a949",
+    "url": "/static/fonts/Roboto-Thin.d3b47375.woff"
   },
   {
     "revision": "d26871e8149b5759f814fd3c7a4f784b",
@@ -84,16 +88,16 @@ self.__precacheManifest = [
     "url": "/static/fonts/Roboto-ThinItalic.5b4a33e1.woff2"
   },
   {
+    "revision": "8a96edbbcd9a6991d79371aed0b0288e",
+    "url": "/static/fonts/Roboto-ThinItalic.8a96edbb.woff"
+  },
+  {
     "revision": "c73eb1ceba3321a80a0aff13ad373cb4",
     "url": "/static/fonts/Roboto-Light.c73eb1ce.woff"
   },
   {
     "revision": "e8eaae902c3a4dacb9a5062667e10576",
     "url": "/static/fonts/Roboto-LightItalic.e8eaae90.woff2"
-  },
-  {
-    "revision": "ad538a69b0e8615ed0419c4529344ffc",
-    "url": "/static/fonts/Roboto-Thin.ad538a69.woff2"
   },
   {
     "revision": "13efe6cbc10b97144a28310ebdeda594",
@@ -164,7 +168,7 @@ self.__precacheManifest = [
     "url": "/static/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "e047c63eaf9f9aa9068018ad0c763e95",
+    "revision": "ef08403d19107ae490de4b561292f695",
     "url": "/index.html"
   },
   {
