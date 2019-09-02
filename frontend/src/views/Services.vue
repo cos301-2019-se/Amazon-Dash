@@ -23,14 +23,13 @@
         <v-text-field solo clearable v-model="searchFilter" prepend-inner-icon="search" placeholder="Filter Instances" class="search-bar"></v-text-field>
       </v-flex>
       <v-flex xs12 md6 lg4 v-for="instance in instances" :key="instance.id">
-        <ServiceCard :instance="instance"></ServiceCard>
+        <ServiceCard :instance="instance" class="instance"></ServiceCard>
       </v-flex>
       <v-footer
       app>
         <v-dialog v-model="dialog" max-width="700" class="ma-5">
           <template v-slot:activator="{ on }">
             <v-btn
-              v-show="!hidden"
               color="accent"
               dark
               absolute

@@ -72,7 +72,7 @@ def register():
 
         if all((email, password, access_key, secret_key)):
             if MongoClient.count('users', {'email': email}):
-                return Response("That email address already exists", status=403, mimetype="application/text")
+                return Response("That email address already exists", status=401, mimetype="application/text")
             salt = bcrypt.gensalt().decode('utf-8')
             password_hash = generate_password_hash(salt + password + salt)
             MongoClient.insert('users', {

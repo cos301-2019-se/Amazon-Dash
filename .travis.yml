@@ -1,4 +1,5 @@
 language: node_js
+dist: bionic
 cache:
   npm: true
   directories:
@@ -28,14 +29,20 @@ jobs:
       script:
         - npm run test:unit
     - name: "Backend Unit Tests"
+      services:
+        - mongodb
       language: python
       python:
         - "3.6"
       script:
         - make unit
     - name: "E2E Tests"
+      services:
+        - mongodb
       before_install:
-        - sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+        - sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 python3 python3-pip python3-setuptools python3-wheel
+        - pip3 install -r requirements.txt
         - cd frontend
       script:
-        - npm run test:e2e:ci
+        - cd ..
+        - ./run-e2e-tests.sh
