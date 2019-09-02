@@ -50,5 +50,11 @@ export default new Router({
             props: true,
             beforeEnter: requireAuth,
         },
+        {
+            path: '/costs',
+            name: 'costs',
+            component: () => import(/* webpackChunkName: "costs" */ './views/Pages.vue'),
+            beforeEnter: requireAuth,
+        },
     ],
 })
