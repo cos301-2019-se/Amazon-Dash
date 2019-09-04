@@ -81,6 +81,7 @@ def create_instance(user, client):
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
 
+
 @ec2.route('/api/instances/subscribe', methods=['GET'])
 @require_auth
 @aws.boto3_client(service='cloudwatch')
@@ -90,6 +91,7 @@ def subscribe(user, ec2_client, cw_client):
     response = channel.subscribe(sub_id)
     aws.start_instance_polling(channel, ec2_client, cw_client, sub_id)
     return response
+
 
 @ec2.route('/api/instances/<instance_id>/metrics', methods=['GET'])
 @require_auth

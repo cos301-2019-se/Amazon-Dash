@@ -3,7 +3,6 @@ import itertools
 from functools import wraps
 from flask import request
 from datetime import datetime, timedelta
-import time
 import json
 import gevent
 from backend.lib.sse import SubscriptionDoesNotExistException

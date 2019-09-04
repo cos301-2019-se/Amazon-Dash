@@ -1,17 +1,18 @@
 from typing import Iterator
 import random
 import string
-
-from collections import deque
-from flask import Response, request
+from flask import Response
 from gevent.queue import Queue
 import gevent
+
 
 def generate_id(size=6, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+
 class SubscriptionDoesNotExistException(Exception):
     pass
+
 
 class ServerSentEvent:
     def __init__(self, data, event):
@@ -29,6 +30,7 @@ class ServerSentEvent:
             return ""
         lines = ["{}: {}".format(name, key) for key, name in self.desc_map.items() if key]
         return "{}\n\n".format("\n".join(lines))
+
 
 class Channel:
     def __init__(self):
