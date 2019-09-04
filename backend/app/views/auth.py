@@ -1,11 +1,13 @@
-from flask import Blueprint, request, Response
+from flask import Blueprint, request, Response, make_response, current_app as app, jsonify
 from backend.lib.db import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
-from backend.services.authentication import check_auth
+from backend.services.authentication import check_auth, encode_jwt
 import bcrypt
 import json
 import uuid
+import jwt
+
 
 
 auth = Blueprint('auth', __name__)
@@ -33,15 +35,18 @@ def verify() -> Response:
             user = users[0] if users else None
             if user and check_password_hash(user['password'], user['salt'] + password + user['salt']):
                 user_id = str(user['_id'])
-                token = str(uuid.uuid4())
-
+                token = encode_jwt(user_id, app.config.get('SECRET_KEY'))
                 MongoClient.insert('access', {
                     'user_id': user_id,
                     'token': token,
                     'expires': datetime.now() + timedelta(seconds=128000),
                 })
-                res = {'token': token, 'ttl': 128000}
-                return Response(json.dumps(res), status=200, mimetype='application/json')
+                # res = {'token': token, 'ttl': 128000}
+                # return Response(json.dumps(res), status=200, mimetype='application/json')
+                response = make_response(jsonify({'status': 'success', 'message': 'Successfully logged in'}))
+                response.set_cookie('auth_token', token, httponly=True,
+                                    secure=app.config.get('PRODUCTION', False))
+                return response, 200
             else:
                 return Response(json.dumps('Login unsucessful'),
                                 status=403, mimetype='application/text')
@@ -89,6 +94,13 @@ def register():
             return Response(f"Missing fields: {missing_fields}", status=401, mimetype='application/text')
     else:
         return Response("Request body missing", status=400, mimetype='application/text')
+
+
+@auth.route('/api/logout')
+def logout():
+    response = make_response()
+    response.set_cookie('auth_token', '', expires=datetime.now() + timedelta(days=-1))
+    return response, 204
 
 
 @auth.route('/api/register/google', methods=["POST"])
@@ -167,5 +179,5 @@ def login_with_google(email, user_id):
 
 @auth.route('/api/authenticated')
 def check_authentication():
-    token = request.headers.get('authorization')
-    return json.dumps(check_auth(token))
+    token = request.cookies.get('auth_token')
+    return json.dumps(check_auth(token, app.config.get('SECRET_KEY')))

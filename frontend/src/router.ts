@@ -8,11 +8,13 @@ import Metrics from './views/Metrics.vue'
 Vue.use(Router)
 
 const requireAuth: NavigationGuard = (to, from, next) => {
-    if (store.getters.authenticated) {
-        next()
-    } else {
-        next('/login')
-    }
+    store.dispatch('checkAuth').then(res => {
+        if (res) {
+            next()
+        } else {
+            next('/login')
+        }
+    })
 }
 
 const noAuth: NavigationGuard = (to, from, next) => {

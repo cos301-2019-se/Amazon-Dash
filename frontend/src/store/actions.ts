@@ -6,12 +6,8 @@ import { Instance } from '@/models/instance'
 import { MetricData } from '@/models/metric'
 
 const actions: ActionTree<RootState, RootState> = {
-    get({ getters }, { url }: { url: string }) {
-        return window.axios.get(url, {
-            headers: {
-                Authorization: getters.token,
-            },
-        }).catch(res => {
+    async get({}, { url }: { url: string }) {
+        return window.axios.get(url).catch(res => {
             if (res.response) {
                 throw res.response.data
             } else {
@@ -19,23 +15,17 @@ const actions: ActionTree<RootState, RootState> = {
             }
         }).then(res => res.data)
     },
-    post({ getters }, { url, body }: { url: string, body: any }) {
-        return window.axios.post(url, body, {
-            headers: {
-                Authorization: getters.token,
-            },
-        })
+    async post({}, { url, body }: { url: string, body: any }) {
+        return window.axios.post(url, body)
         .catch(res => {
             throw res.response.data
         })
         .then(res => res.data)
     },
-    checkAuth({ dispatch, commit }) {
+    async checkAuth({ dispatch }) {
         return dispatch('get', { url: 'authenticated' }).then((res: { result: boolean, message: string }) => {
             if (!res.result) {
-                dispatch('makeErrorMessage', { message: 'You have been logged out by the server. Please log in again' })
-                commit('clearToken')
-                router.push({ name: 'login' })
+                dispatch('makeErrorMessage', { message: res.message })
                 return false
             }
             return true
@@ -43,34 +33,33 @@ const actions: ActionTree<RootState, RootState> = {
             dispatch('makeErrorMessage', { message: err })
         })
     },
-    login({ dispatch, commit }, details): void {
+    login({ dispatch }, details): void {
         dispatch('post', { url: 'login', body: details }).then(res => {
-            commit('setToken', res.token)
-            router.push({ name: 'home' })
+            if (res.status === 'success') {
+                router.push({ name: 'home' })
+            }
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
-    logout({ commit }): void {
-        commit('setToken', null)
+    logout({ dispatch }): void {
+        dispatch('get', { url: 'logout' })
         router.push({ name: 'login' })
     },
-    register({ commit, dispatch }, details): void {
+    register({ dispatch }, details): void {
         dispatch('post', { url: 'register', body: details }).then(res => {
             dispatch('login', details)
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
-    googleRegister({ dispatch, commit }, details): void {
+    googleRegister({ dispatch }, details): void {
         dispatch('post', { url: 'register/google', body: details }).then((res: any) => {
-            commit('setToken', res.token)
             router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
-    googleLogin({ dispatch, commit }, details): void {
+    googleLogin({ dispatch }, details): void {
         dispatch('post', { url: 'login/google', body: details }).then(res => {
-            commit('setToken', res.token)
             router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
-    fetchInstances({ dispatch, commit, getters }) {
+    fetchInstances({ dispatch, commit }) {
         dispatch('checkAuth').then(authenticated => {
             if (authenticated) {
                 dispatch('get', { url: 'instances' }).then(res => {
@@ -120,21 +109,23 @@ const actions: ActionTree<RootState, RootState> = {
     makeErrorMessage({ dispatch }, { message, timeout }: { message: string, timeout?: number }) {
         dispatch('openSnackbar', { message, colour: 'red', timeout })
     },
-    fetchMetrics({ dispatch, commit, getters }, instanceId: string) {
+    fetchMetrics({ dispatch, commit }, instanceId: string) {
         dispatch('checkAuth')
         dispatch('get', { url: `instances/${instanceId}/metrics` }).then(res => {
             commit('setMetrics', res)
         })
     },
-    createInstance({ dispatch, commit, getters }, details) {
+    createInstance({ dispatch, getters }, details) {
         dispatch('post', { url: 'create_instance', body: details })
             .catch(err => dispatch('makeErrorMessage', { message: err }))
     },
-    subscribe({ commit, state, getters, dispatch }) {
+    subscribe({ commit, state, dispatch }) {
         if (state.evtSource) {
             state.evtSource.close()
         }
-        state.evtSource = new EventSource(`${config.apiUrl}/instances/subscribe?authorization=${getters.token}`)
+        state.evtSource = new EventSource(`${config.apiUrl}/instances/subscribe`, {
+            withCredentials: true,
+        })
         state.evtSource.addEventListener('instances', ((event: MessageEvent) => {
             const instances = JSON.parse(event.data)
             commit('setInstances', instances)
