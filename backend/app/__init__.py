@@ -34,6 +34,8 @@ Talisman(app, content_security_policy={
         "'self'",
         '*.google.com',
     ],
+    'img-src': '*',
+    'style-src': '*',
 })
 app.register_blueprint(auth)
 app.register_blueprint(home)
