@@ -3,7 +3,6 @@ import Router, { NavigationGuard } from 'vue-router'
 import Services from './views/Services.vue'
 import Login from './views/Login.vue'
 import store from '@/store'
-import Metrics from './views/Metrics.vue'
 
 Vue.use(Router)
 
@@ -18,11 +17,13 @@ const requireAuth: NavigationGuard = (to, from, next) => {
 }
 
 const noAuth: NavigationGuard = (to, from, next) => {
-    if (store.getters.authenticated) {
-        next('/')
-    } else {
-        next()
-    }
+    store.dispatch('checkAuth').then(res => {
+        if (res) {
+            next('/')
+        } else {
+            next()
+        }
+    })
 }
 
 export default new Router({
