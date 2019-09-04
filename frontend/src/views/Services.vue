@@ -107,7 +107,6 @@ export default class Services extends Vue {
       .filter((i: Instance) => i.name.toLowerCase().includes((this.searchFilter || '').toLowerCase()))
   }
 
-  private instancePoller = -1
   private searchFilter = ''
   private dialog = false
   private imageId = ''
@@ -117,11 +116,10 @@ export default class Services extends Vue {
   private minCount = 1
 
   public beforeDestroy() {
-    clearInterval(this.instancePoller)
+    this.$store.dispatch('unsubscribe')
   }
   private mounted() {
-    this.$store.dispatch('fetchInstances')
-    this.instancePoller = setInterval(() => this.$store.dispatch('fetchInstances'), 5000)
+    this.$store.dispatch('subscribe')
   }
 
   private submitCreateInstance() {

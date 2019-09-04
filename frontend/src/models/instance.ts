@@ -67,4 +67,8 @@ export class Instance {
             m.id.toLowerCase().includes(search) ||
             getMetricName(m.id).toLowerCase().includes(search))
     }
+
+    public metricsLoaded(): boolean {
+        return this.metrics.length > 0
+    }
 }

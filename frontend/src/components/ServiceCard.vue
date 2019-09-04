@@ -29,8 +29,11 @@
           <la-y-axis color="white" :nbTicks=5></la-y-axis>
           <la-tooltip></la-tooltip>
         </la-cartesian>
-        <div v-else class="loading-box">
+        <div v-else-if="!instance.metricsLoaded()" class="loading-box">
           Loading Metrics...
+        </div>
+        <div v-else class="loading-box">
+          No Metric Data
         </div>
         <div class="metric-label" v-if="instance.getMetric(metric.id).length">
           <span>{{ metric.name }} ({{ metric.unit }})</span>
@@ -101,16 +104,8 @@ export default class ServiceCard extends Vue {
 
   public metricIndex = 0
   public metricOptions = metricOptions
-  private metricPoller = -1
   private dialog = false
 
-  public mounted() {
-    this.metricPoller = setInterval(() => this.getMetrics(), 5000)
-  }
-
-  public beforeDestroy() {
-    clearInterval(this.metricPoller)
-  }
   public goToMetricView(id: string) {
     this.$router.push({ path: `/instances/${id}` })
   }

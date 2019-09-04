@@ -42,17 +42,13 @@ export default class Metrics extends Vue {
 
   @Prop() public instanceId!: string
   public searchFilter = ''
-  private metricPoller = -1
 
   public beforeDestroy() {
-    clearInterval(this.metricPoller)
-    this.$store.commit('setMetrics', {metrics: []})
+    this.$store.dispatch('unsubscribe')
   }
 
   private mounted() {
-    this.$store.dispatch('fetchInstances')
-    this.$store.dispatch('getInstanceMetrics', this.instanceId)
-    this.metricPoller = setInterval(() => this.$store.dispatch('getInstanceMetrics', this.instanceId), 5000)
+    this.$store.dispatch('subscribe')
   }
 
   private get instance(): Instance {
