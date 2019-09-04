@@ -33,6 +33,8 @@ Talisman(app, content_security_policy={
     'default-src': [
         "'self'",
         '*.google.com',
+        "'unsafe-inline'",
+        "'unsafe-eval'",
     ],
     'img-src': '*',
     'style-src': '*',
