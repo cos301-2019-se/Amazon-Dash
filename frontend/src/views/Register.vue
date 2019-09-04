@@ -53,7 +53,7 @@
                       :rules="[(v => !!v || 'Password is required')]"
                    ></v-text-field>
 
-                   <v-text-field class="password"
+                   <v-text-field class="confirm-password"
                      label="Confirm Password"
                      :type="cPasswordShow ? 'text' : 'password'"
                      prepend-icon="lock"
@@ -69,6 +69,7 @@
                          prepend-icon="vpn_key"
                          label="Access Key"
                          required
+                         class="access-key"
                       ></v-text-field>
 
                       <v-text-field
@@ -79,6 +80,7 @@
                            @click:append="secretKeyShow = !secretKeyShow"
                            :type="secretKeyShow ? 'text' : 'password'"
                            required
+                           class="secret-key"
                         ></v-text-field>
             </v-card-text>
             <v-card-actions class="register-actions">

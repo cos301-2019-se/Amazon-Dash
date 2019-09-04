@@ -24,7 +24,7 @@
       <v-spacer></v-spacer>
       <v-tooltip bottom v-if="$store.getters.authenticated">
         <template v-slot:activator="{ on }">
-          <v-btn icon @click="$store.dispatch('logout')" v-on="on">
+          <v-btn icon @click="$store.dispatch('logout')" v-on="on" class="logout-button">
             <v-icon>logout</v-icon>
           </v-btn>
         </template>
@@ -69,6 +69,7 @@ export default class App extends Vue {
   private drawer = false
   private drawerItems: Array<{ title: string, href: string, icon: string }> = [
     { title: 'Dashboard', href: '/', icon: 'home' },
+    { title: 'Costs', href: '/costs', icon: 'home' },
   ]
   private get snackbar() {
     return this.$store.getters.snackbar

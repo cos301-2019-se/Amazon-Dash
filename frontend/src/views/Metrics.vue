@@ -23,7 +23,7 @@
           ></v-text-field>
       </v-flex>
       <v-flex xs12 md6 lg4 v-for="metric in metrics" :key="metric.id" column>
-        <MetricCard :metric="metric"></MetricCard>
+        <MetricCard :metric="metric" class="metric-card"></MetricCard>
       </v-flex>
     </v-layout>
   </v-container>
@@ -42,17 +42,13 @@ export default class Metrics extends Vue {
 
   @Prop() public instanceId!: string
   public searchFilter = ''
-  private metricPoller = -1
 
   public beforeDestroy() {
-    clearInterval(this.metricPoller)
-    this.$store.commit('setMetrics', {metrics: []})
+    this.$store.dispatch('unsubscribe')
   }
 
   private mounted() {
-    this.$store.dispatch('fetchInstances')
-    this.$store.dispatch('getInstanceMetrics', this.instanceId)
-    this.metricPoller = setInterval(() => this.$store.dispatch('getInstanceMetrics', this.instanceId), 5000)
+    this.$store.dispatch('subscribe')
   }
 
   private get instance(): Instance {

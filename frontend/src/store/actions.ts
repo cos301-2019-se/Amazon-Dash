@@ -3,6 +3,7 @@ import { ActionTree } from 'vuex'
 import config from '@/config'
 import { RootState, SnackbarOptions } from './types'
 import { Instance } from '@/models/instance'
+import { MetricData } from '@/models/metric'
 
 const actions: ActionTree<RootState, RootState> = {
     get({ getters }, { url }: { url: string }) {
@@ -128,6 +129,26 @@ const actions: ActionTree<RootState, RootState> = {
     createInstance({ dispatch, commit, getters }, details) {
         dispatch('post', { url: 'create_instance', body: details })
             .catch(err => dispatch('makeErrorMessage', { message: err }))
+    },
+    subscribe({ commit, state, getters, dispatch }) {
+        if (state.evtSource) {
+            state.evtSource.close()
+        }
+        state.evtSource = new EventSource(`${config.apiUrl}/instances/subscribe?authorization=${getters.token}`)
+        state.evtSource.addEventListener('instances', ((event: MessageEvent) => {
+            const instances = JSON.parse(event.data)
+            commit('setInstances', instances)
+        }) as EventListener)
+        state.evtSource.addEventListener('metrics', ((event: MessageEvent) => {
+            const metrics: MetricData = JSON.parse(event.data)
+            commit('setInstanceMetrics', metrics)
+        }) as EventListener)
+        state.evtSource.onerror = () => setTimeout(() => dispatch('subscribe'), 2000)
+    },
+    unsubscribe({ state }) {
+        if (state.evtSource) {
+            state.evtSource.close()
+        }
     },
 }
 export default actions

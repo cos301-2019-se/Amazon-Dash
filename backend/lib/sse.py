@@ -45,7 +45,6 @@ class Channel:
             while True:
                 yield q.get()
         except GeneratorExit:
-            print(sub_id, "ended 2")
             del self.subscriptions[sub_id]
 
     def subscribe(self, sub_id):

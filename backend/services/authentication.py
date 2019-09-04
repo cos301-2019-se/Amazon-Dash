@@ -20,7 +20,7 @@ def check_auth(token):
 def require_auth(func):
     @wraps(func)
     def wrapper(*args, **kwargs) -> Response:
-        token = request.headers.get('authorization')
+        token = request.headers.get('authorization') or request.args.get('authorization')
         if token:
             tokens = list(MongoClient.find('access', {'token': token}))
             token = tokens[0] if tokens and tokens[0]['expires'] > datetime.now() else None
