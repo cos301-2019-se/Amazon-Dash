@@ -6,6 +6,7 @@ from backend.app.views.home import home
 from backend.app.views.ec2 import ec2
 from backend.config import Config
 from backend.lib.db import MongoClient
+from flask_talisman import Talisman
 
 config = Config('setup.cfg')
 if config.get_dburi():
@@ -28,6 +29,7 @@ if not os.path.isdir(app.instance_path):
 if os.path.exists(os.path.join(app.instance_path, 'config.py')):
     app.config.from_pyfile('config.py')
 CORS(app)
+Talisman(app)
 app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(ec2)
