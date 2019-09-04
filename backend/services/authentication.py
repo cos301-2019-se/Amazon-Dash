@@ -3,12 +3,44 @@ from backend.lib.db import MongoClient
 from datetime import datetime, timedelta
 from functools import wraps
 from bson.objectid import ObjectId
+from Crypto.Cipher import AES
+from Crypto import Random
+import hashlib
+import base64
 import jwt
 
 
+BLOCK_SIZE = 16
+
+
+def pad(s):
+    return s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+
+
+def unpad(s):
+    return s[:-ord(s[len(s) - 1:])]
+
+
+def encrypt_aes256(raw, password):
+    private_key = hashlib.sha256(password.encode("utf-8")).digest()
+    raw = pad(raw)
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return base64.b64encode(iv + cipher.encrypt(raw))
+
+
+def decrypt_aes256(enc, password):
+    private_key = hashlib.sha256(password.encode("utf-8")).digest()
+    enc = base64.b64decode(enc)
+    iv = enc[:16]
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(enc[16:]))
+
+
 def encode_jwt(user_id, secret_key, google=False):
+    exp = datetime.utcnow() + timedelta(days=30)
     payload = {
-        'exp': datetime.utcnow() + timedelta(days=30),
+        'exp': exp,
         'iat': datetime.utcnow(),
         'sub': user_id,
         'google': google,
@@ -17,7 +49,7 @@ def encode_jwt(user_id, secret_key, google=False):
         payload,
         secret_key,
         algorithm='HS256',
-    )
+    ), exp
 
 
 def decode_jwt(token, secret_key):

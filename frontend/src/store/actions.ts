@@ -22,40 +22,38 @@ const actions: ActionTree<RootState, RootState> = {
         })
         .then(res => res.data)
     },
-    async checkAuth({ dispatch }) {
+    async checkAuth({ dispatch, state }) {
         return dispatch('get', { url: 'authenticated' }).then((res: { result: boolean, message: string }) => {
-            if (!res.result) {
-                dispatch('makeErrorMessage', { message: res.message })
-                return false
-            }
-            return true
+            state.authenticated = res.result
+            return res.result
         }).catch(err => {
             dispatch('makeErrorMessage', { message: err })
         })
     },
     login({ dispatch }, details): void {
-        dispatch('post', { url: 'login', body: details }).then(res => {
-            if (res.status === 'success') {
-                router.push({ name: 'home' })
-            }
+        dispatch('post', { url: 'login', body: details }).then(() => {
+            router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
     logout({ dispatch }): void {
-        dispatch('get', { url: 'logout' })
-        router.push({ name: 'login' })
+        dispatch('get', { url: 'logout' }).then(() => {
+            router.push({ name: 'login' })
+        }).catch(err => {
+            dispatch('makeErrorMessage', { message: err })
+        })
     },
     register({ dispatch }, details): void {
-        dispatch('post', { url: 'register', body: details }).then(res => {
-            dispatch('login', details)
+        dispatch('post', { url: 'register', body: details }).then(() => {
+            router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
     googleRegister({ dispatch }, details): void {
-        dispatch('post', { url: 'register/google', body: details }).then((res: any) => {
+        dispatch('post', { url: 'register/google', body: details }).then(() => {
             router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
     googleLogin({ dispatch }, details): void {
-        dispatch('post', { url: 'login/google', body: details }).then(res => {
+        dispatch('post', { url: 'login/google', body: details }).then(() => {
             router.push('/')
         }).catch(err => dispatch('makeErrorMessage', { message: err }))
     },
