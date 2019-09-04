@@ -36,8 +36,7 @@ Talisman(app, content_security_policy={
         "'unsafe-inline'",
         "'unsafe-eval'",
     ],
-    'img-src': '*',
-    'style-src': '*',
+    'img-src': ['*', 'data:image/png'],
 })
 app.register_blueprint(auth)
 app.register_blueprint(home)
