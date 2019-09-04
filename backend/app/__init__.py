@@ -29,7 +29,12 @@ if not os.path.isdir(app.instance_path):
 if os.path.exists(os.path.join(app.instance_path, 'config.py')):
     app.config.from_pyfile('config.py')
 CORS(app)
-Talisman(app)
+Talisman(app, content_security_policy={
+    'default-src': [
+        "'self'",
+        '*.google.com',
+    ],
+})
 app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(ec2)
