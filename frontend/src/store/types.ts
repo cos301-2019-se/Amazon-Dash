@@ -21,4 +21,5 @@ export interface RootState {
     bus: Vue
     snackbar: Snackbar
     metrics: MetricViewClass[]
+    evtSource?: EventSource
 }

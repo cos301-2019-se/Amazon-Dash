@@ -2,11 +2,14 @@ from flask import Blueprint, request, Response
 from backend.services.authentication import require_auth
 from backend.services import aws
 from backend.lib.util import json_serialize
+from backend.lib.sse import Channel
 from botocore.exceptions import ClientError
 import json
+import uuid
 
 
 ec2 = Blueprint('ec2', __name__)
+channel = Channel()
 
 
 @ec2.route('/api/instances', methods=['GET'])
@@ -77,6 +80,17 @@ def create_instance(user, client):
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
+
+
+@ec2.route('/api/instances/subscribe', methods=['GET'])
+@require_auth
+@aws.boto3_client(service='cloudwatch')
+@aws.boto3_client(service='ec2')
+def subscribe(user, ec2_client, cw_client):
+    sub_id = str(uuid.uuid4())
+    response = channel.subscribe(sub_id)
+    aws.start_instance_polling(channel, ec2_client, cw_client, sub_id)
+    return response
 
 
 @ec2.route('/api/instances/<instance_id>/metrics', methods=['GET'])

@@ -27,6 +27,7 @@ const backend = new Vuex.Store<RootState>({
             colour: 'red',
             timeout: 3000,
         },
+        evtSource: undefined,
     },
     mutations,
     getters,
