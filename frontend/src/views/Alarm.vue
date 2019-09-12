@@ -31,9 +31,6 @@
                         <v-card flat>
                             <div class="primary">
                                 <v-card-title class="headline white--text" color="blue">Select metric
-                                <v-btn icon dark class="dismiss" @click="dialog = false">
-                                    <v-icon >mdi-close</v-icon>
-                                </v-btn>
                                 </v-card-title>
                             </div>
                           <v-divider></v-divider>
@@ -528,8 +525,7 @@
                             <v-card flat class="mt-2 mb-3">
                                 <v-flex xs12 md12>
                                     <div class="mt-2 ml-2 mb-2"><v-btn solo class="normal left mb-4" >Add auto scaling action</v-btn></div>
-                                </v-flex>
-                             
+                                </v-flex>     
                             </v-card>
                     </v-flex>
                 </v-layout>
@@ -587,7 +583,13 @@
                                     </v-flex>
                                 </v-layout>
 
-                                <div class="ml-4 mt-3 pb-1">Take the following action...</div>            
+                                <div class="ml-4 mt-3 pb-1">Take the following action...</div>
+                                <div class="grey--text ml-4 ">
+                                         <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
+                                            Define what will happen to the EC2 instance {{alarm.AlarmName}} when this alarm is triggered.
+                                        </v-flex>
+                                        
+                                 </div>            
                                 <v-radio-group class="ml-5" column>
                                     <v-radio label="Recover this instance" value="radio-1"></v-radio>
                                     <v-radio label="Stop this instance" value="radio-2"></v-radio>
