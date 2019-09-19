@@ -16,9 +16,10 @@ export interface SnackbarOptions {
 }
 
 export interface RootState {
-    token: string | null
+    authenticated: boolean
     instances: Instance[]
     bus: Vue
     snackbar: Snackbar
     metrics: MetricViewClass[]
+    evtSource?: EventSource
 }

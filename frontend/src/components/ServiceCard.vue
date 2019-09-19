@@ -29,8 +29,11 @@
           <la-y-axis color="white" :nbTicks=5></la-y-axis>
           <la-tooltip></la-tooltip>
         </la-cartesian>
-        <div v-else class="loading-box">
+        <div v-else-if="!instance.metricsLoaded()" class="loading-box">
           Loading Metrics...
+        </div>
+        <div v-else class="loading-box">
+          No Metric Data
         </div>
         <div class="metric-label" v-if="instance.getMetric(metric.id).length">
           <span>{{ metric.name }} ({{ metric.unit }})</span>
@@ -38,6 +41,7 @@
             <template v-slot:activator="{ on }">
               <v-btn
                 icon
+                class="metric-dropdown"
                 v-on="on">
                 <v-icon>arrow_drop_down</v-icon>
               </v-btn>
@@ -54,17 +58,17 @@
         </div>
       </v-sheet>
       <v-menu>
-        <v-btn slot="activator" icon small flat><v-icon>more_vert</v-icon></v-btn>
+        <v-btn slot="activator" icon small flat class="menu-button"><v-icon>more_vert</v-icon></v-btn>
         <v-list>
-          <v-list-tile @click="stop" v-if="instance.running">Stop</v-list-tile>
-          <v-list-tile @click="start" v-else>Start</v-list-tile>
-          <v-list-tile @click="restart">Restart</v-list-tile>
-          <v-list-tile @click.stop="dialog=true">Shell</v-list-tile>
+          <v-list-tile @click="stop" v-if="instance.running" class="stop-button">Stop</v-list-tile>
+          <v-list-tile @click="start" v-else class="start-button">Start</v-list-tile>
+          <v-list-tile @click="restart" class="restart-button">Restart</v-list-tile>
+          <v-list-tile @click.stop="dialog=true" class="shell-button">Shell</v-list-tile>
         </v-list>
       </v-menu>
       <v-tooltip left>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon small flat style="float: right" v-on:click="goToMetricView(instance.id)"><v-icon>info</v-icon></v-btn>
+          <v-btn v-on="on" icon small flat style="float: right" v-on:click="goToMetricView(instance.id)" class="view-metrics-button"><v-icon>info</v-icon></v-btn>
         </template>
         <span>View Service Details</span>
       </v-tooltip>
@@ -100,16 +104,8 @@ export default class ServiceCard extends Vue {
 
   public metricIndex = 0
   public metricOptions = metricOptions
-  private metricPoller = -1
   private dialog = false
 
-  public mounted() {
-    this.metricPoller = setInterval(() => this.getMetrics(), 5000)
-  }
-
-  public beforeDestroy() {
-    clearInterval(this.metricPoller)
-  }
   public goToMetricView(id: string) {
     this.$router.push({ path: `/instances/${id}` })
   }

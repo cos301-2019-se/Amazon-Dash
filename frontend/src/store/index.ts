@@ -1,6 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Module } from 'vuex'
-import VuexPersistence from 'vuex-persist'
+import Vuex from 'vuex'
 import mutations from './mutations'
 import getters from './getters'
 import actions from './actions'
@@ -8,16 +7,9 @@ import { RootState } from './types'
 
 Vue.use(Vuex)
 
-const vuexLocal = new VuexPersistence<RootState>({
-    storage: window.localStorage,
-    reducer: state => ({
-        token: state.token,
-    }),
-})
-
 const backend = new Vuex.Store<RootState>({
     state: {
-        token: null,
+        authenticated: false,
         instances: [],
         metrics: [],
         bus: new Vue({}),
@@ -27,10 +19,10 @@ const backend = new Vuex.Store<RootState>({
             colour: 'red',
             timeout: 3000,
         },
+        evtSource: undefined,
     },
     mutations,
     getters,
     actions,
-    plugins: [vuexLocal.plugin],
 })
 export default backend

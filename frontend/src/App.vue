@@ -24,7 +24,7 @@
       <v-spacer></v-spacer>
       <v-tooltip bottom v-if="$store.getters.authenticated">
         <template v-slot:activator="{ on }">
-          <v-btn icon @click="$store.dispatch('logout')" v-on="on">
+          <v-btn icon @click="logoutDialog = true" v-on="on" class="logout-button">
             <v-icon>logout</v-icon>
           </v-btn>
         </template>
@@ -58,6 +58,21 @@
                 :color="snackbar.colour">
       {{ snackbar.message }}
     </v-snackbar>
+    <v-dialog v-model="logoutDialog" max-width="600px">
+      <v-card>
+        <v-card-title>
+          Logout
+        </v-card-title>
+        <v-card-text>
+          Are you sure you wish to log out?
+        </v-card-text>
+        <v-card-actions>
+          <div style="flex-grow: 1"></div>
+          <v-btn flat @click="logoutDialog = false">No</v-btn>
+          <v-btn flat @click="logout()">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -66,9 +81,11 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class App extends Vue {
+  private logoutDialog = false
   private drawer = false
   private drawerItems: Array<{ title: string, href: string, icon: string }> = [
     { title: 'Dashboard', href: '/', icon: 'home' },
+    { title: 'Costs', href: '/costs', icon: 'home' },
     { title: 'Calculator', href: '/calculator', icon: 'mdi-calculator' },
     { title: 'Alarm', href: '/alarm', icon: 'alarm' }
 
@@ -83,6 +100,11 @@ export default class App extends Vue {
 
   private isCurrentRoute(route: string) {
     return this.$router.currentRoute.path.endsWith(route)
+  }
+
+  private logout() {
+    this.$store.dispatch('logout')
+    this.logoutDialog = false
   }
 }
 </script>
