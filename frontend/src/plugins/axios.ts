@@ -10,7 +10,7 @@ import axios from 'axios'
 const config = {
   baseURL: adConfig.apiUrl,
   // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+  withCredentials: true, // Check cross-site Access-Control
 }
 
 const _axios = axios.create(config)
