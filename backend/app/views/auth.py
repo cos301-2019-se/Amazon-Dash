@@ -86,6 +86,8 @@ def register():
             response = make_response(jsonify({'status': 'success', 'message': 'Registered successfully'}))
             response.set_cookie('auth_token', token, secure=app.config.get('PRODUCTION', False), httponly=True,
                                 expires=exp)
+            session['access_key'] = access_key
+            session['secret_key'] = secret_key
             return response, 201
         else:
             missing_fields = ', '.join([x for x in ['email', 'password', 'access_key', 'secret_key']
@@ -130,16 +132,16 @@ def google_authentication() -> Response:
     if MongoClient.count('google_users', {'userId': user_id}):
         MongoClient.update('google_users', {'userId': user_id}, {
             'access_token': access_token,
-            'access_key': aws_access_key,
-            'secret_key': aws_secret_key,
+            'access_key': encrypt_aes256(aws_access_key, user_id).decode(),
+            'secret_key': encrypt_aes256(aws_secret_key, user_id).decode(),
         })
     else:
         MongoClient.insert('google_users', {
             'email': email,
             'user_id': user_id,
             'access_token': access_token,
-            'access_key': aws_access_key,
-            'secret_key': aws_secret_key,
+            'access_key': encrypt_aes256(aws_access_key, user_id),
+            'secret_key': encrypt_aes256(aws_secret_key, user_id),
         })
     try:
         token, exp = login_with_google(email, user_id)
@@ -174,6 +176,9 @@ def google_login() -> Response:
 def login_with_google(email, user_id):
     if not MongoClient.count('google_users', {'user_id': user_id, 'email': email}):
         raise Exception('User not found, please register first')
+    user = MongoClient.find('google_users', {'user_id': user_id, 'email': email})[0]
+    session['access_key'] = decrypt_aes256(user['access_key'], user_id).decode()
+    session['secret_key'] = decrypt_aes256(user['secret_key'], user_id).decode()
     token, exp = encode_jwt(user_id, app.config.get('SECRET_KEY'), google=True)
     return token, exp
 
