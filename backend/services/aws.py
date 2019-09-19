@@ -1,7 +1,7 @@
 import boto3
 import itertools
 from functools import wraps
-from flask import request
+from flask import request, session
 from datetime import datetime, timedelta
 import json
 import gevent
@@ -85,8 +85,10 @@ def boto3_client(service='ec2'):
     def wrapper(func):
         @wraps(func)
         def wrapped_func(user, *args, **kwargs):
+            access_key = session.get('access_key')
+            secret_key = session.get('secret_key')
             region = request.args.get('region') or 'eu-west-1'
-            client = get_client(user['access_key'], user['secret_key'],
+            client = get_client(access_key, secret_key,
                                 region=region, service=service)
             return func(user, client, *args, **kwargs)
 

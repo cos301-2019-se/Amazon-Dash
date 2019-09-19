@@ -1,16 +1,10 @@
 import { RootState, SnackbarOptions } from './types'
 import { MutationTree } from 'vuex'
 import { InstanceData, Instance } from '@/models/instance'
-import { MetricData, Metric } from '@/models/metric'
+import { MetricData } from '@/models/metric'
 import { MetricView, MetricViewClass } from '@/models/metricView'
 
 const mutations: MutationTree<RootState> = {
-    setToken(state, payload: string) {
-        state.token = payload
-    },
-    clearToken(state) {
-        state.token = null
-    },
     setInstances(state, payload: InstanceData[]) {
         payload.forEach(i => {
             const instance = state.instances.find(inst => inst.id === i.id)
