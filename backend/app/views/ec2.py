@@ -105,6 +105,7 @@ ALARMS=[
 ]
 
 @ec2.route('/api/alarms',methods=['GET'])
+
 def get_alarms():
     return jsonify({
         'status':'success',
@@ -112,12 +113,18 @@ def get_alarms():
     })
 
 
-client=boto3.client('cloudwatch',region_name='eu-west-1')
+#client=boto3.client('cloudwatch',region_name='eu-west-1')
 
 #Creating the alarm
 
 # Create alarm
-client.put_metric_alarm(
+
+
+@ec2.route('/api/create_alarm', methods=['GET'])
+@require_auth
+@aws.boto3_client(service='cloudwatch')
+def create_alarm(user, client):
+    client.put_metric_alarm(
     Namespace='AWS/EC2',
     MetricName='CPUUtilization',
     Dimensions= [
@@ -138,7 +145,9 @@ client.put_metric_alarm(
 )
 
 @ec2.route('/api/getAlarms',methods=['GET'])
-def api_getAlarms():
+@require_auth
+@aws.boto3_client()
+def api_getAlarms(user,client):
     data= client.list_metrics(
     Namespace='AWS/EC2',
     MetricName='CPUUtilization',
@@ -150,7 +159,7 @@ def api_getAlarms():
     ],
     #NextToken=''
 )
-    
     js = json.dumps(data)
     resp = Response(js, status=200, mimetype='application/json')
     return resp
+

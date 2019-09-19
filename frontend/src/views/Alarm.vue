@@ -36,7 +36,7 @@
                           <v-divider></v-divider>
 
                             <!-- Top section ------------------------------------------------------------------------------->
-                                <v-container>
+                                <!--<v-container>
                                     <v-layout row>
                                         <v-col >
                                             <v-text-field  label="Untitled graph"  type="text"  ></v-text-field>
@@ -53,7 +53,7 @@
                                         </v-col>
 
                                     </v-layout>
-                                </v-container>
+                                </v-container>-->
                                     
 
                                
@@ -80,13 +80,13 @@
                                                                       <v-layout row>
                                                                           <v-divider></v-divider>
                                                                           <v-flex xs12 md8>
-                                                                            <v-text-field solo  append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
+                                                                            <v-text-field solo class="mb-3"  append-icon="search" label="Search for any metric, dimension or resource id" single-line hide-details></v-text-field>
                                                                           </v-flex>
 
                                                                           <v-flex xs12 md4>
-                                                                              <div>
+                                                                              <!--<div>
                                                                                 <v-btn large solo color="normal" pb-1 class="">Graph</v-btn>
-                                                                              </div>
+                                                                              </div>-->
                                                                           </v-flex>
                                                                       </v-layout>
                                                                   </v-flex>
@@ -96,7 +96,7 @@
                                                                     <v-card flat>                                                
                                                                         <v-layout>
                                                                             <v-flex xs12 md12>
-                                                                                <div class="grey--text" >VolumeId</div>
+                                                                                <div class="grey--text" >MetricId</div>
                                                                                 <div class="">
                                                                                     <a href="#" style="text-decoration:none">
                                                                                         <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
@@ -216,8 +216,8 @@
                                         </v-flex>
                                      </div>
                                         <v-layout column my-1>
-                                          <div class="subheading pt-3"></div>
-                                          <v-img src="https://media.amazonwebservices.com/blog/2014/cloudfront_dist_hourly_4xx_4.png" :aspect-ratio="1" max-width></v-img>
+                                          <!--<div class="subheading pt-3"></div>
+                                          <v-img src="https://media.amazonwebservices.com/blog/2014/cloudfront_dist_hourly_4xx_4.png" :aspect-ratio="1" max-width></v-img>-->
                                         </v-layout>
                                 </v-flex>
                             </v-card>
@@ -558,7 +558,7 @@
                                     <v-flex xs12 md4>
                                         <v-card color="blue-grey lighten-5 ml-4 mr-3 pb-0">
                                             <v-radio-group column class="ml-2">
-                                                <v-radio label="in Alarm" color="blue" value="" class="mt-2"></v-radio>
+                                                <v-radio label="in Alarm"  color="blue" value="radio-5" class="mt-2"></v-radio>
                                                 <div class="grey--text ml-4">The metric or the expression is outside the defined threshold</div>
                                             </v-radio-group>
                                         </v-card>
@@ -567,7 +567,7 @@
                                     <v-flex xs12 md4>
                                         <v-card color="blue-grey lighten-5  ml4 mr-2 pa-auto">
                                             <v-radio-group column class="ml-2">
-                                                <v-radio label="OK" color="blue" value="" class="mt-2"></v-radio>
+                                                <v-radio label="OK" color="blue" value="radio-6" class="mt-2"></v-radio>
                                                 <div class="grey--text ml-4 pb-1">The metric or expression is within the defined threshold</div>
                                             </v-radio-group>
                                         </v-card>
@@ -576,7 +576,7 @@
                                     <v-flex xs12 md4>
                                         <v-card color="blue-grey lighten-5 mr-2 pa-auto">
                                             <v-radio-group column class="ml-2">
-                                            <v-radio label="INSUFFICIENT_DATA" color="blue" value="" class="mt-2"></v-radio>
+                                            <v-radio label="INSUFFICIENT_DATA" color="blue" value="radio-7" class="mt-2"></v-radio>
                                             <div class="grey--text ml-4 pb-1">The alarm has just started or not enough data is available</div>
                                             </v-radio-group>
                                         </v-card>
@@ -591,10 +591,10 @@
                                         
                                  </div>            
                                 <v-radio-group class="ml-5" column>
-                                    <v-radio label="Recover this instance" value="radio-1"></v-radio>
-                                    <v-radio label="Stop this instance" value="radio-2"></v-radio>
-                                    <v-radio label="Terminate this instance" value="radio-2"></v-radio>
-                                    <v-radio class="" label="Reboot this instance" value="radio-2"></v-radio>
+                                    <v-radio label="Recover this instance" color="blue" value="radio-1"></v-radio>
+                                    <v-radio label="Stop this instance" color="blue" value="radio-2"></v-radio>
+                                    <v-radio label="Terminate this instance" color="blue" value="radio-3"></v-radio>
+                                    <v-radio class="" label="Reboot this instance" color="blue" value="radio-4"></v-radio>
                                 </v-radio-group>
                     </v-card>
                 </v-flex>
