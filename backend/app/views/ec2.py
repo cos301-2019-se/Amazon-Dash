@@ -3,6 +3,7 @@ from backend.services.authentication import require_auth
 from backend.services import aws
 from backend.lib.util import json_serialize
 from botocore.exceptions import ClientError
+from datetime import datetime, timedelta
 import json
 from flask import Flask,jsonify
 import boto3
@@ -78,6 +79,7 @@ def create_instance(user, client):
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
+
 ALARMS=[
     {
     "Namespace": "AWS/EC2",
@@ -101,35 +103,54 @@ ALARMS=[
     "AlarmName": "Instance i-1234567890abcdef0 CPU Utilization"
 }
 ]
+
 @ec2.route('/api/alarms',methods=['GET'])
 def get_alarms():
     return jsonify({
         'status':'success',
         'alarms':ALARMS
     })
-@ec2.route('/api/test',methods=['GET'])
-def get_test():
-    cloudwatch=boto3.client('cloudwatch')
-    cloudwatch.put_metric_alarm(
-        Namespace="AWS/EC2",
-        MetricName= "CPUUtilization",
-        Dimensions=[
-            {
-                "Name": "InstanceId",
-                "Value": "i-1234567890abcdef0"
-            }
-        ],
-        AlarmActions=[
-            "arn:aws:sns:us-west-1:123456789012:my_sns_topic"
-        ],
-        ComparisonOperator="GreaterThanThreshold",
-        DatapointsToAlarm= 3,
-        EvaluationPeriods= 4,
-        Period=60,
-        Statistic="Average",
-        Threshold=40,
-        AlarmDescription="CPU Utilization of i-1234567890abcdef0 with 40% as threshold",
-        AlarmName="Instance i-1234567890abcdef0 CPU Utilization"
-        )
+
+
+client=boto3.client('cloudwatch',region_name='eu-west-1')
+
+#Creating the alarm
+
+# Create alarm
+client.put_metric_alarm(
+    Namespace='AWS/EC2',
+    MetricName='CPUUtilization',
+    Dimensions= [
+        {
+            'Name':'InstanceId',
+            'Value':'i-1234567890abcdef0'
+        }
+    ],
+    ActionsEnabled=False,
+    ComparisonOperator='GreaterThanThreshold',
+    DatapointsToAlarm=3,
+    EvaluationPeriods=4,
+    Period=60,
+    Statistic='Average',
+    Threshold=40,
+    AlarmDescription= 'CPU Utilization of i-1234567890abcdef0 with 40% as threshold',
+    AlarmName='Instance i-1234567890abcdef0 CPU Utilization'
+)
+
+@ec2.route('/api/getAlarms',methods=['GET'])
+def api_getAlarms():
+    data= client.list_metrics(
+    Namespace='AWS/EC2',
+    MetricName='CPUUtilization',
+    Dimensions=[
+        {
+            'Name': 'InstanceId',
+            'Value': 'i-1234567890abcdef0'
+        },
+    ],
+    #NextToken=''
+)
     
-    return jsonify()
+    js = json.dumps(data)
+    resp = Response(js, status=200, mimetype='application/json')
+    return resp

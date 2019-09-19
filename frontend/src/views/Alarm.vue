@@ -244,7 +244,7 @@
                               <v-card flat>
                                   <div class="pt-1 pl-4">InstanceId</div>
                                     <v-flex  v-for="alarm in alarms" :key="alarm.Namespace">
-                                        <v-text-field class="pl-4 pr-5 mr-4" v-model="alarm.Dimensions"  label="alarm.Dimensions" solo block></v-text-field>
+                                        <v-text-field class="pl-4 pr-5 mr-4" v-model="((alarm.Dimensions||{}).Dimensions||{}).Value"  label="alarm.Dimensions[0]" solo block></v-text-field>
                                     </v-flex>
                               </v-card>
 
@@ -1003,9 +1003,16 @@ export default class Alarm extends Vue {
             console.error(error);
           });
     }
+    private getTest(){
+        const path='http://127.0.0.1:5000/api/tests';
+        axios.get(path).then((res)=>{
+            this.test=res.data.test;
+            console.log(this.test)
+        }).catch((err)=>console.log(err))
+    }
     private mounted(){
       this.getMessage();
-      
+      this.getTest();
     }
     @Prop()
     public alarms=[];
@@ -1023,7 +1030,7 @@ export default class Alarm extends Vue {
     public isShowing=false;
     public isShowingEC2=false;
     public isShowingNotification=false;
-    
+    public test=[];
     
     
     
