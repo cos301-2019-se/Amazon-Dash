@@ -4,6 +4,7 @@ export interface InstanceData {
     id: string
     name: string
     state: State
+    region: string;
 }
 
 export interface State {
@@ -21,22 +22,6 @@ const stateColourMap: { [key: number]: string } = {
 }
 
 export class Instance {
-    public id: string
-    public name: string
-    public metrics: Metric[]
-    private state: State
-
-    constructor(data: InstanceData) {
-        this.id = data.id
-        this.name = data.name
-        this.state = data.state
-        this.metrics = []
-    }
-
-    public update(data: InstanceData) {
-        this.name = data.name
-        this.state = data.state
-    }
 
     public get stateName() {
         return this.state && this.state.Name.split('-')
@@ -50,6 +35,24 @@ export class Instance {
 
     public get running() {
         return this.state.Code === 16
+    }
+    public id: string
+    public name: string
+    public metrics: Metric[]
+    public region: string;
+    private state: State
+
+    constructor(data: InstanceData) {
+        this.id = data.id
+        this.name = data.name
+        this.state = data.state
+        this.region = data.region;
+        this.metrics = []
+    }
+
+    public update(data: InstanceData) {
+        this.name = data.name
+        this.state = data.state
     }
 
     public getMetric(metricId: string) {

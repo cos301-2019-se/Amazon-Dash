@@ -314,6 +314,7 @@ def start_instance_polling(channel, ec2_client, cw_client, sub_id):
     regions = get_ec2_regions(ec2_client)
     access_key = session.get('access_key')
     secret_key = session.get('secret_key')
+
     def poll():
         try:
             while True:

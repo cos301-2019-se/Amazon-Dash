@@ -74,6 +74,7 @@
       </v-tooltip>
       <v-card-title>
         <span class="headline">{{ instance.name }}</span>
+        <v-chip>{{ instance.region }}</v-chip>
         <v-spacer></v-spacer>
         <span class="font-weight-light">{{ instance.stateName }}</span>
       </v-card-title>
