@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response
+from flask import Blueprint, request, Response, make_response, jsonify
 from backend.services.authentication import require_auth
 from backend.services import aws
 from backend.lib.util import json_serialize
@@ -124,3 +124,16 @@ def get_cost_and_usage(user, client):
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
+
+
+@ec2.route('/api/regions', methods=['GET'])
+@require_auth
+@aws.boto3_client(service='ec2')
+def get_regions(user, client):
+    try:
+        res = aws.get_ec2_regions(client)
+        instances = aws.get_all_instances(res)
+        return make_response(jsonify({'regions': res, 'instances': instances})), 200
+    except ClientError as ex:
+        message, status = aws.boto3_errors(ex)
+        return make_response(jsonify({'message': message})), status

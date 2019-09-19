@@ -117,7 +117,24 @@ def get_ec2_instances(client):
         'name': next((t['Value'] for t in x.get('Tags', []) if t.get('Key') == 'Name'), 'Unknown'),
         'id': x.get('InstanceId'),
         'state': x.get('State'),
+        'region': x['Placement']['AvailabilityZone'].rstrip('abcde'),
     }, instances))
+
+
+def get_ec2_regions(client):
+    response = client.describe_regions().get('Regions')
+    return response
+
+
+def get_all_instances(regions):
+    access_key = session.get('access_key')
+    secret_key = session.get('secret_key')
+    instances = []
+
+    for r in regions:
+        client = get_client(access_key, secret_key, r['RegionName'])
+        instances += get_ec2_instances(client)
+    return instances
 
 
 def stop_ec2_instance(client, instance_id, hibernate=False):
@@ -294,14 +311,22 @@ def create_instance(client, args):
 
 
 def start_instance_polling(channel, ec2_client, cw_client, sub_id):
+    regions = get_ec2_regions(ec2_client)
+    access_key = session.get('access_key')
+    secret_key = session.get('secret_key')
     def poll():
         try:
             while True:
-                instances = get_ec2_instances(ec2_client)
-                channel.publish(sub_id, json.dumps(instances), "instances")
-                for instance in instances:
-                    metrics = get_ec2_instance_metrics(cw_client, instance['id'])
-                    channel.publish(sub_id, json.dumps({'instance_id': instance['id'], 'metrics': metrics}), 'metrics')
+                for r in regions:
+                    ec2_client = get_client(access_key, secret_key, region=r['RegionName'], service='ec2')
+                    cw_client = get_client(access_key, secret_key, region=r['RegionName'], service='cloudwatch')
+                    instances = get_ec2_instances(ec2_client)
+                    channel.publish(sub_id, json.dumps(instances), "instances")
+                    for instance in instances:
+                        metrics = get_ec2_instance_metrics(cw_client, instance['id'])
+                        channel.publish(sub_id,
+                                        json.dumps({'instance_id': instance['id'], 'metrics': metrics}),
+                                        'metrics')
                 gevent.sleep(1)
         except SubscriptionDoesNotExistException:
             pass
