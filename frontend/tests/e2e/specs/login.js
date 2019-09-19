@@ -22,6 +22,7 @@ describe('Login Screen', () => {
 
   it('should logout', () => {
     cy.get('.logout-button').click()
+    cy.contains('Yes').click()
     cy.url().should('contain', '/login')
   })
 })

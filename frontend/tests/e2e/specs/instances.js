@@ -1,11 +1,19 @@
 
 describe('instances', () => {
+  before(() => {
+    cy.clearCookies()
+  })
+
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('auth_token')
+  })
+
   it('should login', () => {
     cy.login('testuser@amazon-dash.herokuapp.com', 'testpassword')
   })
 
   it('should display instances', () => {
-    cy.get('.instance').should('exist')
+    cy.get('.instance', { timeout: 10000 }).should('exist')
   })
 
   it('should navigate to an instance metric screen', () => {
@@ -21,11 +29,5 @@ describe('instances', () => {
 
   it('should display the menu', () => {
     cy.get('.menu-button').first().click()
-  })
-
-  it('should change metric', () => {
-    cy.get('.metric-dropdown').first().click()
-    cy.contains('Network In').click()
-    cy.contains('Network In (Bytes)')
   })
 })

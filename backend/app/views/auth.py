@@ -99,8 +99,10 @@ def register():
 
 @auth.route('/api/logout')
 def logout():
-    del session['access_key']
-    del session['secret_key']
+    if session.get('access_key'):
+        del session['access_key']
+    if session.get('secret_key'):
+        del session['secret_key']
     response = make_response()
     response.set_cookie('auth_token', '', expires=datetime.now() + timedelta(days=-1))
     return response, 204

@@ -1,6 +1,7 @@
 from backend.app import app
 from backend.config import Config
 from backend.lib.db import MongoClient
+from backend.services.authentication import encrypt_aes256
 import bcrypt
 from werkzeug.security import generate_password_hash
 import sys
@@ -24,7 +25,7 @@ if __name__ == "__main__":
                 'email': 'testuser@amazon-dash.herokuapp.com',
                 'password': password,
                 'salt': salt,
-                'access_key': access_key,
-                'secret_key': secret_key,
+                'access_key': encrypt_aes256(access_key, 'testpassword').decode(),
+                'secret_key': encrypt_aes256(secret_key, 'testpassword').decode(),
             })
     app.run()
