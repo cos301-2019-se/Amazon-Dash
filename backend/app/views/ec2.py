@@ -2,16 +2,13 @@ from flask import Blueprint, request, Response
 from backend.services.authentication import require_auth
 from backend.services import aws
 from backend.lib.util import json_serialize
-from backend.lib.sse import Channel
 from botocore.exceptions import ClientError
 from datetime import datetime, timedelta
 import json
-import uuid
 from flask import Flask,jsonify
 import boto3
 
 ec2 = Blueprint('ec2', __name__)
-channel = Channel()
 
 
 @ec2.route('/api/instances', methods=['GET'])
@@ -79,50 +76,6 @@ def create_instance(user, client):
     try:
         value = aws.create_instance(client, request.get_json())
         return Response(value, status=200, mimetype='application/json')
-    except ClientError as ex:
-        message, status = aws.boto3_errors(ex)
-        return Response(message, status=status, mimetype='application/text')
-
-
-@ec2.route('/api/instances/subscribe', methods=['GET'])
-@require_auth
-@aws.boto3_client(service='cloudwatch')
-@aws.boto3_client(service='ec2')
-def subscribe(user, ec2_client, cw_client):
-    sub_id = str(uuid.uuid4())
-    response = channel.subscribe(sub_id)
-    aws.start_instance_polling(channel, ec2_client, cw_client, sub_id)
-    return response
-
-
-@ec2.route('/api/instances/<instance_id>/metrics', methods=['GET'])
-@require_auth
-@aws.boto3_client(service='cloudwatch')
-def get_instance_metrics(user, client, instance_id):
-    try:
-        metrics = aws.get_ec2_instance_metrics(client, instance_id)
-        return json.dumps({'instance_id': instance_id, 'metrics': metrics})
-    except ClientError as ex:
-        message, status = aws.boto3_errors(ex)
-        return Response(message, status=status, mimetype='application/text')
-
-
-@ec2.route('/api/costs', methods=['GET'])
-@require_auth
-@aws.boto3_client(service='ce')
-def get_cost_and_usage(user, client):
-    try:
-        response = client.get_cost_and_usage(
-            TimePeriod={
-                'Start': '2019-01-01',
-                'End': '2019-10-01'
-            },
-            Granularity='MONTHLY',
-            Metrics=[
-                'BlendedCost',
-            ],
-        )
-        return Response(json.dumps(response), status=200, mimetype='applcation/json')
     except ClientError as ex:
         message, status = aws.boto3_errors(ex)
         return Response(message, status=status, mimetype='application/text')
