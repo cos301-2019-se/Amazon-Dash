@@ -5,6 +5,12 @@ The aim of this project is to streamline and simplify the Amazon Web Services da
 
 ## Links:
 <a href="https://github.com/cos301-2019-se/Amazon-Dash/projects/1" target="_blank">Project Management</a>
+<a href="https://github.com/cos301-2019-se/Amazon-Dash/blob/master/documentation/architectural_design.pdf" target="_blank">Requirements and Design Document</a>
+<a href="https://github.com/cos301-2019-se/Amazon-Dash/blob/master/documentation/coding_standards.pdf" target="_blank">Coding Standards</a>
+<a href="https://github.com/cos301-2019-se/Amazon-Dash/blob/master/documentation/testing_policy.pdf" target="_blank">Testing Policy</a>
+<a href="https://github.com/cos301-2019-se/Amazon-Dash/blob/master/documentation/user_manual.pdf" target="_blank">User Manual</a>
+**<a href="http://amazon-dash.herokuapp.com/#/" target="_blank">Access the Application</a>**
+  
 
 
 ## Individual profiles
