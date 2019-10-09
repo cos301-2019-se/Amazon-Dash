@@ -14,79 +14,16 @@ The aim of this project is to streamline and simplify the Amazon Web Services da
 
 
 ## Individual profiles
-
+  
 ### Brendan Bath
- 
- **Education**:  BSc Computer Science candidate 
- 
- **<a href="https://github.com/1tsS0meth1ng" target="_blank">Github profile</a>**  
- 
-**Skills**:  
-- Java
-- C++
-- Python
-- SAP ABAP
-- SAP Cloud integration - c_cp_i_12 certificate
-- Mulesoft Integration
-- SAP ABAP experience
-- MongoDB experience
-- NodeJS experience (including Vue, Express, etc)
-- X86 Assembly
-
- **Extracurriculars:**
-Video games
-
+  **<a href="https://github.com/1tsS0meth1ng" target="_blank">Github profile</a>**   
+  
 ### Jessica da Silva
- 
- **Education**:  BSc Computer Science candidate  
- 
- **<a href="https://github.com/nat212" target="_blank">Github profile</a>**  
- 
-**Skills**:  
-- Java
-- C++
-- MongoDB, PostgreSQL
-- JavaScript and NodeJS
-- X86 Assembly
-- Python
-
- **Extracurriculars:**
-Video games
-
+  **<a href="https://github.com/silvaportal" target="_blank">Github profile</a>**  
+  
 ### Natasha Draper
- 
- **Education**:  BSc Computer Science candidate 
- 
-  **<a href="https://github.com/silvaportal" target="_blank">Github profile</a>**
-  
-**Skills**:  
-- Java
-- C++
-- JavaScript and NodeJS
-- TypeScript
-- Linux Server Administration
-- Kubernetes and GKE
-- Docker
-- Python, aiohttp, SQLAlchemy, Django
-- PostgreSQL, MongoDB
-- LoopBack, ExpressJS
-- Angular, Vue.js, Knockout.js
-
- **Extracurriculars:** Video games
-
-### Musa Mathe
- 
- **Education**: Bsc Information technology
+  **<a href="https://github.com/nat212" target="_blank">Github profile</a>**   
    
-  **<a href="https://github.com/Musaki5414" target="_blank">Github profile</a>**  
+### Musa Mathe  
+  **<a href="https://github.com/Musaki5414" target="_blank">Github profile</a>**    
   
-**Skills**:  
-- Java
-- C#
-- C++
-- PHP
-- SQL
-- Nodejs and Javascript 
-
-**Extracurriculars:** 
-- Musician
