@@ -19,6 +19,8 @@ The aim of this project is to streamline and simplify the Amazon Web Services da
  
  **Education**:  BSc Computer Science candidate 
  
+ **<a href="https://github.com/1tsS0meth1ng" target="_blank">Github profile</a>**  
+ 
 **Skills**:  
 - Java
 - C++
@@ -36,7 +38,9 @@ Video games
 
 ### Jessica da Silva
  
- **Education**:  BSc Computer Science candidate 
+ **Education**:  BSc Computer Science candidate  
+ 
+ **<a href="https://github.com/nat212" target="_blank">Github profile</a>**  
  
 **Skills**:  
 - Java
@@ -53,6 +57,8 @@ Video games
  
  **Education**:  BSc Computer Science candidate 
  
+  **<a href="https://github.com/silvaportal" target="_blank">Github profile</a>**
+  
 **Skills**:  
 - Java
 - C++
@@ -71,7 +77,9 @@ Video games
 ### Musa Mathe
  
  **Education**: Bsc Information technology
- 
+   
+  **<a href="https://github.com/Musaki5414" target="_blank">Github profile</a>**  
+  
 **Skills**:  
 - Java
 - C#
